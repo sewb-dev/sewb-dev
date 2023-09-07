@@ -8,8 +8,8 @@ const Nav = () => {
           width: "auto",
           height: "auto",
         }}
-        width={100}
-        height={100}
+        width={150}
+        height={150}
         alt="logo"
       />
       {/* <div className="ml-auto">
