@@ -3,7 +3,7 @@ const Nav = () => {
   return (
     <nav className="flex gap-2 w-full h-16  border-b border-b-slate-600 px-6 items-center bg-black">
       <Image
-        src="/qnaAI-light.svg"
+        src="/qnaAI-light1.svg"
         style={{
           width: "auto",
           height: "auto",
