@@ -19,7 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`bg-gray-800 text-slate-100  ${inter.className}`}>
+      <body className={` text-slate-100  ${inter.className}`}>
         <Nav />
         <ToastContainer />
         {children}
