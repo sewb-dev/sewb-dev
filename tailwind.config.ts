@@ -19,12 +19,27 @@ const config: Config = {
           "50%": { backgroundPosition: "100% 50%" },
           "100%": { backgroundPosition: "0% 50%" },
         },
+        blob: {
+          "0%": {
+            transform: "translate(0px, 0px) scale(1)",
+          },
+          "33%": {
+            transform: "translate(30px, -50px) scale(1.1)",
+          },
+          "66%": {
+            transform: "translate(-20px, 20px) scale(0.9)",
+          },
+          "100%": {
+            transform: "tranlate(0px, 0px) scale(1)",
+          },
+        },
       },
       backgroundSize: {
         "300%": "300%",
       },
       animation: {
         gradient: "animatedgradient 6s ease infinite alternate",
+        blob: "blob 7s infinite",
       },
       container: {
         center: true,
