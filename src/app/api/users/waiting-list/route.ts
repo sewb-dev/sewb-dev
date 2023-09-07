@@ -5,7 +5,7 @@ import crypto from "crypto";
 
 export async function POST(req: NextRequest, res: NextResponse) {
   const { email, fullName } = await req.json();
-  const combinedString = email + fullName;
+  const combinedString = email;
   const hash = crypto.createHash("sha256").update(combinedString).digest("hex");
 
   const database = getDatabase(firebase);
