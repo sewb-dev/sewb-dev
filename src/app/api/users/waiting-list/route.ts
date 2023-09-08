@@ -15,8 +15,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const database = getDatabase(firebase);
 
     await set(ref(database, "users/" + hash), {
-      username: fullName,
-      email: email,
+      fullName,
+      email,
     });
 
     console.log(
