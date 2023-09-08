@@ -7,7 +7,7 @@ import { ToastContainer} from 'react-toastify';
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "QNAI",
+  title: "Q&A AI",
   description:
     "Generate Quality Questions and Answers from any text using the power of AI.",
 };
@@ -19,7 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={` text-slate-100  ${inter.className}`}>
+      <body className={`text-slate-100  ${inter.className}`}>
         <Nav />
         <ToastContainer />
         {children}
