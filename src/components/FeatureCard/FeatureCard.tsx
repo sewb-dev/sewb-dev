@@ -14,7 +14,7 @@ const FeatureCard = () => {
       </div>
       <div className="p-3 md:p-5 bg-white rounded-lg flex items-center gap-3 ">
         <ScaleIcon className='h-6 w-6 text-black font-bold'/>
-        <p className='text-black text-sm md:text-base'>Get proctored (time and untimed) on the generated Q and A.</p>
+        <p className='text-black text-sm md:text-base'>Get supervised (time and untimed) on the generated Q and A.</p>
       </div>
       <div className="p-3 md:p-5 bg-white rounded-lg flex items-center gap-3 ">
         <FolderArrowDownIcon className='h-6 w-6 text-black font-bold'/>

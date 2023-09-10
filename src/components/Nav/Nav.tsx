@@ -9,6 +9,7 @@ const Nav = () => {
         sizes="100vw"
         className="w-20 md:w-28 h-auto"
         alt="logo"
+        priority={true}
       />
       {/* <div className="ml-auto">
             <p>QNAI</p>
