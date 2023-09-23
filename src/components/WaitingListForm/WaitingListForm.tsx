@@ -2,13 +2,8 @@
 import React from "react";
 import styles from "./WaitingListForm.module.css";
 import { getBaseUrl } from "@/app/lib/dispatcher";
- import { toast } from 'react-toastify';
- const successToast = (message:string) => {
-   toast.success(message)
- }
- const errorToast = (message:string) => {
-   toast.error(message)
- }
+import { successToast, errorToast } from "@/utils/toast";
+
 const WaitingListForm = () => {
   const [fullName, setFullName] = React.useState<string>("");
   const [email, setEmail] = React.useState<string>("");
