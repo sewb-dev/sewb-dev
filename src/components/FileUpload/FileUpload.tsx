@@ -6,9 +6,9 @@ import { errorToast } from "@/utils/toast";
 const MAX_UPLOAD_SIZE_IN_MB = 5;
 const MAX_TEXT_INPUT_LENGTH = 2000; // 2000 characters length is equivalent to 290-500 words with space.
 
-
+type UploadMode = "textbox" | "file"
 const FileUpload = () => {
-  const [uploadMode, setUploadMode] = useState<"textbox" | "file">("file");
+  const [uploadMode, setUploadMode] = useState<UploadMode>("file");
   const [textareaInput, setTextareaInput] = useState("");
   const [file, setFile] = useState<File>();
   const onDrop = useCallback((acceptedFiles: File[], unacceptedFile:FileRejection[]) => {
@@ -41,21 +41,20 @@ const FileUpload = () => {
     },
   });
 
-  const handleUploadClick = (mode: "textbox" | "file") => {
+  const handleUploadClick = (mode: UploadMode) => {
     setUploadMode(mode);
   };
   const textareaErrorClass =
     textareaInput.length > MAX_TEXT_INPUT_LENGTH
       ? "focus:ring-red-600 focus:border-red-600"
       : "focus:ring-blue-100 focus:border-blue-100";
-  let disableGenerateButton = true;
+  let isGenerateButtonEnabled = false;
   if(uploadMode === 'textbox') {
-    disableGenerateButton = textareaInput.length > MAX_TEXT_INPUT_LENGTH || textareaInput.length <= 100
+    isGenerateButtonEnabled = textareaInput.length >= (MAX_TEXT_INPUT_LENGTH/2) && textareaInput.length <= MAX_TEXT_INPUT_LENGTH
   }else if(file) {
-      disableGenerateButton = false
+      isGenerateButtonEnabled = true
     }
 
-    console.log(disableGenerateButton)
   return (
     <form className="flex items-center justify-center mx-auto h-80 flex-col">
       <ul className="flex flex-row gap-2 underline text-base cursor-pointer">
@@ -71,7 +70,6 @@ const FileUpload = () => {
         >
           Text
         </li>
-        {/* <li>Link</li> */}
       </ul>
       {uploadMode === "file" ? (
         <div
@@ -111,12 +109,12 @@ const FileUpload = () => {
       <div className="pt-4">
         <button
           className={`rounded border-gray-600 border px-4 py-2 cursor-pointer  text-white bg-orange-500 ${
-            disableGenerateButton ? "opacity-80": ""
+            isGenerateButtonEnabled ? "opacity-80": ""
           }`}
           onClick={(e) => {
             e.preventDefault();
           }}
-          disabled={disableGenerateButton}
+          disabled={isGenerateButtonEnabled}
         >
           GENERATE
         </button>
