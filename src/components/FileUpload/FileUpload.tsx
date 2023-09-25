@@ -45,7 +45,7 @@ const FileUpload = () => {
     setUploadMode(mode);
   };
   const textareaErrorClass =
-    textareaInput.length > MAX_TEXT_INPUT_LENGTH
+    (textareaInput.length < (MAX_TEXT_INPUT_LENGTH / 2) || textareaInput.length > MAX_TEXT_INPUT_LENGTH)
       ? "focus:ring-red-600 focus:border-red-600"
       : "focus:ring-blue-100 focus:border-blue-100";
   let isGenerateButtonEnabled = false;
@@ -91,12 +91,15 @@ const FileUpload = () => {
         </div>
       ) : (
         <div className="w-3/4 mx-auto ">
-          <label
+         <div className="flex justify-between">
+          <p>Minimum of 1000 characters.</p>
+           <label
             htmlFor="message"
-            className="block mb-2 text-sm text-left font-medium text-gray-900 dark:text-white"
-          >
-            {textareaInput.length} / {MAX_TEXT_INPUT_LENGTH}
+            className="block mb-2 text-sm text-right font-medium text-gray-900 dark:text-white"
+            >
+             {textareaInput.length} / {MAX_TEXT_INPUT_LENGTH}
           </label>
+         </div>
           <textarea
             id="message"
             rows={10}
@@ -104,13 +107,16 @@ const FileUpload = () => {
             placeholder="Type your content..."
             value={textareaInput}
             onChange={(e) => setTextareaInput(e.target.value)}
+            style={{
+              resize: 'none'
+            }}
           ></textarea>
         </div>
       )}
       <div className="pt-4">
         <button
-          className={`rounded border-gray-600 border px-4 py-2 cursor-pointer  text-white bg-orange-500 ${
-            !isGenerateButtonEnabled ? "opacity-80": ""
+          className={`rounded border-gray-600 border px-4 py-2 cursor-pointer  text-white  ${
+            !isGenerateButtonEnabled ? "bg-gray-600": "bg-orange-500"
           }`}
           onClick={(e) => {
             e.preventDefault();
