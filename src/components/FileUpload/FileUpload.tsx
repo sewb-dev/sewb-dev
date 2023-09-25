@@ -55,6 +55,7 @@ const FileUpload = () => {
       isGenerateButtonEnabled = true
     }
 
+
   return (
     <form className="flex items-center justify-center mx-auto h-80 flex-col">
       <ul className="flex flex-row gap-2 underline text-base cursor-pointer">
@@ -109,12 +110,12 @@ const FileUpload = () => {
       <div className="pt-4">
         <button
           className={`rounded border-gray-600 border px-4 py-2 cursor-pointer  text-white bg-orange-500 ${
-            isGenerateButtonEnabled ? "opacity-80": ""
+            !isGenerateButtonEnabled ? "opacity-80": ""
           }`}
           onClick={(e) => {
             e.preventDefault();
           }}
-          disabled={isGenerateButtonEnabled}
+          disabled={!isGenerateButtonEnabled}
         >
           GENERATE
         </button>
