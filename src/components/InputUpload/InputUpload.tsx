@@ -15,7 +15,6 @@ const InputUpload = () => {
     setUploadMode(mode);
   };
 
-
    let isGenerateButtonDisabled = true;
   if (uploadMode === "textbox") {
     isGenerateButtonDisabled =
@@ -24,7 +23,6 @@ const InputUpload = () => {
   } else if (file) {
     isGenerateButtonDisabled = pageNumber.length === 0;
   }
-
 
 
   return (
