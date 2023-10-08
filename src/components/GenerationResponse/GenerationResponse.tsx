@@ -18,7 +18,9 @@ const GenerationResponse = () => {
             <Image src='/still_waiting.gif' width={400} height={400} alt='still waiting gif'/>
         </Box>
         <Stack spacing={2} direction="row">
-      <Button variant="outlined" startIcon={<LockOpenIcon />}>
+      <Button variant="outlined" startIcon={<LockOpenIcon />}
+      onClick={e => setIsLocked(false)}
+      >
         Unlock
       </Button>
       <Button variant="outlined"  endIcon={<SendIcon />}>
