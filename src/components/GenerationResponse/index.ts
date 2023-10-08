@@ -1,1 +1,1 @@
-export { default } from "./GenerationResponse";
+export { default } from './GenerationResponse';

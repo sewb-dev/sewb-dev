@@ -1,1 +1,1 @@
-export { default } from "./WaitingListForm";
+export { default } from './WaitingListForm';

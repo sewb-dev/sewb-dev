@@ -1,14 +1,14 @@
-"use client";
-import React, { useState } from "react";
-import { Container, Button, ButtonGroup, Box } from "@mui/material";
-import FileComponent from "./FileComponent";
-import TextInputComponent from "./TextInputComponent";
-import {  FileWithPath } from "react-dropzone";
-import { MAX_TEXT_INPUT_LENGTH } from "@/utils/constants";
-export type UploadMode = "textbox" | "file";
+'use client';
+import React, { useState } from 'react';
+import { Container, Button, ButtonGroup, Box } from '@mui/material';
+import FileComponent from './FileComponent';
+import TextInputComponent from './TextInputComponent';
+import { FileWithPath } from 'react-dropzone';
+import { MAX_TEXT_INPUT_LENGTH } from '@/utils/constants';
+export type UploadMode = 'textbox' | 'file';
 const InputUpload = () => {
-  const [uploadMode, setUploadMode] = useState<UploadMode>("file");
-  const [textareaInput, setTextareaInput] = useState("");
+  const [uploadMode, setUploadMode] = useState<UploadMode>('file');
+  const [textareaInput, setTextareaInput] = useState('');
   const [pageNumber, setPageNumber] = useState('');
   const [file, setFile] = useState<FileWithPath>();
   const handleUploadClick = (mode: UploadMode) => {
@@ -24,34 +24,41 @@ const InputUpload = () => {
     isGenerateButtonDisabled = pageNumber.length === 0;
   }
 
-
   return (
     <Container fixed>
       <form>
         <ButtonGroup
-          variant="text"
-          aria-label="input upload option button group"
-          className="!flex justify-center"
+          variant='text'
+          aria-label='input upload option button group'
+          className='!flex justify-center'
         >
-          <Button onClick={(e) => handleUploadClick("file")}>File</Button>
-          <Button onClick={(e) => handleUploadClick("textbox")}>Text</Button>
+          <Button onClick={(e) => handleUploadClick('file')}>File</Button>
+          <Button onClick={(e) => handleUploadClick('textbox')}>Text</Button>
         </ButtonGroup>
-        <Box className="!mx-auto !flex justify-center  w-full ">
-            {uploadMode === 'file' ? <FileComponent
-            file={file}
-            pageNumber={pageNumber}
-            setFile={setFile}
-            setPageNumber={setPageNumber}
-            />:
-        <TextInputComponent setTextareaInput={setTextareaInput} textareaInput={textareaInput} />}
+        <Box className='!mx-auto !flex w-full  justify-center '>
+          {uploadMode === 'file' ? (
+            <FileComponent
+              file={file}
+              pageNumber={pageNumber}
+              setFile={setFile}
+              setPageNumber={setPageNumber}
+            />
+          ) : (
+            <TextInputComponent
+              setTextareaInput={setTextareaInput}
+              textareaInput={textareaInput}
+            />
+          )}
         </Box>
-        <Box className="-full  text-center">
-            <Button 
+        <Box className='-full  text-center'>
+          <Button
             disabled={isGenerateButtonDisabled}
-            variant="contained"
+            variant='contained'
             size='large'
-            color="salmon"
-            >{isGenerateButtonDisabled ? 'Disabled' : 'Generate'}</Button>
+            color='salmon'
+          >
+            {isGenerateButtonDisabled ? 'Disabled' : 'Generate'}
+          </Button>
         </Box>
       </form>
     </Container>

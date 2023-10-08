@@ -1,14 +1,14 @@
-import Image from "next/image";
+import Image from 'next/image';
 const Nav = () => {
   return (
-    <nav className="flex gap-2 w-full h-16 md:h-20  border-b border-b-slate-600 px-6 items-center bg-black">
+    <nav className='flex h-16 w-full items-center gap-2  border-b border-b-slate-600 bg-black px-6 md:h-20'>
       <Image
-        src="/qnaAI-light.svg"
-        width="0"
-        height="0"
-        sizes="100vw"
-        className="w-20 md:w-28 h-auto"
-        alt="logo"
+        src='/qnaAI-light.svg'
+        width='0'
+        height='0'
+        sizes='100vw'
+        className='h-auto w-20 md:w-28'
+        alt='logo'
         priority={true}
       />
       {/* <div className="ml-auto">

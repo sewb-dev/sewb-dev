@@ -1,11 +1,11 @@
-import React from "react";
-import Button from "../Button";
+import React from 'react';
+import Button from '../Button';
 
 const Export = () => {
   return (
     <Button>
       <button
-        className={`rounded border-gray-600 border bg-black text-white px-4 py-2 cursor-pointer w-full hover:opacity-90`}
+        className={`w-full cursor-pointer rounded border border-gray-600 bg-black px-4 py-2 text-white hover:opacity-90`}
       >
         Export
       </button>
