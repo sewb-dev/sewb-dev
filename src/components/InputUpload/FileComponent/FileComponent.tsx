@@ -72,7 +72,6 @@ const handleChange = (event:any) => {
     <Box
     component={'form'}
       sx={{
-        // bgcolor: "red",
         height: "30vh",
     }}
       display="flex"
