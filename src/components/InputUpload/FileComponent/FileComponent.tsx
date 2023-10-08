@@ -29,7 +29,6 @@ const FileComponent:React.FunctionComponent<FileComponentProps> = (props) => {
   function onDocumentLoadSuccess({ numPages }: { numPages: number }): void {
     setNumPages(numPages);
   }
-  const [age, setAge] = React.useState("");
 
 const handleChange = (event:any) => {
     setPageNumber(event.target.value);
@@ -54,7 +53,7 @@ const handleChange = (event:any) => {
         setFile(acceptedFiles[0]);
       }
     },
-    []
+    [setFile]
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
