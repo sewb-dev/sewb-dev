@@ -1,4 +1,4 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { firebase } from "@/app/lib/firebase";
 import { getDatabase, ref, set } from "firebase/database";
 import crypto from "crypto";
@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
       email,
     });
 
-    console.log(
+    console.info(
       `Successfully added user with hash=${hash} to waiting-list database.`
     );
 

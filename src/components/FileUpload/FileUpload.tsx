@@ -1,6 +1,6 @@
 "use client";
 import React, { useCallback, useState } from "react";
-import { useDropzone, FileRejection,  } from "react-dropzone";
+import { FileRejection, useDropzone,  } from "react-dropzone";
 import styles from './FileUpload.module.css'
 import { errorToast } from "@/utils/toast";
 const MAX_TEXT_INPUT_LENGTH = 2000; // 2000 characters length is equivalent to 290-500 words with space.

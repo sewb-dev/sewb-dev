@@ -2,7 +2,7 @@
 import React from "react";
 import styles from "./WaitingListForm.module.css";
 import { getBaseUrl } from "@/app/lib/dispatcher";
-import { successToast, errorToast } from "@/utils/toast";
+import { errorToast, successToast } from "@/utils/toast";
 
 const WaitingListForm = () => {
   const [fullName, setFullName] = React.useState<string>("");

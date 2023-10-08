@@ -1,7 +1,8 @@
 import Image from "next/image";
+import Login from "../Login";
 const Nav = () => {
   return (
-    <nav className="flex gap-2 w-full h-16 md:h-20  border-b border-b-slate-600 px-6 items-center bg-black">
+    <nav className="flex justify-between gap-2 w-full h-16 md:h-20  border-b border-b-slate-600 px-6 items-center bg-black">
       <Image
         src="/qnaAI-light.svg"
         width="0"
@@ -11,9 +12,7 @@ const Nav = () => {
         alt="logo"
         priority={true}
       />
-      {/* <div className="ml-auto">
-            <p>QNAI</p>
-            </div> */}
+      <Login />
     </nav>
   );
 };

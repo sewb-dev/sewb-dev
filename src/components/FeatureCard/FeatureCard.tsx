@@ -1,5 +1,5 @@
 import React from 'react'
-import { QuestionMarkCircleIcon,ScaleIcon, FolderArrowDownIcon } from "@heroicons/react/24/outline";
+import { FolderArrowDownIcon,QuestionMarkCircleIcon, ScaleIcon } from "@heroicons/react/24/outline";
 const FeatureCard = () => {
   return (
     <div className="relative w-full md:max-w-xl">
