@@ -7,7 +7,7 @@ import {  FileWithPath } from "react-dropzone";
 import { MAX_TEXT_INPUT_LENGTH } from "@/utils/constants";
 export type UploadMode = "textbox" | "file";
 const InputUpload = () => {
-  const [uploadMode, setUploadMode] = useState<UploadMode>("textbox");
+  const [uploadMode, setUploadMode] = useState<UploadMode>("file");
   const [textareaInput, setTextareaInput] = useState("");
   const [pageNumber, setPageNumber] = useState('');
   const [file, setFile] = useState<FileWithPath>();
