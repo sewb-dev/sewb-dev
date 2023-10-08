@@ -54,7 +54,6 @@ const FileUpload = () => {
       isGenerateButtonEnabled = true
     }
 
-
   return (
     <form className="flex items-center justify-center mx-auto h-80 flex-col">
       <ul className="flex flex-row gap-2 underline text-base cursor-pointer">
