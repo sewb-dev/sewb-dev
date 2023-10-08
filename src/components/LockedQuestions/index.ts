@@ -1,1 +1,1 @@
-export {default} from './LockedQuestions'
+export { default } from './LockedQuestions';

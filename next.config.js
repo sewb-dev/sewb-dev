@@ -4,13 +4,13 @@ const nextConfig = {
     // Important: return the modified config
     config.module.rules.push({
       test: /\bcanvas\.node\b/,
-      use: "raw-loader",
+      use: 'raw-loader',
     });
     return config;
   },
   modularizeImports: {
-    "@mui/icons-material": {
-      transform: "@mui/icons-material/{{member}}",
+    '@mui/icons-material': {
+      transform: '@mui/icons-material/{{member}}',
     },
   },
 };

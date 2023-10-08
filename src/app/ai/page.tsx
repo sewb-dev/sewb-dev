@@ -1,27 +1,27 @@
-import Container from "@/components/Container";
-import React from "react";
-import { Roboto } from "next/font/google";
-import Stack from "@mui/material/Stack";
-import GenerationResponse from "@/components/GenerationResponse";
-import Typography from "@mui/material/Typography";
-import InputUpload from "@/components/InputUpload";
+import Container from '@/components/Container';
+import React from 'react';
+import { Roboto } from 'next/font/google';
+import Stack from '@mui/material/Stack';
+import GenerationResponse from '@/components/GenerationResponse';
+import Typography from '@mui/material/Typography';
+import InputUpload from '@/components/InputUpload';
 
-const roboto = Roboto({ subsets: ["greek"], weight: "400" });
+const roboto = Roboto({ subsets: ['greek'], weight: '400' });
 const Home = () => {
   return (
-    <section className="pt-5 flex w-full h-full flex-col md:flex-row md:justify-between gap-4">
-      <Container className="md:w-3/4 md:h-1/2 px-0">
+    <section className='flex h-full w-full flex-col gap-4 pt-5 md:flex-row md:justify-between'>
+      <Container className='px-0 md:h-1/2 md:w-3/4'>
         <InputUpload />
       </Container>
-      <div className="w-full">
-        <Typography fontSize={"3.5rem"} component={"h1"} variant="h1">
-          Elevate your learning using{" "}
-          <span className="text-orange-500">AI. </span>
+      <div className='w-full'>
+        <Typography fontSize={'3.5rem'} component={'h1'} variant='h1'>
+          Elevate your learning using{' '}
+          <span className='text-orange-500'>AI. </span>
         </Typography>
-        <h1 className={`${roboto.className} text-6xl text-justify`}></h1>
+        <h1 className={`${roboto.className} text-justify text-6xl`}></h1>
 
-        <Stack spacing={2} direction="column" my={"20px"}>
-          <Typography fontSize={"20px"}>
+        <Stack spacing={2} direction='column' my={'20px'}>
+          <Typography fontSize={'20px'}>
             Your generated questions would appear here.
           </Typography>
 
