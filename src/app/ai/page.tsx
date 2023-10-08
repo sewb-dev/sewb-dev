@@ -2,10 +2,11 @@ import Container from "@/components/Container";
 import FileUpload from "@/components/FileUpload";
 import React from "react";
 import { Roboto } from "next/font/google";
-import TakeTest from "@/components/Buttons/TakeTest/TakeTest";
-import Export from "@/components/Buttons/Export";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
+import GenerationResponse from "@/components/GenerationResponse";
+import Typography from '@mui/material/Typography';
+
 const roboto = Roboto({ subsets: ["greek"], weight: "400" });
 const Home = () => {
   return (
@@ -14,30 +15,21 @@ const Home = () => {
         <FileUpload />
       </Container>
       <div className="w-full">
-        <h1 className={`${roboto.className} text-6xl text-justify`}>
-          Elevate your learning using{" "}
+        <Typography fontSize={'3.5rem'}  component={'h1'}  variant="h1">
+  Elevate your learning using{" "}
           <span className="text-orange-500">AI. </span>
+</Typography>
+        <h1 className={`${roboto.className} text-6xl text-justify`}>
+          
         </h1>
 
-        <section className="mt-5 text-xl">
-          {/* <TakeTest />
-          <Export /> */}
-          <Stack spacing={2} direction="row">
-            <Button variant="text">Text</Button>
-            <Button variant="contained">Contained</Button>
-            <Button variant="outlined">Outlined</Button>
+        <Stack spacing={2} direction="column" my={'20px'}>
+          <Typography fontSize={'20px'}  >
+  Your generated questions would appear here. 
+</Typography>
+
+    <GenerationResponse />
           </Stack>
-          <ul>
-            <li>Question: What year was QNAI born? </li>
-            <li>Answer: 2023</li>
-            <li>Question: What year was QNAI born? </li>
-            <li>Answer: 2023</li>
-            <li>Question: What year was QNAI born? </li>
-            <li>Answer: 2023</li>
-            <li>Question: What year was QNAI born? </li>
-            <li>Answer: 2023</li>
-          </ul>
-        </section>
       </div>
     </section>
   );
