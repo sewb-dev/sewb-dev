@@ -1,5 +1,4 @@
 .homepage {
-    background-image: url('/bg-img.jpg');
-    @apply w-screen h-screen bg-no-repeat bg-center bg-cover opacity-90 overflow-x-hidden
+  background-image: url('/bg-img.jpg');
+  @apply h-screen w-screen overflow-x-hidden bg-cover bg-center bg-no-repeat opacity-90;
 }
-

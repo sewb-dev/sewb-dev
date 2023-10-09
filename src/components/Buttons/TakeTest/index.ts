@@ -1,1 +1,1 @@
-export {default} from './TakeTest'
+export { default } from './TakeTest';
