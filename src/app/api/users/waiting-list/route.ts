@@ -1,7 +1,7 @@
-import { firebase } from "@/app/lib/firebase";
-import crypto from "crypto";
-import { getDatabase, ref, set } from "firebase/database";
-import { NextRequest, NextResponse } from "next/server";
+import { firebase } from '@/app/lib/firebase';
+import crypto from 'crypto';
+import { getDatabase, ref, set } from 'firebase/database';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   try {

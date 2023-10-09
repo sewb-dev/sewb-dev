@@ -1,6 +1,8 @@
+'use client';
 import Container from '@/components/Container';
 import GenerationResponse from '@/components/GenerationResponse';
 import InputUpload from '@/components/InputUpload';
+import WithAuth from '@/components/WithAuth';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { Roboto } from 'next/font/google';
@@ -30,4 +32,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default WithAuth(Home);
