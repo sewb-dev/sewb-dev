@@ -1,9 +1,9 @@
-import { NextResponse, NextRequest } from 'next/server';
 import { firebase } from '@/app/lib/firebase';
-import { getDatabase, ref, set } from 'firebase/database';
 import crypto from 'crypto';
+import { getDatabase, ref, set } from 'firebase/database';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   try {
     const { email, fullName } = await req.json();
     const combinedString = email;
@@ -19,7 +19,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
       email,
     });
 
-    console.log(
+    console.info(
       `Successfully added user with hash=${hash} to waiting-list database.`
     );
 
@@ -36,7 +36,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
   }
 }
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function GET() {
   return NextResponse.json(
     JSON.stringify({
       message: `Success`,

@@ -1,8 +1,7 @@
-import React from 'react';
 import {
+  FolderArrowDownIcon,
   QuestionMarkCircleIcon,
   ScaleIcon,
-  FolderArrowDownIcon,
 } from '@heroicons/react/24/outline';
 const FeatureCard = () => {
   return (

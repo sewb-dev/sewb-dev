@@ -15,8 +15,8 @@ const InputUpload = () => {
     setUploadMode(mode);
   };
 
-   let isGenerateButtonDisabled = true;
-  if (uploadMode === "textbox") {
+  let isGenerateButtonDisabled = true;
+  if (uploadMode === 'textbox') {
     isGenerateButtonDisabled =
       textareaInput.length < MAX_TEXT_INPUT_LENGTH / 2 ||
       textareaInput.length > MAX_TEXT_INPUT_LENGTH;

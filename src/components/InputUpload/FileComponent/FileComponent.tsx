@@ -66,13 +66,13 @@ const FileComponent: React.FunctionComponent<FileComponentProps> = (props) => {
     <Box
       component={'form'}
       sx={{
-        height: "30vh",
-    }}
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      flexDirection="column"
-      className="w-full"
+        height: '30vh',
+      }}
+      display='flex'
+      justifyContent='center'
+      alignItems='center'
+      flexDirection='column'
+      className='w-full'
     >
       <div
         {...getRootProps({

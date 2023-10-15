@@ -1,10 +1,11 @@
+'use client';
 import Container from '@/components/Container';
-import React from 'react';
-import { Roboto } from 'next/font/google';
-import Stack from '@mui/material/Stack';
 import GenerationResponse from '@/components/GenerationResponse';
-import Typography from '@mui/material/Typography';
 import InputUpload from '@/components/InputUpload';
+import WithAuth from '@/components/WithAuth';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import { Roboto } from 'next/font/google';
 
 const roboto = Roboto({ subsets: ['greek'], weight: '400' });
 const Home = () => {
@@ -24,7 +25,6 @@ const Home = () => {
           <Typography fontSize={'20px'}>
             Your generated questions would appear here.
           </Typography>
-
           <GenerationResponse />
         </Stack>
       </div>
@@ -32,4 +32,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default WithAuth(Home);

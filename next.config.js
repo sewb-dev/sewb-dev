@@ -13,6 +13,9 @@ const nextConfig = {
       transform: '@mui/icons-material/{{member}}',
     },
   },
+  compiler: {
+    styledComponents: true,
+  },
 };
 
 module.exports = nextConfig;

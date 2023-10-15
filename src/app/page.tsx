@@ -1,10 +1,10 @@
-import { Roboto, Pacifico, Inter } from 'next/font/google';
-import styles from './page.module.css';
 import Container from '@/components/Container';
-
-import TextGradient from '@/components/TextGradient_A/TextGradient_A';
 import FeatureCard from '@/components/FeatureCard';
+import TextGradient from '@/components/TextGradient_A/TextGradient_A';
 import WaitingListForm from '@/components/WaitingListForm';
+import { Inter, Pacifico, Roboto } from 'next/font/google';
+import styles from './page.module.css';
+
 const roboto = Roboto({ subsets: ['greek'], weight: '400' });
 const pacifo = Pacifico({ weight: '400', subsets: ['cyrillic'] });
 const inter = Inter({ subsets: ['latin'] });
@@ -33,7 +33,6 @@ export default function Home() {
           <Container className='mx-auto mb-8 mt-4 flex justify-center p-0'>
             <FeatureCard />
           </Container>
-
           <WaitingListForm />
         </Container>
       </section>
