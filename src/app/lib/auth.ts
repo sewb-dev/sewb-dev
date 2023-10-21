@@ -24,7 +24,7 @@ export const config = {
       if (account?.provider === 'google') {
         const user = await userService.getUserByEmail(email)
         if (!user) {
-          await userService.addUser(email, name)
+          return await userService.addUser(email, name)
         }
         return true
       }

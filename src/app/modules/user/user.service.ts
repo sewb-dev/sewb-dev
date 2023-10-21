@@ -26,12 +26,18 @@ export class UserService extends BaseService {
   addUser = async (email: string, fullName: string) => {
     const hash = authService.getHash(email)
 
-    set(ref(this.database, 'users/' + hash), {
+    return set(ref(this.database, 'users/' + hash), {
       email,
       fullName,
     })
-      .then(() => console.info(`Successfully added user with hash=${hash} to database.`))
-      .catch((error) => console.error(error))
+      .then(() => {
+        console.info(`Successfully added user with hash=${hash} to database.`)
+        return true
+      })
+      .catch((error) => {
+        console.error(error)
+        return false
+      })
   }  
 }
 

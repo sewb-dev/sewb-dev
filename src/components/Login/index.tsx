@@ -14,7 +14,6 @@ import {
 } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { signIn, signOut, useSession } from "next-auth/react";
-import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 const getInitials = (name: string) => {
