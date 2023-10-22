@@ -1,7 +1,7 @@
 'use client';
-import { useAuth } from '@/context/AuthContext';
+import { useSession } from "next-auth/react";
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect } from "react";
 import Loader from '../Loader';
 
 const WithAuth = <P extends object>(
@@ -9,19 +9,17 @@ const WithAuth = <P extends object>(
 ): React.FC<P> => {
   const Wrapper: React.FC<P> = (props) => {
     const router = useRouter();
-    const { user, loading } = useAuth();
+    const { status } = useSession()
+    const loading = status === 'loading'
+    const unauthenticated = status === 'unauthenticated'
 
     useEffect(() => {
-      if (!loading) {
-        if (!user) {
-          router.push('/');
-        }
+      if (unauthenticated) {
+        router.push('/')
       }
-    }, [loading, user]);
-
-    if (loading) {
-      return <Loader />;
-    }
+    }, [unauthenticated])
+    
+    if (loading || unauthenticated) return <Loader />
 
     return <WrappedComponent {...props} />;
   };

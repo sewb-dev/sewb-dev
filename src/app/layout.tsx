@@ -1,10 +1,7 @@
-import Nav from '@/components/Nav';
-import ThemeRegistry from '@/components/ThemeRegistry/ThemeRegistry';
-import { AuthContextProvider } from '@/context/AuthContext';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import RootLayout from './RootLayout';
 import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
@@ -14,7 +11,7 @@ export const metadata: Metadata = {
     'Generate Quality Questions and Answers from any text using the power of AI.',
 };
 
-export default function RootLayout({
+export default function Layout({
   children,
 }: {
   children: React.ReactNode;
@@ -22,13 +19,9 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={`text-slate-100  ${inter.className}`}>
-        <ThemeRegistry>
-          <AuthContextProvider>
-            <Nav />
-            <ToastContainer />
-            {children}
-          </AuthContextProvider>
-        </ThemeRegistry>
+        <RootLayout>
+          {children}
+        </RootLayout>
       </body>
     </html>
   );

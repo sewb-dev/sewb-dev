@@ -1,6 +1,5 @@
-'use client';
-import { useAuth } from '@/context/AuthContext';
-import { errorToast } from '@/utils/toast';
+'use client'
+
 import {
   Avatar,
   Button,
@@ -14,7 +13,7 @@ import {
   Popper,
 } from '@mui/material';
 import { grey } from '@mui/material/colors';
-import { useRouter } from 'next/navigation';
+import { signIn, signOut, useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from 'react';
 
 const getInitials = (name: string) => {
@@ -23,19 +22,15 @@ const getInitials = (name: string) => {
 };
 
 const Login = () => {
-  const router = useRouter();
-  const { user, googleSignIn, logOut: signOut, loading } = useAuth();
+  const { data: session, status } = useSession()
+  const loading = status === 'loading'
+
   const [isPopperOpen, setIsPopperOpen] = useState(false);
   const anchorRef = useRef<HTMLButtonElement | null>(null);
 
-  const handleSignIn = async () => {
-    try {
-      await googleSignIn();
-    } catch (error) {
-      errorToast('An error occurred during sign in', {
-        position: 'bottom-right',
-      });
-    }
+  const handleSignIn = async (event: React.SyntheticEvent) => {
+    event.preventDefault()
+    signIn('google')
   };
 
   const handleClose = (event: Event | React.SyntheticEvent) => {
@@ -48,16 +43,9 @@ const Login = () => {
     setIsPopperOpen(false);
   };
 
-  const handleSignOut = async (event: Event | React.SyntheticEvent) => {
-    try {
-      await signOut();
-      handleClose(event);
-      router.push('/');
-    } catch (error) {
-      errorToast('An error occurred during sign out', {
-        position: 'bottom-right',
-      });
-    }
+  const handleSignOut = async (event: React.SyntheticEvent) => {
+    event.preventDefault()
+    signOut()
   };
 
   const handleListKeyDown = (event: React.KeyboardEvent) => {
@@ -83,10 +71,10 @@ const Login = () => {
 
   return (
     <div>
-      {user ? (
+      {session ? (
         <IconButton ref={anchorRef} onClick={handleAvatarClick}>
           <Avatar sx={{ bgcolor: grey[500] }}>
-            {getInitials(user.displayName ?? 'AB')}
+            {getInitials(session.user?.name ?? 'AB')}
           </Avatar>
           <Popper
             open={isPopperOpen}
@@ -124,7 +112,7 @@ const Login = () => {
           </Popper>
         </IconButton>
       ) : (
-        <Button variant='contained' onClick={handleSignIn}>
+        <Button variant='contained' onClick={status === 'unauthenticated' ? handleSignIn : () => {}}>
           {loading ? (
             <CircularProgress size={18} sx={{ color: grey[500] }} />
           ) : (
