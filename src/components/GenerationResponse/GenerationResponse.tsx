@@ -42,6 +42,7 @@ const GenerationResponse = () => {
         <Stack spacing={2} direction='column'>
           {questions.map(data =>
           <LockedQuestions
+            key={data.question}
             isLocked={isLocked}
             question={data.question}
             answers={data.answer}

@@ -29,14 +29,6 @@ class QNAI {
     this.type = type;
     this.options = options;
   }
-
-  print() {
-    console.log(
-      `id=${this.id} question=${this.question} type=${
-        this.type
-      } answers=${this.answers.join(',')} options=${this.options.join(',')}`
-    );
-  }
 }
 type QNAITestAnswer = {
   qnaiId: number;
