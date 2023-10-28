@@ -7,9 +7,11 @@ import { Box, Button } from '@mui/material';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import QuizIcon from '@mui/icons-material/Quiz';
 import SendIcon from '@mui/icons-material/Send';
+import {questions} from '../../utils/ai/mockResponse'
+
 const GenerationResponse = () => {
   const [isLocked, setIsLocked] = useState(true);
-  const resposne = [];
+  
 
   return (
     <Box>
@@ -38,27 +40,12 @@ const GenerationResponse = () => {
           </Button>
         </Stack>
         <Stack spacing={2} direction='column'>
+          {questions.map(data =>
           <LockedQuestions
             isLocked={isLocked}
-            question='Disabled Accordion'
-            answers={[
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse',
-            ]}
-          />
-          <LockedQuestions
-            isLocked={isLocked}
-            question='Disabled Accordion'
-            answers={[
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse',
-            ]}
-          />
-          <LockedQuestions
-            isLocked={isLocked}
-            question='Disabled Accordion'
-            answers={[
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse',
-            ]}
-          />
+            question={data.question}
+            answers={data.answer}
+          />)}
         </Stack>
       </Stack>
     </Box>

@@ -16,7 +16,7 @@ export default function DashboardLayout({
 }) {
   return (
     <section
-      className={`h-screen w-screen bg-gray-800 px-4 text-text  ${inter.className}`}
+      className={` bg-gray-800 px-4 text-text  ${inter.className}`}
     >
       {children}
     </section>
