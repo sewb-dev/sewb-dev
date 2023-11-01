@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { Container, Button, ButtonGroup, Box } from '@mui/material';
+import { Container, Button, ButtonGroup, Box,Slider,InputLabel } from '@mui/material';
 import FileComponent from './FileComponent';
 import TextInputComponent from './TextInputComponent';
 import { FileWithPath } from 'react-dropzone';
@@ -10,6 +10,7 @@ const InputUpload = () => {
   const [uploadMode, setUploadMode] = useState<UploadMode>('file');
   const [textareaInput, setTextareaInput] = useState('');
   const [pageNumber, setPageNumber] = useState('');
+  const [questionCount, setQuestionCount] = useState(10)
   const [file, setFile] = useState<FileWithPath>();
   const handleUploadClick = (mode: UploadMode) => {
     setUploadMode(mode);
@@ -24,9 +25,22 @@ const InputUpload = () => {
     isGenerateButtonDisabled = pageNumber.length === 0;
   }
 
+  const handleQuestionCount = (count:number | number[]) => {
+
+    if(typeof count === 'object'){
+      setQuestionCount(count[0])
+    }else{
+      setQuestionCount(count)
+    }
+    
+  }
+function valuetext(value: number) {
+  return `${value}°C`;
+}
+
+
   return (
     <Container fixed>
-      <form>
         <ButtonGroup
           variant='text'
           aria-label='input upload option button group'
@@ -50,7 +64,21 @@ const InputUpload = () => {
             />
           )}
         </Box>
-        <Box className='-full  text-center'>
+        <Box className="'!mx-auto !flex w-full items-center flex-col">
+<InputLabel className=''>Question Count: {questionCount} </InputLabel>
+       <Box sx={{ width: 300 }} >
+      <Slider
+        value={questionCount}
+        step={5}
+        marks
+        min={10}
+        max={30}
+        onChange={(event, value)=> handleQuestionCount(value)}
+        valueLabelDisplay="auto"
+        />
+        </Box>
+    </Box>
+        <Box className='-full  text-center '>
           <Button
             disabled={isGenerateButtonDisabled}
             variant='contained'
@@ -60,7 +88,6 @@ const InputUpload = () => {
             {isGenerateButtonDisabled ? 'Disabled' : 'Generate'}
           </Button>
         </Box>
-      </form>
     </Container>
   );
 };

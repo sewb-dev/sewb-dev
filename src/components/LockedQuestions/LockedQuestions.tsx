@@ -26,7 +26,7 @@ const LockedQuestions: React.FunctionComponent<LockedQuestionsProps> = (
       </AccordionSummary>
       <AccordionDetails>
         {answers.map((answer, id) => (
-          <Typography key={id}>{answer}</Typography>
+          <Typography key={id}>- {answer}</Typography>
         ))}
       </AccordionDetails>
     </Accordion>

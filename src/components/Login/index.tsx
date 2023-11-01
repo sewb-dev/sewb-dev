@@ -68,7 +68,7 @@ const Login = () => {
   }, [isPopperOpen]);
 
   const handleAvatarClick = () => setIsPopperOpen(!isPopperOpen);
-
+  
   return (
     <div>
       {session ? (
