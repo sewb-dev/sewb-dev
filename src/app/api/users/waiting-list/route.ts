@@ -1,4 +1,4 @@
-import { firebase } from '@/app/lib/firebase';
+import { firebase } from '@/lib/firebase';
 import crypto from 'crypto';
 import { getDatabase, ref, set } from 'firebase/database';
 import { NextRequest, NextResponse } from 'next/server';

@@ -1,5 +1,5 @@
 'use client';
-import { getBaseUrl } from '@/app/lib/dispatcher';
+import { getBaseUrl } from '@/lib/dispatcher';
 import { errorToast, successToast } from '@/utils/toast';
 import React from 'react';
 import styles from './WaitingListForm.module.css';

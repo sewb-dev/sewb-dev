@@ -11,13 +11,9 @@ export const cacheKeys: Record<string, string> = {
 };
 
 export const createCompoundKey = (
-  ck: string,
+  ck: keyof typeof cacheKeys,
   foreignKey: string | number
 ): string => {
-  if (!(ck in cacheKeys)) {
-    throw Error(`${ck} is not a valid cache key.`);
-  }
-
   return `${cacheKeys[ck]}${foreignKey}`;
 };
 
