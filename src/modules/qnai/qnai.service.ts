@@ -19,7 +19,7 @@ class QNAIService {
     3. Question. Call this property 'question'. Its value should be the question that the student has to answer based on the text. If the 'type' is 'trueOrFalse', then the value of the 'q' should be a question that students can answer either 'True' or 'False' to. If the 'type' is 'multipleChoice', then the value of the 'q' should be a question that has only one correct answer from a list of options.
     3. Options. Call this property 'options'. Its value should be a list of string options available for my students to pick from.  If the 'type' is 'trueOrFalse', the options should be 'True' and 'False' because those are the only options available to my students. If the 'type' is 'multipleChoice', the options should be a list of the options my students have to pick from. I want four options only.
     4. Answer. Call this property 'answer'. Its value should be the correct answer to the question. The value should be the zero-based index of the correct answer in the list of 'options'.
-    5. Context. Call this property 'c'. Its value should be the specific portion of the text that contains the answer to the question. It must read word for word from the text.
+    5. Context. Call this property 'context'. Its value should be the specific portion of the text that contains the answer to the question. It must read word for word from the text.
     
     It is important that you add these five properties to each of the question objects. It is equally important that 70% of the questions are of type 'multipleChoice', and '30%' are of type 'trueOrFalse'. Also, ensure that the questions and answers are relevant to the text, and that the answer is correct. Return a JSON object that has one key named questions and the value is a list of question objects with the five previously named properties. Wrap the JSON response with ${this.jsonResponseStartingMarker} at the beginning and ${this.jsonResponseEndingMarker} at the end. Here is the relevant text:
     
@@ -46,7 +46,6 @@ class QNAIService {
   }
 
   private sendOpenAIRequest = async (params: OpenAI.Chat.ChatCompletionCreateParams) => {
-    return 
     return this.openai.chat.completions.create(params)
       .then((response) => response)
       .catch((error) => {
@@ -59,7 +58,6 @@ class QNAIService {
   }
 
   private parseQuestionsFromCompletions = (response: OpenAI.Chat.Completions.ChatCompletion): QNAIGenerationModel => {
-    
     try {
       const jsonContent = response.choices[0].message.content
       if (!jsonContent) {
