@@ -49,11 +49,8 @@ class QNAIService {
     return this.openai.chat.completions.create(params)
       .then((response) => response)
       .catch((error) => {
-        if (error instanceof OpenAI.APIError) {
-          console.error(error)
-        } else {
-          throw error
-        }
+        console.error(error)
+        throw error
       })
   }
 
