@@ -2,25 +2,25 @@
 import { UUID } from 'crypto';
 
 const QuestionType = {
-  TRUE_OR_FALSE: 'true_or_false',
-  MULTIPLE_CHOICE: 'multiple_choice',
-  SELECT_ALL: 'select_all',
-  SHORT_ANSWER: 'short_answer',
+  TRUE_OR_FALSE: 'trueOrFalse',
+  MULTIPLE_CHOICE: 'multipleChoice',
+  SELECT_ALL: 'selectAll',
+  SHORT_ANSWER: 'shortAnswer',
 } as const;
 
 type QuestionType = (typeof QuestionType)[keyof typeof QuestionType];
 
-class QNAI {
+export class QNAI {
   readonly id: number;
   readonly question: string;
-  readonly answers: string[];
+  readonly answers: string[] | number;
   readonly type: QuestionType;
   readonly options: string[];
 
   constructor(
     id: number,
     question: string,
-    answers: string[],
+    answers: string[] | number,
     type: QuestionType,
     options: string[]
   ) {
@@ -63,8 +63,8 @@ type TransformedQuestionType =
   | 'Select All That Apply';
 
 export const questionTypeToTransformedType: { [key in QuestionType]: TransformedQuestionType } = {
-   multiple_choice: 'Multiple Choice',
-   true_or_false: 'True/False',
-   select_all: "Select All That Apply",
-   short_answer: 'Short Answer',
+   multipleChoice: 'Multiple Choice',
+   trueOrFalse: 'True/False',
+   selectAll: "Select All That Apply",
+   shortAnswer: 'Short Answer',
 }
