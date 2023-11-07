@@ -47,11 +47,11 @@ class QNAITest {
 }
 
 export class QNAIGenerationModel {
-  readonly qnai: QNAI[];
+  readonly qna: QNAI[];
   readonly tests: QNAITest[];
 
   constructor(qnai: QNAI[], tests: QNAITest[]) {
-    this.qnai = qnai;
+    this.qna = qnai;
     this.tests = tests;
   }
 }

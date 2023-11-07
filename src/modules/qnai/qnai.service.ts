@@ -1,16 +1,21 @@
-import OpenAI from 'openai'
-import { QNAI, QNAIGenerationModel } from "./qnai.model"
+import OpenAI from 'openai';
+import { QNAI, QNAIGenerationModel } from './qnai.model';
+import cache from '@/lib/cache';
+import { createCompoundKey } from '@/lib/cache';
 
 class QNAIService {
-  private openai: OpenAI
-  jsonResponseStartingMarker = 'BEGIN_JSON'
-  jsonResponseEndingMarker = 'END_JSON'
+  private openai: OpenAI;
+  jsonResponseStartingMarker = 'BEGIN_JSON';
+  jsonResponseEndingMarker = 'END_JSON';
 
   constructor() {
-    this.openai = new OpenAI()
+    this.openai = new OpenAI();
   }
 
-  getQuestionsFromText = async (sourceText: string, numberOfQuestions = 10): Promise<QNAIGenerationModel> => {
+  getQuestionsFromText = async (
+    sourceText: string,
+    numberOfQuestions = 10
+  ): Promise<QNAIGenerationModel> => {
     const prompt = `
     Generate a set of ${numberOfQuestions} difficult educational questions and answers from the following text. I want to use these questions to prepare an examination for my students. Please format the questions and answers as JSON and wrap the JSON response with specific characters for easy parsing in code. Format each question as a question object which comprises of the following five properties;
 
@@ -26,59 +31,99 @@ class QNAIService {
     '''
     ${sourceText}
     '''
-    `
+    `;
     try {
-      const completions = await this.sendOpenAIRequest({
+      const completions = (await this.sendOpenAIRequest({
         messages: [
-          {role: 'system', content: 'You are a world class Question Generator'},
-          {role: 'user', content: prompt},
+          {
+            role: 'system',
+            content: 'You are a world class Question Generator',
+          },
+          { role: 'user', content: prompt },
         ],
-        model: 'gpt-3.5-turbo'
-      }) as OpenAI.Chat.Completions.ChatCompletion
-  
-      const qnaiGenerationModel = this.parseQuestionsFromCompletions(completions)
-      return qnaiGenerationModel
+        model: 'gpt-3.5-turbo',
+      })) as OpenAI.Chat.Completions.ChatCompletion;
 
+      const qnaiGenerationModel =
+        this.parseQuestionsFromCompletions(completions);
+      return qnaiGenerationModel;
     } catch (error) {
-      console.error(error)
-      throw error
+      console.error(error);
+      throw error;
     }
-  }
+  };
 
-  private sendOpenAIRequest = async (params: OpenAI.Chat.ChatCompletionCreateParams) => {
-    return this.openai.chat.completions.create(params)
+  private sendOpenAIRequest = async (
+    params: OpenAI.Chat.ChatCompletionCreateParams
+  ) => {
+    return this.openai.chat.completions
+      .create(params)
       .then((response) => response)
       .catch((error) => {
-        console.error(error)
-        throw error
-      })
-  }
+        console.error(error);
+        throw error;
+      });
+  };
 
-  private parseQuestionsFromCompletions = (response: OpenAI.Chat.Completions.ChatCompletion): QNAIGenerationModel => {
+  private parseQuestionsFromCompletions = (
+    response: OpenAI.Chat.Completions.ChatCompletion
+  ): QNAIGenerationModel => {
     try {
-      const jsonContent = response.choices[0].message.content
+      const jsonContent = response.choices[0].message.content;
       if (!jsonContent) {
-        throw new Error("Response contained no content") 
+        throw new Error('Response contained no content');
       }
 
-      const startIndex = jsonContent.indexOf(this.jsonResponseStartingMarker) + this.jsonResponseStartingMarker.length
-      const endIndex = jsonContent.lastIndexOf(this.jsonResponseEndingMarker)
+      const startIndex =
+        jsonContent.indexOf(this.jsonResponseStartingMarker) +
+        this.jsonResponseStartingMarker.length;
+      const endIndex = jsonContent.lastIndexOf(this.jsonResponseEndingMarker);
 
-      const questions = jsonContent.substring(startIndex, endIndex)
-      const jsonQuestions = JSON.parse(questions) as QNAI[]
+      const questions = jsonContent.substring(startIndex, endIndex);
+      const jsonQuestions = JSON.parse(questions) as QNAI[];
 
       const qnaiGenerationModel: QNAIGenerationModel = new QNAIGenerationModel(
-        jsonQuestions, []
-      )
-      
-      return qnaiGenerationModel
+        jsonQuestions,
+        []
+      );
+
+      return qnaiGenerationModel;
     } catch (error) {
-      console.error(error)
-      throw error
+      console.error(error);
+      throw error;
     }
-  }
+  };
+
+  saveGeneratedQuestionToCache = async (
+    generationId: string,
+    generatedQuestions: QNAIGenerationModel
+  ) => {
+    try {
+      const compoundKey = createCompoundKey(
+        'QUESTION_GENERATION',
+        generationId
+      );
+      await cache.call(
+        'JSON.SET',
+        compoundKey,
+        '$',
+        JSON.stringify(generatedQuestions)
+      );
+      return true;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  };
+
+  getCachedGeneratedQuestion = async (generationId: string) => {
+    const compoundKey = createCompoundKey('QUESTION_GENERATION', generationId);
+    let json = (await cache.call('JSON.GET', compoundKey, '$')) as string;
+    const qnaiModel = JSON.parse(json) as QNAIGenerationModel[];
+    return qnaiModel[0];
+  };
 }
 
-const qnaiService = new QNAIService()
+const qnaiService = new QNAIService();
 
-export default qnaiService
+export default qnaiService;
