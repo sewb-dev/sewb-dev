@@ -34,9 +34,14 @@ const InputUpload = () => {
     }
     
   }
-function valuetext(value: number) {
-  return `${value}°C`;
-}
+
+  let maxQuestion = 10
+  if(textareaInput.length >= 1500 && textareaInput.length < 1600){
+    maxQuestion = 15
+  }
+  if(textareaInput.length > 1600) {
+    maxQuestion = 20
+  }
 
 
   return (
@@ -72,7 +77,7 @@ function valuetext(value: number) {
         step={5}
         marks
         min={10}
-        max={30}
+        max={uploadMode === 'textbox' ? maxQuestion : 15}
         onChange={(event, value)=> handleQuestionCount(value)}
         valueLabelDisplay="auto"
         />
