@@ -47,8 +47,9 @@ export const questions = [
     question: "Why does Romeo feel he is 'dead'?",
     options: [],
     type: 'short_answer',
-    answer:
-      ['Because the woman he loves has sworn to live chastely, and he despairs.'],
+    answer: [
+      'Because the woman he loves has sworn to live chastely, and he despairs.',
+    ],
   },
   {
     question: 'What does Romeo compare the beauty of the woman he loves to?',

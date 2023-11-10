@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import Image from 'next/image';
 import Login from '../Login';
@@ -15,8 +15,7 @@ const Nav = () => {
         alt='logo'
         priority={true}
       />
-      {SHOW_FEATURE
- && <Login />}
+      {SHOW_FEATURE && <Login />}
     </nav>
   );
 };
