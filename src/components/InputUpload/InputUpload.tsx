@@ -17,11 +17,11 @@ export type UploadMode = 'textbox' | 'file';
 export type GenerateRequestPayload = {
   numberOfQuestions: number;
   sourceText: string;
-}
+};
 
 export type InputUpload = {
-  generate: (data:GenerateRequestPayload ) => {}
-}
+  generate: (data: GenerateRequestPayload) => {};
+};
 
 const InputUpload: React.FC<InputUpload> = (props) => {
   const [uploadMode, setUploadMode] = useState<UploadMode>('file');
@@ -33,7 +33,7 @@ const InputUpload: React.FC<InputUpload> = (props) => {
     setUploadMode(mode);
   };
 
-  const {generate} = props;
+  const { generate } = props;
 
   let isGenerateButtonDisabled = true;
   if (uploadMode === 'textbox') {
@@ -108,11 +108,11 @@ const InputUpload: React.FC<InputUpload> = (props) => {
           onClick={() => {
             generate({
               numberOfQuestions: questionCount,
-              sourceText: textareaInput
-            })
+              sourceText: textareaInput,
+            });
 
-            setTextareaInput('')
-            setFile(undefined)
+            setTextareaInput('');
+            setFile(undefined);
           }}
         >
           {isGenerateButtonDisabled ? 'Disabled' : 'Generate'}

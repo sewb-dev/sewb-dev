@@ -1,5 +1,5 @@
 'use client';
-import React from 'react'
+import React from 'react';
 import Container from '@/components/Container';
 import GenerationResponse from '@/components/GenerationResponse';
 import InputUpload from '@/components/InputUpload';
@@ -14,28 +14,27 @@ import { errorToast, successToast } from '@/utils/toast';
 export type GenerateRequestPayload = {
   numberOfQuestions: number;
   sourceText: string;
-}
+};
 const roboto = Roboto({ subsets: ['greek'], weight: '400' });
 
 const Home = () => {
-  const [questions, setQuestions ] = React.useState<QNAI[]>([])
+  const [questions, setQuestions] = React.useState<QNAI[]>([]);
 
-  const generate = async (data:GenerateRequestPayload) => {
-
-     try {
-       const request = await fetch(`${getBaseUrl()}api/qnai/generate`, {
+  const generate = async (data: GenerateRequestPayload) => {
+    try {
+      const request = await fetch(`${getBaseUrl()}api/qnai/generate`, {
         method: 'post',
         body: JSON.stringify(data),
         cache: 'no-cache',
       });
-      const response = await request.json() as {q:QNAIGenerationModel}
+      const response = (await request.json()) as { q: QNAIGenerationModel };
 
-      setQuestions(response.q.qna)
-     } catch (error) {
-      errorToast("Question generation failed. Please try again.")
-      console.error(error)
-     }
-  }
+      setQuestions(response.q.qna);
+    } catch (error) {
+      errorToast('Question generation failed. Please try again.');
+      console.error(error);
+    }
+  };
   return (
     <section className='flex h-full w-full flex-col gap-4 pt-5 md:flex-row md:justify-between'>
       <Container className='px-0 md:h-1/2 md:w-3/4'>
@@ -52,7 +51,7 @@ const Home = () => {
           <Typography fontSize={'20px'}>
             Your generated questions would appear here.
           </Typography>
-          <GenerationResponse questions={questions}/>
+          <GenerationResponse questions={questions} />
         </Stack>
       </div>
     </section>
