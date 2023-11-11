@@ -1,4 +1,3 @@
-
 import { UUID } from 'crypto';
 
 const QuestionType = {
@@ -62,9 +61,11 @@ type TransformedQuestionType =
   | 'Short Answer'
   | 'Select All That Apply';
 
-export const questionTypeToTransformedType: { [key in QuestionType]: TransformedQuestionType } = {
-   multipleChoice: 'Multiple Choice',
-   trueOrFalse: 'True/False',
-   selectAll: "Select All That Apply",
-   shortAnswer: 'Short Answer',
-}
+export const questionTypeToTransformedType: {
+  [key in QuestionType]: TransformedQuestionType;
+} = {
+  multipleChoice: 'Multiple Choice',
+  trueOrFalse: 'True/False',
+  selectAll: 'Select All That Apply',
+  shortAnswer: 'Short Answer',
+};

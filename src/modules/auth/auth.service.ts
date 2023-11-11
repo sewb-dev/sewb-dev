@@ -1,19 +1,16 @@
 import crypto from 'crypto';
-import BaseService from "../base.service";
+import BaseService from '../base.service';
 
 export class AuthService extends BaseService {
   constructor() {
-    super()
+    super();
   }
 
   getHash = (data: string) => {
-    return crypto
-      .createHash('sha256')
-      .update(data)
-      .digest('hex')};
-    
+    return crypto.createHash('sha256').update(data).digest('hex');
+  };
 }
 
-const authService = new AuthService()
+const authService = new AuthService();
 
-export default authService
+export default authService;

@@ -25,7 +25,7 @@ const Home = () => {
           <Typography fontSize={'20px'}>
             Your generated questions would appear here.
           </Typography>
-          <GenerationResponse  />
+          <GenerationResponse />
         </Stack>
       </div>
     </section>

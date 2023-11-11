@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import {
   Avatar,
@@ -13,7 +13,7 @@ import {
   Popper,
 } from '@mui/material';
 import { grey } from '@mui/material/colors';
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from 'next-auth/react';
 import { useEffect, useRef, useState } from 'react';
 
 const getInitials = (name: string) => {
@@ -22,15 +22,15 @@ const getInitials = (name: string) => {
 };
 
 const Login = () => {
-  const { data: session, status } = useSession()
-  const loading = status === 'loading'
+  const { data: session, status } = useSession();
+  const loading = status === 'loading';
 
   const [isPopperOpen, setIsPopperOpen] = useState(false);
   const anchorRef = useRef<HTMLButtonElement | null>(null);
 
   const handleSignIn = async (event: React.SyntheticEvent) => {
-    event.preventDefault()
-    signIn('google')
+    event.preventDefault();
+    signIn('google');
   };
 
   const handleClose = (event: Event | React.SyntheticEvent) => {
@@ -44,8 +44,8 @@ const Login = () => {
   };
 
   const handleSignOut = async (event: React.SyntheticEvent) => {
-    event.preventDefault()
-    signOut()
+    event.preventDefault();
+    signOut();
   };
 
   const handleListKeyDown = (event: React.KeyboardEvent) => {
@@ -68,7 +68,7 @@ const Login = () => {
   }, [isPopperOpen]);
 
   const handleAvatarClick = () => setIsPopperOpen(!isPopperOpen);
-  
+
   return (
     <div>
       {session ? (
@@ -112,7 +112,10 @@ const Login = () => {
           </Popper>
         </IconButton>
       ) : (
-        <Button variant='contained' onClick={status === 'unauthenticated' ? handleSignIn : () => {}}>
+        <Button
+          variant='contained'
+          onClick={status === 'unauthenticated' ? handleSignIn : () => {}}
+        >
           {loading ? (
             <CircularProgress size={18} sx={{ color: grey[500] }} />
           ) : (

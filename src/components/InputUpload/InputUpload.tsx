@@ -1,6 +1,13 @@
 'use client';
 import React, { useState } from 'react';
-import { Container, Button, ButtonGroup, Box,Slider,InputLabel } from '@mui/material';
+import {
+  Container,
+  Button,
+  ButtonGroup,
+  Box,
+  Slider,
+  InputLabel,
+} from '@mui/material';
 import FileComponent from './FileComponent';
 import TextInputComponent from './TextInputComponent';
 import { FileWithPath } from 'react-dropzone';
@@ -10,7 +17,7 @@ const InputUpload = () => {
   const [uploadMode, setUploadMode] = useState<UploadMode>('file');
   const [textareaInput, setTextareaInput] = useState('');
   const [pageNumber, setPageNumber] = useState('');
-  const [questionCount, setQuestionCount] = useState(10)
+  const [questionCount, setQuestionCount] = useState(10);
   const [file, setFile] = useState<FileWithPath>();
   const handleUploadClick = (mode: UploadMode) => {
     setUploadMode(mode);
@@ -25,69 +32,71 @@ const InputUpload = () => {
     isGenerateButtonDisabled = pageNumber.length === 0;
   }
 
-  const handleQuestionCount = (count:number | number[]) => {
-
-    if(typeof count === 'object'){
-      setQuestionCount(count[0])
-    }else{
-      setQuestionCount(count)
+  const handleQuestionCount = (count: number | number[]) => {
+    if (typeof count === 'object') {
+      setQuestionCount(count[0]);
+    } else {
+      setQuestionCount(count);
     }
-    
-  }
-function valuetext(value: number) {
-  return `${value}°C`;
-}
+  };
 
+  let maxQuestion = 10;
+  if (textareaInput.length >= 1500 && textareaInput.length < 1600) {
+    maxQuestion = 15;
+  }
+  if (textareaInput.length > 1600) {
+    maxQuestion = 20;
+  }
 
   return (
     <Container fixed>
-        <ButtonGroup
-          variant='text'
-          aria-label='input upload option button group'
-          className='!flex justify-center'
+      <ButtonGroup
+        variant='text'
+        aria-label='input upload option button group'
+        className='!flex justify-center'
+      >
+        <Button onClick={(e) => handleUploadClick('file')}>File</Button>
+        <Button onClick={(e) => handleUploadClick('textbox')}>Text</Button>
+      </ButtonGroup>
+      <Box className='!mx-auto !flex w-full  justify-center '>
+        {uploadMode === 'file' ? (
+          <FileComponent
+            file={file}
+            pageNumber={pageNumber}
+            setFile={setFile}
+            setPageNumber={setPageNumber}
+          />
+        ) : (
+          <TextInputComponent
+            setTextareaInput={setTextareaInput}
+            textareaInput={textareaInput}
+          />
+        )}
+      </Box>
+      <Box className="'!mx-auto !flex w-full flex-col items-center">
+        <InputLabel className=''>Question Count: {questionCount} </InputLabel>
+        <Box sx={{ width: 300 }}>
+          <Slider
+            value={questionCount}
+            step={5}
+            marks
+            min={10}
+            max={uploadMode === 'textbox' ? maxQuestion : 15}
+            onChange={(event, value) => handleQuestionCount(value)}
+            valueLabelDisplay='auto'
+          />
+        </Box>
+      </Box>
+      <Box className='-full  text-center '>
+        <Button
+          disabled={isGenerateButtonDisabled}
+          variant='contained'
+          size='large'
+          color='salmon'
         >
-          <Button onClick={(e) => handleUploadClick('file')}>File</Button>
-          <Button onClick={(e) => handleUploadClick('textbox')}>Text</Button>
-        </ButtonGroup>
-        <Box className='!mx-auto !flex w-full  justify-center '>
-          {uploadMode === 'file' ? (
-            <FileComponent
-              file={file}
-              pageNumber={pageNumber}
-              setFile={setFile}
-              setPageNumber={setPageNumber}
-            />
-          ) : (
-            <TextInputComponent
-              setTextareaInput={setTextareaInput}
-              textareaInput={textareaInput}
-            />
-          )}
-        </Box>
-        <Box className="'!mx-auto !flex w-full items-center flex-col">
-<InputLabel className=''>Question Count: {questionCount} </InputLabel>
-       <Box sx={{ width: 300 }} >
-      <Slider
-        value={questionCount}
-        step={5}
-        marks
-        min={10}
-        max={30}
-        onChange={(event, value)=> handleQuestionCount(value)}
-        valueLabelDisplay="auto"
-        />
-        </Box>
-    </Box>
-        <Box className='-full  text-center '>
-          <Button
-            disabled={isGenerateButtonDisabled}
-            variant='contained'
-            size='large'
-            color='salmon'
-          >
-            {isGenerateButtonDisabled ? 'Disabled' : 'Generate'}
-          </Button>
-        </Box>
+          {isGenerateButtonDisabled ? 'Disabled' : 'Generate'}
+        </Button>
+      </Box>
     </Container>
   );
 };
