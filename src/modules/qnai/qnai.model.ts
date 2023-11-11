@@ -1,6 +1,6 @@
 import { UUID } from 'crypto';
 
-const QuestionType = {
+export const QuestionType = {
   TRUE_OR_FALSE: 'trueOrFalse',
   MULTIPLE_CHOICE: 'multipleChoice',
   SELECT_ALL: 'selectAll',

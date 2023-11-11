@@ -1,67 +1,79 @@
-export const questions = [
+import { QNAI, QuestionType } from '@/modules/qnai/qnai.model';
+
+export const questions: QNAI[] = [
   {
     question: 'What is the subject of the dispute in the opening scene?',
     options: ['A) Love', 'B) Hatred', 'C) A brawl', 'D) Family honor'],
-    type: 'multiple_choice',
-    answer: ['A brawl'],
+    type: QuestionType.MULTIPLE_CHOICE,
+    answers: ['A brawl'],
+    id: 1,
   },
   {
     question: 'Who tries to stop the fight in the opening scene?',
     options: ['A) Romeo', 'B) Tybalt', 'C) The Prince', 'D) Benvolio'],
-    type: 'multiple_choice',
-    answer: ['Benvolio'],
+    type: QuestionType.MULTIPLE_CHOICE,
+    answers: ['Benvolio'],
+    id: 1,
   },
   {
     question: 'True or False: Romeo is in love with a woman.',
     options: [],
-    type: 'true_or_false',
-    answer: ['True'],
+    type: QuestionType.TRUE_OR_FALSE,
+    answers: ['True'],
+    id: 1,
   },
   {
     question: "What are Romeo's feelings toward the woman he loves?",
     options: [],
-    type: 'short_answer',
-    answer: ['He is in love with her.'],
+    type: QuestionType.SHORT_ANSWER,
+    answers: ['He is in love with her.'],
+    id: 1,
   },
   {
     question: 'What quality does Romeo admire in the woman he loves?',
     options: [],
-    type: 'short_answer',
-    answer: ['Chastity and wisdom.'],
+    type: QuestionType.SHORT_ANSWER,
+    answers: ['Chastity and wisdom.'],
+    id: 1,
   },
   {
     question:
       'What does Benvolio suggest to Romeo to help him forget about the woman he loves?',
     options: [],
-    type: 'short_answer',
-    answer: ['To examine other beauties.'],
+    type: QuestionType.SHORT_ANSWER,
+    answers: ['To examine other beauties.'],
+    id: 1,
   },
   {
     question:
       'In the text, who intervenes to stop the brawl in the opening scene?',
     options: ['A) The Prince', 'B) Tybalt', 'C) Romeo', 'D) Lord Capulet'],
-    type: 'multiple_choice',
-    answer: ['The Prince'],
+    type: QuestionType.MULTIPLE_CHOICE,
+    answers: ['The Prince'],
+    id: 1,
   },
   {
     question: "Why does Romeo feel he is 'dead'?",
     options: [],
-    type: 'short_answer',
-    answer: [
+    type: QuestionType.SHORT_ANSWER,
+    answers: [
       'Because the woman he loves has sworn to live chastely, and he despairs.',
     ],
+    id: 1,
   },
   {
     question: 'What does Romeo compare the beauty of the woman he loves to?',
     options: [],
-    type: 'short_answer',
-    answer: ['A note that reminds him of her exceptional beauty.'],
+    type: QuestionType.SHORT_ANSWER,
+    answers: ['A note that reminds him of her exceptional beauty.'],
+    id: 1,
   },
   {
     question:
       'What advice does Benvolio give to Romeo regarding the woman he loves?',
     options: [],
-    type: 'short_answer',
-    answer: ['To examine other beauties.'],
+    type: QuestionType.SHORT_ANSWER,
+    answers: ['To examine other beauties.'],
+    id: 1,
   },
 ];
