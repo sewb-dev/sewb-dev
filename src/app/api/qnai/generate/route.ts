@@ -1,7 +1,7 @@
 import { QNAIGenerationModel } from '@/modules/qnai/qnai.model';
 import qnaiService from '@/modules/qnai/qnai.service';
 import { NextRequest, NextResponse } from 'next/server';
-
+import { questions  as q } from '@/utils/ai/mockResponse';
 export async function POST(req: NextRequest) {
   try {
     const { numberOfQuestions, sourceText } = await req.json();
@@ -13,11 +13,12 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const questions = await qnaiService.getQuestionsFromText(
-      sourceText,
-      numberOfQuestions
-    );
-    return NextResponse.json(questions, { status: 201 });
+    // const questions = await qnaiService.getQuestionsFromText(
+    //   sourceText,
+    //   numberOfQuestions
+    // );
+    const mockQuestions = new QNAIGenerationModel(q, [])
+    return NextResponse.json({q:mockQuestions}, { status: 201 });
   } catch (error) {
     console.error('Error processing the request:', error);
     return NextResponse.json({ error: 'Server Error' }, { status: 500 });

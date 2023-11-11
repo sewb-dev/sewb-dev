@@ -13,7 +13,17 @@ import TextInputComponent from './TextInputComponent';
 import { FileWithPath } from 'react-dropzone';
 import { MAX_TEXT_INPUT_LENGTH } from '@/utils/constants';
 export type UploadMode = 'textbox' | 'file';
-const InputUpload = () => {
+
+export type GenerateRequestPayload = {
+  numberOfQuestions: number;
+  sourceText: string;
+}
+
+export type InputUpload = {
+  generate: (data:GenerateRequestPayload ) => {}
+}
+
+const InputUpload: React.FC<InputUpload> = (props) => {
   const [uploadMode, setUploadMode] = useState<UploadMode>('file');
   const [textareaInput, setTextareaInput] = useState('');
   const [pageNumber, setPageNumber] = useState('');
@@ -22,6 +32,8 @@ const InputUpload = () => {
   const handleUploadClick = (mode: UploadMode) => {
     setUploadMode(mode);
   };
+
+  const {generate} = props;
 
   let isGenerateButtonDisabled = true;
   if (uploadMode === 'textbox') {
@@ -93,6 +105,15 @@ const InputUpload = () => {
           variant='contained'
           size='large'
           color='salmon'
+          onClick={() => {
+            generate({
+              numberOfQuestions: questionCount,
+              sourceText: textareaInput
+            })
+
+            setTextareaInput('')
+            setFile(undefined)
+          }}
         >
           {isGenerateButtonDisabled ? 'Disabled' : 'Generate'}
         </Button>

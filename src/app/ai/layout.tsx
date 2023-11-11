@@ -15,7 +15,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <section className={` bg-gray-800 px-4 text-text  ${inter.className}`}>
+    <section className={` bg-gray-800 px-4 text-text min-h-screen  ${inter.className}`}>
       {children}
     </section>
   );
