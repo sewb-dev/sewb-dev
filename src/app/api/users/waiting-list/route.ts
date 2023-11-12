@@ -1,6 +1,7 @@
 import { firebase } from '@/lib/firebase';
 import crypto from 'crypto';
 import { getDatabase, ref, set } from 'firebase/database';
+import { StatusCodes } from 'http-status-codes';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
@@ -28,7 +29,7 @@ export async function POST(req: NextRequest) {
         message: `Success`,
       }),
       {
-        status: 200,
+        status: StatusCodes.CREATED,
       }
     );
   } catch (error) {
@@ -42,7 +43,7 @@ export async function GET() {
       message: `Success`,
     }),
     {
-      status: 200,
+      status: StatusCodes.OK,
     }
   );
 }

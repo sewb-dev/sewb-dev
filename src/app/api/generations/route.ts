@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     if (!numberOfQuestions || isNaN(numberOfQuestions) || !sourceText) {
       return NextResponse.json(
         { error: 'Invalid request data' },
-        { status: 400 }
+        { status: StatusCodes.BAD_REQUEST }
       );
     }
 
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     const { qnai, generation } = await generationService.createQNAGeneration(email, sourceText, numberOfQuestions)
 
     if (!(qnai && generation) ) {
-      return NextResponse.json({ message: 'An error occured while saving the generation' }, { status: 500 })
+      return NextResponse.json({ message: 'An error occured while saving the generation' }, { status: StatusCodes.INTERNAL_SERVER_ERROR })
     }
 
     const generationResponse: GenerationModelDto = {
@@ -40,9 +40,9 @@ export async function POST(req: NextRequest) {
       generation: generationResponse
     }
 
-    return NextResponse.json(response, { status: 201 })
+    return NextResponse.json(response, { status: StatusCodes.CREATED })
   } catch (error) {
     console.error('Error processing the request:', error);
-    return NextResponse.json({ error: 'Server Error' }, { status: 500 });
+    return NextResponse.json({ error: 'Server Error' }, { status: StatusCodes.INTERNAL_SERVER_ERROR });
   }
 }
