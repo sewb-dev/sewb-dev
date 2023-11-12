@@ -9,7 +9,7 @@ export class UserService extends BaseService {
   }
 
   getUserByEmail = async (email: string): Promise<UserModel | undefined> => {
-    return get(child(this.dbRef, `users/${authService.getHash(email)}`))
+    return get(child(this.dbRef, `users/${authService.getUserId(email)}`))
       .then((snapshot) => {
         if (snapshot.exists()) {
           return snapshot.val() as UserModel;
@@ -24,7 +24,7 @@ export class UserService extends BaseService {
   };
 
   addUser = async (email: string, fullName: string) => {
-    const hash = authService.getHash(email);
+    const hash = authService.getUserId(email);
 
     return set(ref(this.database, 'users/' + hash), {
       email,

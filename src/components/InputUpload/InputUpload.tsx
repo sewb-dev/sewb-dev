@@ -1,17 +1,19 @@
 'use client';
-import React, { useState } from 'react';
+import { MAX_TEXT_INPUT_LENGTH } from '@/utils/constants';
 import {
-  Container,
+  Box,
   Button,
   ButtonGroup,
-  Box,
-  Slider,
+  Container,
   InputLabel,
+  Slider,
 } from '@mui/material';
+import React, { useState } from 'react';
+import { FileWithPath } from 'react-dropzone';
 import FileComponent from './FileComponent';
 import TextInputComponent from './TextInputComponent';
-import { FileWithPath } from 'react-dropzone';
-import { MAX_TEXT_INPUT_LENGTH } from '@/utils/constants';
+
+
 export type UploadMode = 'textbox' | 'file';
 
 export type GenerateRequestPayload = {

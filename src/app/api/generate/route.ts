@@ -1,5 +1,5 @@
 import { config } from "@/app/lib/auth";
-import generationService from "@/app/modules/generation/generation.service";
+import generationService from "@/modules/generation/generation.service";
 import { getServerSession } from "next-auth/next";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from 'zod';
