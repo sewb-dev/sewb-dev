@@ -3,9 +3,3 @@ export type GenerationModel = {
   generatedAt: number
   userId: string
 }
-
-export type GenerationModelDto = {
-  generationId: string
-  generatedAt: string
-  userId: string
-}

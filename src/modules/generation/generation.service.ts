@@ -1,10 +1,10 @@
 import cache, { createCompoundKey } from '@/lib/cache';
-import { update } from "firebase/database";
+import { child, get, update } from "firebase/database";
 import authService from "../auth/auth.service";
 import BaseService from "../base.service";
+import { QNAIGenerationModel } from '../qnai/qnai.model';
 import qnaiService from "../qnai/qnai.service";
 import { GenerationModel } from "./generation.model";
-import { QNAIGenerationModel } from '../qnai/qnai.model';
 
 
 class GenerationService extends BaseService {
@@ -23,9 +23,12 @@ class GenerationService extends BaseService {
     const generatedAt = Date.now()
 
     await this.saveGeneratedQuestionToCache(generationId, qnai)
-    await this.saveGenerationToDb(email, generatedAt, generationId)
+    const generation = await this.saveGenerationToDb(email, generatedAt, generationId)
 
-    return qnai
+    return {
+      qnai,
+      generation
+    }
   }
 
   private saveGenerationToDb = async (email: string, generatedAt: number, generationId: string) => {
@@ -69,11 +72,33 @@ class GenerationService extends BaseService {
     }
   };
 
-  private getCachedGeneratedQuestion = async (generationId: string) => {
+  getCachedGeneratedQuestion = async (generationId: string) => {
     const compoundKey = createCompoundKey('QUESTION_GENERATION', generationId);
-    let json = (await cache.call('JSON.GET', compoundKey, '$')) as string;
-    const qnaiModel = JSON.parse(json) as QNAIGenerationModel[];
-    return qnaiModel[0];
+    const generation =  await cache.call('JSON.GET', compoundKey, '$')
+      .then((response) => {
+        if (!response) {
+          return null
+        }
+        const qnaiModel = JSON.parse(response as string) as QNAIGenerationModel[];
+        return qnaiModel[0];
+      })
+
+    return generation
+  };
+
+  getUserGenerationFromDB =  async (email: string, generationId: string) => {
+    return get(child(this.dbRef, `generations/${authService.getUserId(email)}/${generationId}`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          return snapshot.val() as GenerationModel
+        } else {
+          return undefined
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        return undefined;
+      });
   };
 
   private getGenerationId = () => crypto.randomUUID()
