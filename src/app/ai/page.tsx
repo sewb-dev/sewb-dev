@@ -1,15 +1,16 @@
 'use client';
-import React from 'react';
 import Container from '@/components/Container';
 import GenerationResponse from '@/components/GenerationResponse';
 import InputUpload from '@/components/InputUpload';
 import WithAuth from '@/components/WithAuth';
+import { GenerationQNAIDto } from '@/dto/generation';
 import { getBaseUrl } from '@/lib/dispatcher';
+import { QNAI } from '@/modules/qnai/qnai.model';
+import { errorToast } from '@/utils/toast';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { Roboto } from 'next/font/google';
-import { QNAI, QNAIGenerationModel } from '@/modules/qnai/qnai.model';
-import { errorToast, successToast } from '@/utils/toast';
+import React from 'react';
 
 export type GenerateRequestPayload = {
   numberOfQuestions: number;
@@ -22,14 +23,14 @@ const Home = () => {
 
   const generate = async (data: GenerateRequestPayload) => {
     try {
-      const request = await fetch(`${getBaseUrl()}api/qnai/generate`, {
+      const request = await fetch(`${getBaseUrl()}api/generations`, {
         method: 'post',
         body: JSON.stringify(data),
         cache: 'no-cache',
       });
-      const response = (await request.json()) as { q: QNAIGenerationModel };
+      const response = (await request.json()) as GenerationQNAIDto;
 
-      setQuestions(response.q.qna);
+      setQuestions(response.qnai.qna);
     } catch (error) {
       errorToast('Question generation failed. Please try again.');
       console.error(error);

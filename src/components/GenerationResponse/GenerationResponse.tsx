@@ -1,14 +1,13 @@
 'use client';
-import React, { useState } from 'react';
-import Stack from '@mui/material/Stack';
-import LockedQuestions from '../LockedQuestions';
-import Image from 'next/image';
-import { Box, Button } from '@mui/material';
+import { QNAI } from '@/modules/qnai/qnai.model';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import QuizIcon from '@mui/icons-material/Quiz';
 import SendIcon from '@mui/icons-material/Send';
-import { questions as q } from '../../utils/ai/mockResponse';
-import { QNAI, QNAIGenerationModel } from '@/modules/qnai/qnai.model';
+import { Box, Button } from '@mui/material';
+import Stack from '@mui/material/Stack';
+import Image from 'next/image';
+import React, { useState } from 'react';
+import LockedQuestions from '../LockedQuestions';
 
 export type GenerationResponse = {
   questions: QNAI[];
