@@ -12,14 +12,14 @@ type QuestionType = (typeof QuestionType)[keyof typeof QuestionType];
 export class QNAI {
   readonly id: number;
   readonly question: string;
-  readonly answers: string[] | number;
+  readonly answers: string[] | number | number[];
   readonly type: QuestionType;
   readonly options: string[];
 
   constructor(
     id: number,
     question: string,
-    answers: string[] | number,
+    answers: string[] | number | number[],
     type: QuestionType,
     options: string[]
   ) {
@@ -69,3 +69,7 @@ export const questionTypeToTransformedType: {
   selectAll: 'Select All That Apply',
   shortAnswer: 'Short Answer',
 };
+
+export type QNAIOpenaiResponse = {
+  questions: QNAI[]
+}

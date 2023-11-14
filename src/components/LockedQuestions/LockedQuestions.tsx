@@ -1,20 +1,43 @@
-import React from 'react';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import LockIcon from '@mui/icons-material/Lock';
+import Accordion from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import Typography from '@mui/material/Typography';
+import React from 'react';
 
 type LockedQuestionsProps = {
   isLocked: boolean;
   question: string;
-  answers: string[] | number;
+  options: string[];
+  answers: string[] | number[] | number;
 };
+
+const getAnswerFromOptions = (options: string[], answers: string[] | number | number[]) => {
+  if(typeof answers === 'number') {
+    return options[answers] || ''
+  }
+
+  if (!Array.isArray(answers)) {
+    return ''
+  }
+
+  if (typeof(answers[0]) === 'number') {
+      return answers.map(index => options[index as number] || '')
+    }
+  
+  if (typeof(answers[0]) === 'string') {
+    return answers as string[]
+  }
+
+  return ''
+}
+
 const LockedQuestions: React.FunctionComponent<LockedQuestionsProps> = (
   props
 ) => {
-  const { isLocked, question, answers } = props;
+  const { isLocked, question, answers, options } = props;
+  const answerStrings = getAnswerFromOptions(options, answers)
   return (
     <Accordion disabled={isLocked}>
       <AccordionSummary
@@ -25,12 +48,12 @@ const LockedQuestions: React.FunctionComponent<LockedQuestionsProps> = (
         <Typography>{question}</Typography>
       </AccordionSummary>
       <AccordionDetails>
-        {typeof answers === 'object' ? (
-          answers.map((answer, id) => (
+        {Array.isArray(answerStrings) ? (
+          answerStrings.map((answer, id) => (
             <Typography key={id}>- {answer}</Typography>
           ))
         ) : (
-          <Typography>- {answers}</Typography>
+          <Typography>- {answerStrings}</Typography>
         )}
       </AccordionDetails>
     </Accordion>
