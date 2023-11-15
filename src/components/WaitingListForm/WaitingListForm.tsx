@@ -3,6 +3,7 @@ import { getBaseUrl } from '@/lib/dispatcher';
 import { errorToast, successToast } from '@/utils/toast';
 import React from 'react';
 import styles from './WaitingListForm.module.css';
+import { StatusCodes } from 'http-status-codes';
 
 const WaitingListForm = () => {
   const [fullName, setFullName] = React.useState<string>('');
@@ -21,15 +22,13 @@ const WaitingListForm = () => {
         cache: 'no-cache',
       });
 
-      // Reset Inputs
-      setEmail('');
-      setFullName('');
-
-      if (response.status !== 200) {
+      if (response.status !== StatusCodes.CREATED) {
         errorToast('Failed to add you to the waiting list. Please try again.');
         return;
       }
 
+      setEmail('');
+      setFullName('');
       successToast('Successfully added you to the waiting list. See you soon.');
     } catch (e) {
       console.error(e);
