@@ -53,6 +53,7 @@ const GenerationResponse: React.FC<GenerationResponse> = (props) => {
                 key={data.question}
                 isLocked={isLocked}
                 question={data.question}
+                options={data.options}
                 answers={data.answers}
               />
             ))}
