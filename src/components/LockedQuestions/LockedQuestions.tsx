@@ -23,7 +23,7 @@ const getAnswerFromOptions = (options: string[], answers: string[] | number | nu
   }
 
   if (typeof(answers[0]) === 'number') {
-      return answers.map(index => options[index as number] ?? '')
+      return answers.map(index => options[Number(index)] ?? '')
     }
   
   if (typeof(answers[0]) === 'string') {
