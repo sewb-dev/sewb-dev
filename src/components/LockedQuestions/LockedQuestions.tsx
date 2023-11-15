@@ -15,7 +15,7 @@ type LockedQuestionsProps = {
 
 const getAnswerFromOptions = (options: string[], answers: string[] | number | number[]) => {
   if(typeof answers === 'number') {
-    return options[answers] || ''
+    return options[answers] ?? ''
   }
 
   if (!Array.isArray(answers)) {
@@ -23,7 +23,7 @@ const getAnswerFromOptions = (options: string[], answers: string[] | number | nu
   }
 
   if (typeof(answers[0]) === 'number') {
-      return answers.map(index => options[index as number] || '')
+      return answers.map(index => options[index as number] ?? '')
     }
   
   if (typeof(answers[0]) === 'string') {
