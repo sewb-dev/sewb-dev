@@ -2,11 +2,11 @@
 import Container from '@/components/Container';
 import GenerationResponse from '@/components/GenerationResponse';
 import InputUpload from '@/components/InputUpload';
+import CookingLoader from '@/components/Loader/CookingLoader';
 import WithAuth from '@/components/WithAuth';
-import { GenerationQNAIDto } from '@/dto/generation';
-import { getBaseUrl } from '@/lib/dispatcher';
+import { useCreateQNAIGeneration } from '@/modules/generation/generation.hooks';
 import { QNAI } from '@/modules/qnai/qnai.model';
-import { errorToast } from '@/utils/toast';
+import { errorToast, successToast } from '@/utils/toast';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { Roboto } from 'next/font/google';
@@ -20,22 +20,25 @@ const roboto = Roboto({ subsets: ['greek'], weight: '400' });
 
 const Home = () => {
   const [questions, setQuestions] = React.useState<QNAI[]>([]);
+  const createQNAIGenerationRequest = useCreateQNAIGeneration()
 
   const generate = async (data: GenerateRequestPayload) => {
-    try {
-      const request = await fetch(`${getBaseUrl()}api/generations`, {
-        method: 'post',
-        body: JSON.stringify(data),
-        cache: 'no-cache',
-      });
-      const response = (await request.json()) as GenerationQNAIDto;
-
-      setQuestions(response.qnai.qna);
-    } catch (error) {
-      errorToast('Question generation failed. Please try again.');
-      console.error(error);
-    }
+    createQNAIGenerationRequest
+      .mutateAsync(data)
+      .then((response) => {
+        successToast('Successfully generated questions from input.');
+        setQuestions(response.qnai.qna)
+      })
+      .catch((error) => {
+        errorToast('Question generation failed. Please try again.');
+        console.error(error);
+      })
   };
+  
+  if (createQNAIGenerationRequest.isPending) {
+    return <CookingLoader />
+  }
+
   return (
     <section className='flex h-full w-full flex-col gap-4 pt-5 md:flex-row md:justify-between'>
       <Container className='px-0 md:h-1/2 md:w-3/4'>
