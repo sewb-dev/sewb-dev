@@ -6,6 +6,11 @@ export type GenerationModelDto = {
   userId: string
 }
 
+export type CreateGenerationRequest = {
+  numberOfQuestions: number;
+  sourceText: string;
+}
+
 export type GenerationQNAIDto = {
   qnai: QNAIGenerationModel
   generation: GenerationModelDto

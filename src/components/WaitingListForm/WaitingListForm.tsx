@@ -1,38 +1,37 @@
 'use client';
-import { getBaseUrl } from '@/lib/dispatcher';
+import { useAddUserToWaitingList } from '@/modules/user/user.hooks';
 import { errorToast, successToast } from '@/utils/toast';
 import React from 'react';
+import Loader from '../Loader';
 import styles from './WaitingListForm.module.css';
-import { StatusCodes } from 'http-status-codes';
 
 const WaitingListForm = () => {
   const [fullName, setFullName] = React.useState<string>('');
   const [email, setEmail] = React.useState<string>('');
+  
+  const addUserToWaitingList = useAddUserToWaitingList()
+
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const body = {
-      fullName: event.currentTarget.fullName.value,
-      email: event.currentTarget.email.value,
-    };
+    event.preventDefault()
 
-    try {
-      const response = await fetch(`${getBaseUrl()}api/users/waiting-list`, {
-        method: 'post',
-        body: JSON.stringify(body),
-        cache: 'no-cache',
-      });
-
-      if (response.status !== StatusCodes.CREATED) {
+    addUserToWaitingList
+      .mutateAsync({
+        fullName: event.currentTarget.fullName.value,
+        email: event.currentTarget.email.value,
+      })
+      .then(() => {
+        setEmail('');
+        setFullName('');
+        successToast('Successfully added you to the waiting list. See you soon.');
+      })
+      .catch((error) => {
         errorToast('Failed to add you to the waiting list. Please try again.');
-        return;
-      }
+        console.error(error);
+      })
+  }
 
-      setEmail('');
-      setFullName('');
-      successToast('Successfully added you to the waiting list. See you soon.');
-    } catch (e) {
-      console.error(e);
-    }
+  if (addUserToWaitingList.isPending) {
+    return <Loader />
   }
 
   return (
