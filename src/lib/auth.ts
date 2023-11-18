@@ -7,12 +7,13 @@ import type { NextAuthOptions } from 'next-auth';
 import { getServerSession } from 'next-auth';
 import GoogleAuthProvider from 'next-auth/providers/google';
 import userService from '../modules/user/user.service';
+import envVariables from './env';
 
 export const config = {
   providers: [
     GoogleAuthProvider({
-      clientId: process.env.GOOGLE_ID ?? '',
-      clientSecret: process.env.GOOGLE_SECRET ?? '',
+      clientId: envVariables.getEnv('GOOGLE_ID'),
+      clientSecret: envVariables.getEnv('GOOGLE_SECRET'),
     }),
   ],
   session: {

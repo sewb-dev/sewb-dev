@@ -1,9 +1,10 @@
 import { initializeApp } from 'firebase/app';
+import envVariables from './env';
 
 const firebaseConfig = {
-  apiKey: process.env.FIREBASE_KEY,
-  databaseURL: process.env.FIREBASE_DATABASE_URL,
-  projectId: process.env.FIREBASE_PROJECT_ID,
+  apiKey: envVariables.getEnv('FIREBASE_KEY'),
+  databaseURL: envVariables.getEnv('FIREBASE_DATABASE_URL'),
+  projectId: envVariables.getEnv('FIREBASE_PROJECT_ID'),
 };
 
 const firebase = initializeApp(firebaseConfig);
