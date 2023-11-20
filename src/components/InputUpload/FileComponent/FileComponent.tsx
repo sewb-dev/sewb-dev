@@ -45,11 +45,11 @@ const FileComponent: React.FunctionComponent<FileComponentProps> = (props) => {
       return text;
   };
 
-  async function onDocumentLoadSuccess({
+  function onDocumentLoadSuccess({
     numPages,
   }: {
     numPages: number;
-  }): Promise<void> {
+  }): void {
     setNumPages(numPages);
   }
 
