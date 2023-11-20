@@ -40,7 +40,7 @@ const FileComponent: React.FunctionComponent<FileComponentProps> = (props) => {
         text += words
 
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
       return text;
   };

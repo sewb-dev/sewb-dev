@@ -58,7 +58,6 @@ const InputUpload: React.FC<InputUpload> = (props) => {
 
 
 
-  console.log(pdfText.length, pageNumber)
   if(pdfText.length > MAX_TEXT_INPUT_LENGTH) {
     errorToast(`Content in selected pdf page exceeds the maximum character limit per generation.`,{
       autoClose: 2000
