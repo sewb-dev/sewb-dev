@@ -42,9 +42,7 @@ class EnvironmentVariable {
         process.env.NODE_ENV === 'development' ||
           process.env.NODE_ENV === 'test'
       ),
-      MOCK_GENERATION: process.env.MOCK_GENERATION
-        ? process.env.MOCK_GENERATION
-        : 'false',
+      MOCK_GENERATION: process.env.MOCK_GENERATION ?? 'false',
     };
   }
   getEnv(key: ENVKeys, defaultValue = ''): string {
