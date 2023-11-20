@@ -1,6 +1,7 @@
 import { mockQNAIResponse } from '@/utils/ai/mockResponse';
 import OpenAI from 'openai';
 import { QNAI, QNAIGenerationModel, QNAIOpenaiResponse } from './qnai.model';
+import envVariables from '@/lib/env';
 
 class QNAIService {
   private openai: OpenAI;
@@ -32,22 +33,24 @@ class QNAIService {
     '''
     `;
     try {
-      // TODO: Remove mocked implementation
-      // const completions = (await this.sendOpenAIRequest({
-      //   messages: [
-      //     {
-      //       role: 'system',
-      //       content: 'You are a world class Question Generator',
-      //     },
-      //     { role: 'user', content: prompt },
-      //   ],
-      //   model: 'gpt-3.5-turbo',
-      // })) as OpenAI.Chat.Completions.ChatCompletion;
+      if (envVariables.getEnv('MOCK_GENERATION') === 'true') {
+        const qnaiQuestions = mockQNAIResponse as QNAI[];
+        const qnaiGenerationModel = new QNAIGenerationModel(qnaiQuestions, []);
+        return qnaiGenerationModel;
+      }
+      const completions = (await this.sendOpenAIRequest({
+        messages: [
+          {
+            role: 'system',
+            content: 'You are a world class Question Generator',
+          },
+          { role: 'user', content: prompt },
+        ],
+        model: 'gpt-3.5-turbo',
+      })) as OpenAI.Chat.Completions.ChatCompletion;
 
-      // const qnaiGenerationModel =
-      //   this.parseQuestionsFromCompletions(completions);
-      const qnaiQuestions = mockQNAIResponse as QNAI[]
-      const qnaiGenerationModel = new QNAIGenerationModel(qnaiQuestions, [])
+      const qnaiGenerationModel =
+        this.parseQuestionsFromCompletions(completions);
       return qnaiGenerationModel;
     } catch (error) {
       console.error(error);
@@ -68,7 +71,7 @@ class QNAIService {
   };
 
   private parseQuestionsFromCompletions = (
-    response: OpenAI.Chat.Completions.ChatCompletion 
+    response: OpenAI.Chat.Completions.ChatCompletion
   ): QNAIGenerationModel => {
     try {
       const jsonContent = response.choices[0].message.content;

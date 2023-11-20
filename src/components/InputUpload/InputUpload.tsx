@@ -12,6 +12,7 @@ import React, { useState } from 'react';
 import { FileWithPath } from 'react-dropzone';
 import FileComponent from './FileComponent';
 import TextInputComponent from './TextInputComponent';
+import { errorToast } from '@/utils/toast';
 
 
 export type UploadMode = 'textbox' | 'file';
@@ -31,6 +32,7 @@ const InputUpload: React.FC<InputUpload> = (props) => {
   const [pageNumber, setPageNumber] = useState('');
   const [questionCount, setQuestionCount] = useState(10);
   const [file, setFile] = useState<FileWithPath>();
+  const [pdfText, setPdfText] = useState('');
   const handleUploadClick = (mode: UploadMode) => {
     setUploadMode(mode);
   };
@@ -54,11 +56,27 @@ const InputUpload: React.FC<InputUpload> = (props) => {
     }
   };
 
-  let maxQuestion = 10;
-  if (textareaInput.length >= 1500 && textareaInput.length < 1600) {
+
+
+  if(pdfText.length > MAX_TEXT_INPUT_LENGTH) {
+    errorToast(`Content in selected pdf page exceeds the maximum character limit per generation.`,{
+      autoClose: 2000
+    })
+    isGenerateButtonDisabled = true
+  }
+
+  let sourceText = textareaInput;
+  if(uploadMode === 'file'){
+    sourceText = pdfText
+  }else{
+    sourceText = textareaInput
+  }
+
+    let maxQuestion = 10;
+  if (sourceText.length >= 1500 && sourceText.length < 1600) {
     maxQuestion = 15;
   }
-  if (textareaInput.length > 1600) {
+  if (sourceText.length > 1600) {
     maxQuestion = 20;
   }
 
@@ -79,6 +97,7 @@ const InputUpload: React.FC<InputUpload> = (props) => {
             pageNumber={pageNumber}
             setFile={setFile}
             setPageNumber={setPageNumber}
+            setPdfText = {setPdfText}
           />
         ) : (
           <TextInputComponent
@@ -109,8 +128,8 @@ const InputUpload: React.FC<InputUpload> = (props) => {
           color='salmon'
           onClick={() => {
             generate({
+              sourceText,
               numberOfQuestions: questionCount,
-              sourceText: textareaInput,
             });
 
             setTextareaInput('');

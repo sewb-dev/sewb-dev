@@ -16,7 +16,8 @@ type ENVKeys =
   | 'REDIS_PORT'
   | 'REDIS_USERNAME'
   | 'NODE_ENV'
-  | 'IS_DEVELOPMENT';
+  | 'IS_DEVELOPMENT'
+  | 'MOCK_GENERATION';
 class EnvironmentVariable {
   keys: Record<ENVKeys, string | undefined>;
 
@@ -41,6 +42,7 @@ class EnvironmentVariable {
         process.env.NODE_ENV === 'development' ||
           process.env.NODE_ENV === 'test'
       ),
+      MOCK_GENERATION: process.env.MOCK_GENERATION ?? 'false',
     };
   }
   getEnv(key: ENVKeys, defaultValue = ''): string {

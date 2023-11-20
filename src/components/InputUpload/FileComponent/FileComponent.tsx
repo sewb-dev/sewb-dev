@@ -4,6 +4,7 @@ import { useDropzone, FileRejection, FileWithPath } from 'react-dropzone';
 import { errorToast } from '@/utils/toast';
 import { Document } from 'react-pdf';
 import { pdfjs } from 'react-pdf';
+import { PDFDocumentProxy } from 'pdfjs-dist/types/src/display/api';
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   'pdfjs-dist/build/pdf.worker.min.js',
@@ -15,18 +16,68 @@ export type FileComponentProps = {
   pageNumber: string;
   setFile: React.Dispatch<React.SetStateAction<FileWithPath | undefined>>;
   setPageNumber: React.Dispatch<React.SetStateAction<string>>;
+  setPdfText: React.Dispatch<React.SetStateAction<string>>
 };
 
 const FileComponent: React.FunctionComponent<FileComponentProps> = (props) => {
-  const { file, pageNumber, setFile, setPageNumber } = props;
+  const { file, pageNumber, setFile, setPageNumber, setPdfText } = props;
   const [numPages, setNumPages] = useState<number>();
-  function onDocumentLoadSuccess({ numPages }: { numPages: number }): void {
+
+  const extractTextFromPDF = async (pdf: PDFDocumentProxy) => {
+    let text = '';
+
+    try {
+      const page = await pdf.getPage(Number(pageNumber)  ? Number(pageNumber) : 1);
+      const pageText = await page.getTextContent();
+      const words = pageText.items
+        .map((item) => {
+          if('str' in item) {
+            return item.str
+          }
+          return '';
+        }).join(' ')
+
+        text += words
+
+      } catch (error) {
+        console.error(error);
+      }
+      return text;
+  };
+
+  function onDocumentLoadSuccess({
+    numPages,
+  }: {
+    numPages: number;
+  }): void {
     setNumPages(numPages);
   }
 
-  const handleChange = (event: any) => {
+  const handleChange = async (event: any) => {
     setPageNumber(event.target.value);
+     const reader = new FileReader();
+    reader.onload = async (e) => {
+      const arrayBuffer = await file?.arrayBuffer();
+      const pdfData = new Uint8Array(arrayBuffer!);
+      try {
+        const pdf = await pdfjs.getDocument({ data: pdfData }).promise;
+        const text = await extractTextFromPDF(pdf);
+        setPdfText(text);
+      } catch (error) {
+        console.error('Error reading PDF:', error);
+      }
+    };
+    const fileBuffer = await file?.arrayBuffer();
+    if (!fileBuffer) {
+      errorToast(
+        `Can't read contents of ${file?.name}. Please try uploading the file again.`
+      );
+    }
+    reader.readAsArrayBuffer(new Blob([fileBuffer!]));
+
   };
+
+
   const onDrop = useCallback(
     (acceptedFiles: FileWithPath[], unacceptedFile: FileRejection[]) => {
       if (unacceptedFile.length > 0) {
