@@ -30,7 +30,7 @@ const Login = () => {
 
   const handleSignIn = async (event: React.SyntheticEvent) => {
     event.preventDefault();
-    signIn('google');
+    signIn('google', { callbackUrl: '/ai' });
   };
 
   const handleClose = (event: Event | React.SyntheticEvent) => {
@@ -45,7 +45,7 @@ const Login = () => {
 
   const handleSignOut = async (event: React.SyntheticEvent) => {
     event.preventDefault();
-    signOut();
+    signOut({ callbackUrl: '/' });
   };
 
   const handleListKeyDown = (event: React.KeyboardEvent) => {
