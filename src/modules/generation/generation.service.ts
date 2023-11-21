@@ -1,54 +1,80 @@
 import cache, { createCompoundKey } from '@/lib/cache';
-import { child, get, update } from "firebase/database";
-import authService from "../auth/auth.service";
-import BaseService from "../base.service";
+import { child, get, update } from 'firebase/database';
+import authService from '../auth/auth.service';
+import BaseService from '../base.service';
 import { QNAIGenerationModel } from '../qnai/qnai.model';
-import qnaiService from "../qnai/qnai.service";
-import { GenerationModel } from "./generation.model";
-
+import qnaiService from '../qnai/qnai.service';
+import { GenerationModel } from './generation.model';
+import userService from '../user/user.service';
 
 class GenerationService extends BaseService {
-
   constructor() {
-    super()
+    super();
   }
 
-  createQNAGeneration = async (email: string, sourceText: string, numberOfQuestions: number) => {
+  createQNAGeneration = async (
+    email: string,
+    sourceText: string,
+    numberOfQuestions: number
+  ) => {
+    const user = await userService.getUserByEmail(email);
+    if (!user) {
+      console.error(
+        `Failed to fetch user with hash ${authService.getUserId(
+          email
+        )} from user database.`
+      );
+      throw new Error(`Failed to fetch user from user database.`);
+    }
+    console.log(user, 'ssksksk');
+    const today = Date.now();
+
+    if (today > user.generation.lastGenerationTime) {
+    }
     const qnai = await qnaiService.getQuestionsFromText(
       sourceText,
       numberOfQuestions
     );
 
-    const generationId = this.getGenerationId()
-    const generatedAt = Date.now()
+    const generationId = this.getGenerationId();
+    const generatedAt = Date.now();
 
-    await this.saveGeneratedQuestionToCache(generationId, qnai)
-    const generation = await this.saveGenerationToDb(email, generatedAt, generationId)
+    await this.saveGeneratedQuestionToCache(generationId, qnai);
+    const generation = await this.saveGenerationToDb(
+      email,
+      generatedAt,
+      generationId
+    );
 
     return {
       qnai,
-      generation
-    }
-  }
+      generation,
+    };
+  };
 
-  private saveGenerationToDb = async (email: string, generatedAt: number, generationId: string) => {
-    const userId = authService.getUserId(email)
-    
+  private saveGenerationToDb = async (
+    email: string,
+    generatedAt: number,
+    generationId: string
+  ) => {
+    const userId = authService.getUserId(email);
+    const a = await userService.getUserByEmail(email);
+
     const generation: GenerationModel = {
       generationId,
       generatedAt,
       userId,
-    }
+    };
 
-    const updates: Record<string, GenerationModel> = {}
-    
-    updates[`/generations/${userId}/${generationId}`] = generation
-    updates[`/users/${userId}/lastGeneration`] = generation
-    
+    const updates: Record<string, GenerationModel> = {};
+
+    updates[`/generations/${userId}/${generationId}`] = generation;
+    updates[`/users/${userId}/lastGeneration`] = generation;
+
     return update(this.dbRef, updates)
       .then(() => generation)
-      .catch((error) => console.error(error))
-  }
+      .catch((error) => console.error(error));
+  };
 
   private saveGeneratedQuestionToCache = async (
     generationId: string,
@@ -74,25 +100,33 @@ class GenerationService extends BaseService {
 
   getCachedGeneratedQuestion = async (generationId: string) => {
     const compoundKey = createCompoundKey('QUESTION_GENERATION', generationId);
-    const generation =  await cache.call('JSON.GET', compoundKey, '$')
+    const generation = await cache
+      .call('JSON.GET', compoundKey, '$')
       .then((response) => {
         if (!response) {
-          return null
+          return null;
         }
-        const qnaiModel = JSON.parse(response as string) as QNAIGenerationModel[];
+        const qnaiModel = JSON.parse(
+          response as string
+        ) as QNAIGenerationModel[];
         return qnaiModel[0];
-      })
+      });
 
-    return generation
+    return generation;
   };
 
-  getUserGenerationFromDB =  async (email: string, generationId: string) => {
-    return get(child(this.dbRef, `generations/${authService.getUserId(email)}/${generationId}`))
+  getUserGenerationFromDB = async (email: string, generationId: string) => {
+    return get(
+      child(
+        this.dbRef,
+        `generations/${authService.getUserId(email)}/${generationId}`
+      )
+    )
       .then((snapshot) => {
         if (snapshot.exists()) {
-          return snapshot.val() as GenerationModel
+          return snapshot.val() as GenerationModel;
         } else {
-          return undefined
+          return undefined;
         }
       })
       .catch((error) => {
@@ -101,9 +135,9 @@ class GenerationService extends BaseService {
       });
   };
 
-  private getGenerationId = () => crypto.randomUUID()
+  private getGenerationId = () => crypto.randomUUID();
 }
 
-const generationService = new GenerationService()
+const generationService = new GenerationService();
 
-export default generationService
+export default generationService;
