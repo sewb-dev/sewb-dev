@@ -30,7 +30,6 @@ class GenerationService extends BaseService {
       );
       throw new Error(`Failed to fetch user from user database.`);
     }
-    console.log(user, 'ssksksk');
     const today = Date.now();
 
     // todo fix to use fixed generationAt and not the last as it'll always be greater than
