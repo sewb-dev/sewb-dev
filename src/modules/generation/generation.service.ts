@@ -6,6 +6,10 @@ import { QNAIGenerationModel } from '../qnai/qnai.model';
 import qnaiService from '../qnai/qnai.service';
 import { GenerationModel } from './generation.model';
 import userService from '../user/user.service';
+import {
+  MAX_DAILY_GENERATION_COUNT,
+  MAX_DAILY_WORD_COUNT,
+} from '@/utils/constants';
 
 class GenerationService extends BaseService {
   constructor() {
@@ -29,7 +33,21 @@ class GenerationService extends BaseService {
     console.log(user, 'ssksksk');
     const today = Date.now();
 
+    // todo fix to use fixed generationAt and not the last as it'll always be greater than
     if (today > user.generation.lastGenerationTime) {
+      await userService.resetGeneration(email);
+    } else {
+      if (
+        user.generation.wordCount + sourceText.length >
+        MAX_DAILY_WORD_COUNT
+      ) {
+        throw new Error(`Exceeded daily word quota for generation for today.`);
+      }
+      if (user.generation.generationCount + 1 > MAX_DAILY_GENERATION_COUNT) {
+        throw new Error(
+          `Exceeded daily generation count for generation for today.`
+        );
+      }
     }
     const qnai = await qnaiService.getQuestionsFromText(
       sourceText,
