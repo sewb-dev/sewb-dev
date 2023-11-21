@@ -33,7 +33,6 @@ export default function Home() {
           <Container className='mx-auto mb-8 mt-4 flex justify-center p-0'>
             <FeatureCard />
           </Container>
-          <WaitingListForm />
         </Container>
       </section>
     </>
