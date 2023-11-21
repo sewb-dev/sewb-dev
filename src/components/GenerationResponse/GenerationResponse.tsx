@@ -38,12 +38,6 @@ const GenerationResponse: React.FC<GenerationResponse> = (props) => {
             >
               Unlock
             </Button>
-            <Button variant='outlined' endIcon={<SendIcon />}>
-              Share
-            </Button>
-            <Button variant='contained' startIcon={<QuizIcon />}>
-              Take quiz
-            </Button>
           </Stack>
         )}
         <Stack spacing={2} direction='column'>
