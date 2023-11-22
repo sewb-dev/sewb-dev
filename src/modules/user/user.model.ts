@@ -6,5 +6,6 @@ export type UserModel = {
     lastGenerationId: string;
     generationCount: number;
     lastGenerationTime: number;
+    generationStartDate: number;
   };
 };

@@ -31,9 +31,7 @@ class GenerationService extends BaseService {
       throw new Error(`Failed to fetch user from user database.`);
     }
     const today = Date.now();
-
-    // todo fix to use fixed generationAt and not the last as it'll always be greater than
-    if (today > user.generation.lastGenerationTime) {
+    if (today > user.generation.generationStartDate) {
       await userService.resetGeneration(email);
     } else {
       if (
@@ -60,7 +58,8 @@ class GenerationService extends BaseService {
     const generation = await this.saveGenerationToDb(
       email,
       generatedAt,
-      generationId
+      generationId,
+      sourceText
     );
 
     return {
@@ -72,10 +71,11 @@ class GenerationService extends BaseService {
   private saveGenerationToDb = async (
     email: string,
     generatedAt: number,
-    generationId: string
+    generationId: string,
+    sourceText: string
   ) => {
     const userId = authService.getUserId(email);
-    const a = await userService.getUserByEmail(email);
+    const user = await userService.getUserByEmail(email);
 
     const generation: GenerationModel = {
       generationId,
@@ -83,10 +83,15 @@ class GenerationService extends BaseService {
       userId,
     };
 
-    const updates: Record<string, GenerationModel> = {};
+    const updates: Record<string, GenerationModel | any> = {};
 
     updates[`/generations/${userId}/${generationId}`] = generation;
-    updates[`/users/${userId}/lastGeneration`] = generation;
+    updates[`/users/${userId}/generation`] = {
+      lastGenerationTime: generatedAt,
+      lastGenerationId: generationId,
+      wordCount: (user?.generation.wordCount ?? 0) + sourceText.length,
+      generationCount: (user?.generation.generationCount ?? 0) + 1,
+    };
 
     return update(this.dbRef, updates)
       .then(() => generation)

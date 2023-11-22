@@ -33,7 +33,8 @@ export class UserService extends BaseService {
         wordCount: 0,
         lastGenerationId: '',
         generationCount: 0,
-        lastGenerationTime: Date.now(),
+        lastGenerationTime: 0,
+        generationStartDate: Date.now(),
       };
       await update(this.dbRef, updates);
       return true;
@@ -51,7 +52,8 @@ export class UserService extends BaseService {
         wordCount: 0,
         lastGenerationId: '',
         generationCount: 0,
-        lastGenerationTime: Date.now(),
+        lastGenerationTime: 0,
+        generationStartDate: Date.now(),
       });
     } catch (error) {
       console.error(error);
