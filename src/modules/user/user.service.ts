@@ -42,22 +42,6 @@ export class UserService extends BaseService {
       return false;
     }
   };
-
-  resetGeneration = async (email: string) => {
-    try {
-      const hash = authService.getUserId(email);
-
-      await set(ref(this.database, `users/${hash}/generation`), {
-        wordCount: 0,
-        lastGenerationId: '',
-        generationCount: 0,
-        lastGenerationTime: 0,
-        generationStartDate: Date.now(),
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
 }
 
 const userService = new UserService();
