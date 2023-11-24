@@ -10,6 +10,8 @@ import {
   MAX_DAILY_GENERATION_COUNT,
   MAX_DAILY_WORD_COUNT,
 } from '@/utils/constants';
+import { getDateObject, getDateString } from '@/utils/date';
+import { countWords } from '@/utils/words';
 
 class GenerationService extends BaseService {
   constructor() {
@@ -30,17 +32,38 @@ class GenerationService extends BaseService {
       );
       throw new Error(`Failed to fetch user from user database.`);
     }
-    const today = Date.now();
-    if (today > user.generation.generationStartDate) {
-      await userService.resetGeneration(email);
+    const today = getDateObject(getDateString(Date.now()));
+
+    let resetGeneration = false;
+
+    if (!user?.generation) {
+      await userService.addUser(email, user.fullName);
+
+    } else if (
+
+      today > getDateObject(getDateString(user.generation.lastGenerationTime))
+    ) {
+
+      resetGeneration = true;
     } else {
+      
       if (
-        user.generation.wordCount + sourceText.length >
+        user.generation.wordCount + countWords(sourceText) >
         MAX_DAILY_WORD_COUNT
       ) {
+        console.error(
+          `Generation denied. reason=MAX_DAILY_WORD_COUNT, value=${
+            user.generation.wordCount + countWords(sourceText)
+          }`
+        );
         throw new Error(`Exceeded daily word quota for generation for today.`);
       }
       if (user.generation.generationCount + 1 > MAX_DAILY_GENERATION_COUNT) {
+        console.error(
+          `Generation denied. reason=MAX_DAILY_GENERATION_COUNT, value=${
+            user.generation.generationCount + 1
+          }`
+        );
         throw new Error(
           `Exceeded daily generation count for generation for today.`
         );
@@ -59,7 +82,8 @@ class GenerationService extends BaseService {
       email,
       generatedAt,
       generationId,
-      sourceText
+      sourceText,
+      resetGeneration
     );
 
     return {
@@ -72,7 +96,8 @@ class GenerationService extends BaseService {
     email: string,
     generatedAt: number,
     generationId: string,
-    sourceText: string
+    sourceText: string,
+    resetGeneration: boolean
   ) => {
     const userId = authService.getUserId(email);
     const user = await userService.getUserByEmail(email);
@@ -89,8 +114,14 @@ class GenerationService extends BaseService {
     updates[`/users/${userId}/generation`] = {
       lastGenerationTime: generatedAt,
       lastGenerationId: generationId,
-      wordCount: (user?.generation.wordCount ?? 0) + sourceText.length,
-      generationCount: (user?.generation.generationCount ?? 0) + 1,
+      wordCount:
+        (user?.generation.wordCount && !resetGeneration
+          ? user?.generation.wordCount
+          : 0) + countWords(sourceText),
+      generationCount:
+        (user?.generation.generationCount && !resetGeneration
+          ? user?.generation.generationCount
+          : 0) + 1,
     };
 
     return update(this.dbRef, updates)

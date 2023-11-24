@@ -26,17 +26,16 @@ export class UserService extends BaseService {
   addUser = async (email: string, fullName: string) => {
     try {
       const hash = authService.getUserId(email);
-
-      const updates: Record<string, any> = {};
-      updates[`/users/${hash}`] = { email, fullName };
-      updates[`/users/${hash}/generation`] = {
-        wordCount: 0,
-        lastGenerationId: '',
-        generationCount: 0,
-        lastGenerationTime: 0,
-        generationStartDate: Date.now(),
-      };
-      await update(this.dbRef, updates);
+      await set(ref(this.database, `users/${hash}`), {
+        email,
+        fullName,
+        generation: {
+          wordCount: 0,
+          lastGenerationId: '',
+          generationCount: 0,
+          lastGenerationTime: Date.now(),
+        },
+      });
       return true;
     } catch (error) {
       console.error(error);
