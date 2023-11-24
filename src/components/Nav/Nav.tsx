@@ -1,8 +1,8 @@
 'use client';
-
 import Image from 'next/image';
 import Login from '../Login';
-import { SHOW_FEATURE } from '@/utils/constants';
+import envVariables from '@/lib/env';
+
 const Nav = () => {
   return (
     <nav className='flex h-16 w-full items-center justify-between gap-2  border-b border-b-slate-600 bg-black px-6 md:h-20'>
@@ -15,7 +15,7 @@ const Nav = () => {
         alt='logo'
         priority={true}
       />
-      {SHOW_FEATURE && <Login />}
+      {envVariables.getEnv('SHOW_FEATURE') === 'true' && <Login />}
     </nav>
   );
 };

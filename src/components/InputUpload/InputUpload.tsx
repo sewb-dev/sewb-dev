@@ -1,5 +1,4 @@
 'use client';
-import { MAX_TEXT_INPUT_LENGTH } from '@/utils/constants';
 import {
   Box,
   Button,
@@ -13,7 +12,7 @@ import { FileWithPath } from 'react-dropzone';
 import FileComponent from './FileComponent';
 import TextInputComponent from './TextInputComponent';
 import { errorToast } from '@/utils/toast';
-
+import envVariables from '@/lib/env';
 
 export type UploadMode = 'textbox' | 'file';
 
@@ -42,8 +41,8 @@ const InputUpload: React.FC<InputUpload> = (props) => {
   let isGenerateButtonDisabled = true;
   if (uploadMode === 'textbox') {
     isGenerateButtonDisabled =
-      textareaInput.length < MAX_TEXT_INPUT_LENGTH / 2 ||
-      textareaInput.length > MAX_TEXT_INPUT_LENGTH;
+      textareaInput.length < Number(envVariables.getEnv('MAX_TEXT_INPUT_LENGTH')) / 2 ||
+      textareaInput.length > Number(envVariables.getEnv('MAX_TEXT_INPUT_LENGTH'));
   } else if (file) {
     isGenerateButtonDisabled = pageNumber.length === 0;
   }
@@ -58,7 +57,7 @@ const InputUpload: React.FC<InputUpload> = (props) => {
 
 
 
-  if(pdfText.length > MAX_TEXT_INPUT_LENGTH) {
+  if(pdfText.length > Number(envVariables.getEnv('MAX_TEXT_INPUT_LENGTH'))) {
     errorToast(`Content in selected pdf page exceeds the maximum character limit per generation.`,{
       autoClose: 2000
     })

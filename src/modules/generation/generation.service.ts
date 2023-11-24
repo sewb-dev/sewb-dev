@@ -6,12 +6,9 @@ import { QNAIGenerationModel } from '../qnai/qnai.model';
 import qnaiService from '../qnai/qnai.service';
 import { GenerationModel } from './generation.model';
 import userService from '../user/user.service';
-import {
-  MAX_DAILY_GENERATION_COUNT,
-  MAX_DAILY_WORD_COUNT,
-} from '@/utils/constants';
 import { getDateObject, getDateString } from '@/utils/date';
 import { countWords } from '@/utils/words';
+import envVariables from '@/lib/env';
 
 class GenerationService extends BaseService {
   constructor() {
@@ -38,29 +35,28 @@ class GenerationService extends BaseService {
 
     if (!user?.generation) {
       await userService.addUser(email, user.fullName);
-
     } else if (
-
       today > getDateObject(getDateString(user.generation.lastGenerationTime))
     ) {
-
       resetGeneration = true;
     } else {
-      
       if (
         user.generation.wordCount + countWords(sourceText) >
-        MAX_DAILY_WORD_COUNT
+        Number(envVariables.getEnv('DAILY_WORD_LIMIT'))
       ) {
         console.error(
-          `Generation denied. reason=MAX_DAILY_WORD_COUNT, value=${
+          `Generation denied. reason=DAILY_WORD_LIMIT, value=${
             user.generation.wordCount + countWords(sourceText)
           }`
         );
         throw new Error(`Exceeded daily word quota for generation for today.`);
       }
-      if (user.generation.generationCount + 1 > MAX_DAILY_GENERATION_COUNT) {
+      if (
+        user.generation.generationCount + 1 >
+        Number(envVariables.getEnv('DAILY_GENERATION_LIMIT'))
+      ) {
         console.error(
-          `Generation denied. reason=MAX_DAILY_GENERATION_COUNT, value=${
+          `Generation denied. reason=DAILY_GENERATION_LIMIT, value=${
             user.generation.generationCount + 1
           }`
         );
