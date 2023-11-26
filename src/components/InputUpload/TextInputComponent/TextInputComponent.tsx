@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, TextField } from '@mui/material';
-import { MAX_TEXT_INPUT_LENGTH } from '@/utils/constants';
+import envVariables from '@/lib/env';
 
 export type TextInputComponentProps = {
   textareaInput: string;
@@ -26,7 +26,7 @@ const TextInputComponent: React.FunctionComponent<TextInputComponentProps> = (
         label={
           textareaInput.length === 0
             ? 'Minimum of 1000 characters.'
-            : `${textareaInput.length} / ${MAX_TEXT_INPUT_LENGTH}`
+            : `${textareaInput.length} / ${Number(envVariables.getEnv('MAX_TEXT_INPUT_LENGTH'))}`
         }
         multiline
         className='!w-full'
@@ -34,7 +34,7 @@ const TextInputComponent: React.FunctionComponent<TextInputComponentProps> = (
         value={textareaInput}
         onChange={(e) => setTextareaInput(e.target.value)}
         fullWidth
-        error={textareaInput.length > MAX_TEXT_INPUT_LENGTH}
+        error={textareaInput.length > Number(envVariables.getEnv('MAX_TEXT_INPUT_LENGTH'))}
       />
     </Box>
   );
