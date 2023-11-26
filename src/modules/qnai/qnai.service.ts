@@ -2,6 +2,7 @@ import { mockQNAIResponse } from '@/utils/ai/mockResponse';
 import OpenAI from 'openai';
 import { QNAI, QNAIGenerationModel, QNAIOpenaiResponse } from './qnai.model';
 import envVariables from '@/lib/env';
+import { Stream } from 'openai/streaming.mjs';
 
 class QNAIService {
   private openai: OpenAI;
@@ -26,7 +27,7 @@ class QNAIService {
     4. Answer. Call this property 'answers'. Its value should be the correct answer to the question. The value should be the zero-based index of the correct answer in the list of 'options'.
     5. Context. Call this property 'context'. Its value should be the specific portion of the text that contains the answer to the question. It must read word for word from the text.
     
-    It is important that you add these five properties to each of the question objects. It is equally important that 70% of the questions are of type 'multipleChoice', and '30%' are of type 'trueOrFalse'. Also, ensure that the questions and answers are relevant to the text, and that the answer is correct. Return a JSON object that has one key named questions and the value is a list of question objects with the five previously named properties. Wrap the JSON response with ${this.jsonResponseStartingMarker} at the beginning and ${this.jsonResponseEndingMarker} at the end. Here is the relevant text:
+    It is important that you add these five properties to each of the question objects. It is equally important that 70% of the questions are of type 'multipleChoice', and '30%' are of type 'trueOrFalse'. Also, ensure that the questions and answers are relevant to the text, and that the answer is correct. Return a JSON object that has one key named questions and the value is a list of question objects with the five previously named properties. Here is the relevant text:
     
     '''
     ${sourceText}
@@ -38,19 +39,8 @@ class QNAIService {
         const qnaiGenerationModel = new QNAIGenerationModel(qnaiQuestions, []);
         return qnaiGenerationModel;
       }
-      const completions = (await this.sendOpenAIRequest({
-        messages: [
-          {
-            role: 'system',
-            content: 'You are a world class Question Generator',
-          },
-          { role: 'user', content: prompt },
-        ],
-        model: 'gpt-3.5-turbo',
-      })) as OpenAI.Chat.Completions.ChatCompletion;
-
-      const qnaiGenerationModel =
-        this.parseQuestionsFromCompletions(completions);
+      const content = await this.streamOpenAIRequest(prompt);
+      const qnaiGenerationModel = this.parseQuestionsFromCompletions(content);
       return qnaiGenerationModel;
     } catch (error) {
       console.error(error);
@@ -71,21 +61,14 @@ class QNAIService {
   };
 
   private parseQuestionsFromCompletions = (
-    response: OpenAI.Chat.Completions.ChatCompletion
+    response: string
   ): QNAIGenerationModel => {
     try {
-      const jsonContent = response.choices[0].message.content;
-      if (!jsonContent) {
+      if (!response) {
         throw new Error('Response contained no content');
       }
 
-      const startIndex =
-        jsonContent.indexOf(this.jsonResponseStartingMarker) +
-        this.jsonResponseStartingMarker.length;
-      const endIndex = jsonContent.lastIndexOf(this.jsonResponseEndingMarker);
-
-      const questions = jsonContent.substring(startIndex, endIndex);
-      const jsonQuestions = JSON.parse(questions) as QNAIOpenaiResponse;
+      const jsonQuestions = JSON.parse(response) as QNAIOpenaiResponse;
 
       const qnaiGenerationModel: QNAIGenerationModel = new QNAIGenerationModel(
         jsonQuestions.questions,
@@ -97,6 +80,27 @@ class QNAIService {
       console.error(error);
       throw error;
     }
+  };
+
+  private streamOpenAIRequest = async (prompt: string) => {
+    const stream = (await this.sendOpenAIRequest({
+      messages: [
+        {
+          role: 'system',
+          content: 'You are a world class Question Generator',
+        },
+        { role: 'user', content: prompt },
+      ],
+      model: 'gpt-3.5-turbo-1106',
+      stream: true,
+      response_format: { type: 'json_object' },
+    })) as Stream<OpenAI.Chat.Completions.ChatCompletionChunk>;
+    let content = '';
+    for await (const part of stream) {
+      content += part.choices[0].delta?.content ?? '';
+    }
+
+    return content;
   };
 }
 
