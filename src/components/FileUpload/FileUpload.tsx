@@ -5,6 +5,9 @@ import { FileRejection, useDropzone } from 'react-dropzone';
 import styles from './FileUpload.module.css';
 import envVariables from '@/lib/env';
 type UploadMode = 'textbox' | 'file';
+
+const maxTextInputLength = Number(envVariables.getEnv('MAX_TEXT_INPUT_LENGTH'))
+
 const FileUpload = () => {
   const [uploadMode, setUploadMode] = useState<UploadMode>('file');
   const [textareaInput, setTextareaInput] = useState('');
@@ -47,15 +50,15 @@ const FileUpload = () => {
     setUploadMode(mode);
   };
   const textareaErrorClass =
-    textareaInput.length < Number(envVariables.getEnv('MAX_TEXT_INPUT_LENGTH')) / 2 ||
-    textareaInput.length > Number(envVariables.getEnv('MAX_TEXT_INPUT_LENGTH'))
+    textareaInput.length < maxTextInputLength / 2 ||
+    textareaInput.length > maxTextInputLength
       ? 'focus:ring-red-600 focus:border-red-600'
       : 'focus:ring-blue-100 focus:border-blue-100';
   let isGenerateButtonEnabled = false;
   if (uploadMode === 'textbox') {
     isGenerateButtonEnabled =
-      textareaInput.length >= Number(envVariables.getEnv('MAX_TEXT_INPUT_LENGTH')) / 2 &&
-      textareaInput.length <= Number(envVariables.getEnv('MAX_TEXT_INPUT_LENGTH'));
+      textareaInput.length >= maxTextInputLength / 2 &&
+      textareaInput.length <= maxTextInputLength;
   } else if (file) {
     isGenerateButtonEnabled = true;
   }
@@ -101,7 +104,7 @@ const FileUpload = () => {
               htmlFor='message'
               className='mb-2 block text-right text-sm font-medium text-gray-900 dark:text-white'
             >
-              {textareaInput.length} / {Number(envVariables.getEnv('MAX_TEXT_INPUT_LENGTH'))}
+              {textareaInput.length} / {maxTextInputLength}
             </label>
           </div>
           <textarea
