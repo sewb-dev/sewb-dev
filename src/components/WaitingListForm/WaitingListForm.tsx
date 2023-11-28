@@ -8,11 +8,11 @@ import styles from './WaitingListForm.module.css';
 const WaitingListForm = () => {
   const [fullName, setFullName] = React.useState<string>('');
   const [email, setEmail] = React.useState<string>('');
-  
-  const addUserToWaitingList = useAddUserToWaitingList()
+
+  const addUserToWaitingList = useAddUserToWaitingList();
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault()
+    event.preventDefault();
 
     addUserToWaitingList
       .mutateAsync({
@@ -22,16 +22,18 @@ const WaitingListForm = () => {
       .then(() => {
         setEmail('');
         setFullName('');
-        successToast('Successfully added you to the waiting list. See you soon.');
+        successToast(
+          'Successfully added you to the waiting list. See you soon.'
+        );
       })
       .catch((error) => {
         errorToast('Failed to add you to the waiting list. Please try again.');
         console.error(error);
-      })
+      });
   }
 
   if (addUserToWaitingList.isPending) {
-    return <Loader />
+    return <Loader />;
   }
 
   return (

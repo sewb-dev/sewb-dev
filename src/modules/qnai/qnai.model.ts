@@ -71,5 +71,5 @@ export const questionTypeToTransformedType: {
 };
 
 export type QNAIOpenaiResponse = {
-  questions: QNAI[]
-}
+  questions: QNAI[];
+};

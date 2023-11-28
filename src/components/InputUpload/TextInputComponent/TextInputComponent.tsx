@@ -26,7 +26,9 @@ const TextInputComponent: React.FunctionComponent<TextInputComponentProps> = (
         label={
           textareaInput.length === 0
             ? 'Minimum of 1000 characters.'
-            : `${textareaInput.length} / ${Number(envVariables.getEnv('MAX_TEXT_INPUT_LENGTH'))}`
+            : `${textareaInput.length} / ${Number(
+                envVariables.getEnv('MAX_TEXT_INPUT_LENGTH')
+              )}`
         }
         multiline
         className='!w-full'
@@ -34,7 +36,10 @@ const TextInputComponent: React.FunctionComponent<TextInputComponentProps> = (
         value={textareaInput}
         onChange={(e) => setTextareaInput(e.target.value)}
         fullWidth
-        error={textareaInput.length > Number(envVariables.getEnv('MAX_TEXT_INPUT_LENGTH'))}
+        error={
+          textareaInput.length >
+          Number(envVariables.getEnv('MAX_TEXT_INPUT_LENGTH'))
+        }
       />
     </Box>
   );

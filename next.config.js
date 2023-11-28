@@ -1,11 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  webpack: (config, options) => {
+  webpack: (config, { isServer }) => {
     // Important: return the modified config
     config.module.rules.push({
       test: /\bcanvas\.node\b/,
       use: 'raw-loader',
     });
+
+    if (isServer) {
+      config.resolve.alias.encoding = false;
+      config.resolve.alias.canvas = false;
+    }
+
     return config;
   },
   modularizeImports: {

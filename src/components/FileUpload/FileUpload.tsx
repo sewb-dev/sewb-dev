@@ -6,7 +6,7 @@ import styles from './FileUpload.module.css';
 import envVariables from '@/lib/env';
 type UploadMode = 'textbox' | 'file';
 
-const maxTextInputLength = Number(envVariables.getEnv('MAX_TEXT_INPUT_LENGTH'))
+const maxTextInputLength = Number(envVariables.getEnv('MAX_TEXT_INPUT_LENGTH'));
 
 const FileUpload = () => {
   const [uploadMode, setUploadMode] = useState<UploadMode>('file');

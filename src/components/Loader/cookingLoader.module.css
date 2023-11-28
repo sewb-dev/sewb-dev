@@ -1,4 +1,3 @@
-
 /* Import Google Fonts */
 @import url('https://fonts.googleapis.com/css?family=Amatic+SC');
 
@@ -9,7 +8,7 @@
   --angle: 27deg;
   --peak: 40%;
   --color-back: #ffde6b;
-  --color: #90CAF9;
+  --color: #90caf9;
   overflow: hidden;
 }
 
@@ -21,7 +20,7 @@
   text-align: center;
   font-family: 'Amatic SC';
   font-size: 6vh;
-  color: #90CAF9;
+  color: #90caf9;
   opacity: 0.75;
   animation: pulse 2.5s linear infinite;
 }
@@ -157,7 +156,7 @@
   box-shadow: 0 0 3px 0 var(--color);
   border-radius: 100%;
   transform-origin: -20% 0;
-  animation: fly 2.1s ease-in-out infinite
+  animation: fly 2.1s ease-in-out infinite;
 }
 
 @keyframes jump {
@@ -187,7 +186,8 @@
   5% {
     transform: rotate(-27deg);
   }
-  30%, 50% {
+  30%,
+  50% {
     transform: rotate(0deg);
   }
   55% {

@@ -1,5 +1,5 @@
 export type GenerationModel = {
-  generationId: string
-  generatedAt: number
-  userId: string
-}
+  generationId: string;
+  generatedAt: number;
+  userId: string;
+};
