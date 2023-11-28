@@ -20,23 +20,23 @@ const roboto = Roboto({ subsets: ['greek'], weight: '400' });
 
 const Home = () => {
   const [questions, setQuestions] = React.useState<QNAI[]>([]);
-  const createQNAIGenerationRequest = useCreateQNAIGeneration()
+  const createQNAIGenerationRequest = useCreateQNAIGeneration();
 
   const generate = async (data: GenerateRequestPayload) => {
     createQNAIGenerationRequest
       .mutateAsync(data)
       .then((response) => {
         successToast('Successfully generated questions from input.');
-        setQuestions(response.qnai.qna)
+        setQuestions(response.qnai.qna);
       })
       .catch((error) => {
         errorToast('Question generation failed. Please try again.');
         console.error(error);
-      })
+      });
   };
-  
+
   if (createQNAIGenerationRequest.isPending) {
-    return <CookingLoader />
+    return <CookingLoader />;
   }
 
   return (
