@@ -4,7 +4,7 @@ import GenerationResponse from '@/components/GenerationResponse';
 import InputUpload from '@/components/InputUpload';
 import CookingLoader from '@/components/Loader/CookingLoader';
 import WithAuth from '@/components/WithAuth';
-import { useCreateQNAIGeneration } from '@/modules/generation/generation.hooks';
+import { useCreateQNAIGeneration, useGetQNAIGenerationStatus } from '@/modules/generation/generation.hooks';
 import { QNAI } from '@/modules/qnai/qnai.model';
 import { errorToast, successToast } from '@/utils/toast';
 import Stack from '@mui/material/Stack';
@@ -20,25 +20,28 @@ const roboto = Roboto({ subsets: ['greek'], weight: '400' });
 
 const Home = () => {
   const [questions, setQuestions] = React.useState<QNAI[]>([]);
+  const [generationId, setGenerationId] = React.useState<string|undefined>()
   const createQNAIGenerationRequest = useCreateQNAIGeneration();
-
+  
   const generate = async (data: GenerateRequestPayload) => {
     createQNAIGenerationRequest
-      .mutateAsync(data)
-      .then((response) => {
-        successToast('Successfully generated questions from input.');
-        setQuestions(response.qnai.qna);
-      })
-      .catch((error) => {
-        errorToast('Question generation failed. Please try again.');
-        console.error(error);
-      });
+    .mutateAsync(data)
+    .then((response) => {
+      setGenerationId(response.generationId)
+    })
+    .catch((error) => {
+      errorToast('Question generation failed. Please try again.');
+      console.error(error);
+    });
   };
+  const getQNAIGenerationRequest = useGetQNAIGenerationStatus(String(generationId), Boolean(generationId))
 
-  if (createQNAIGenerationRequest.isPending) {
+  if (createQNAIGenerationRequest.isPending || (getQNAIGenerationRequest.status === 'pending' && Boolean(generationId))) {
     return <CookingLoader />;
   }
-
+  if(getQNAIGenerationRequest.status === 'success'){
+    setQuestions(getQNAIGenerationRequest.data.qnai.qna)
+  }
   return (
     <section className='flex h-full w-full flex-col gap-4 pt-5 md:flex-row md:justify-between'>
       <Container className='px-0 md:h-1/2 md:w-3/4'>

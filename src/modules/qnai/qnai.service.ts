@@ -3,6 +3,7 @@ import OpenAI from 'openai';
 import { QNAI, QNAIGenerationModel, QNAIOpenaiResponse } from './qnai.model';
 import envVariables from '@/lib/env';
 import { Stream } from 'openai/streaming.mjs';
+import generationService from '../generation/generation.service';
 
 class QNAIService {
   private openai: OpenAI;
@@ -102,6 +103,44 @@ class QNAIService {
     }
 
     return content;
+  };
+
+  postGeneration = async (
+    text: string,
+    numOfQuestions: number
+  ): Promise<string> => {
+    try {
+      const response = await fetch(
+        `${envVariables.getEnv('MODEL_URL')}/generations`,
+        {
+          method: 'post',
+          headers: {
+            'x-caller-token': envVariables.getEnv('MODEL_CALLER_TOKEN'),
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            text,
+            numOfQuestions,
+          }),
+        }
+      );
+
+      const { generationId } = await response.json();
+      return String(generationId);
+    } catch (error: any) {
+      console.error(error);
+      throw new Error(error);
+    }
+  };
+
+  handleLongPolling = async (content: string, generationId: string) => {
+    const generationModel = this.parseQuestionsFromCompletions(content);
+
+    await generationService.saveGeneratedQuestionToCache(
+      generationId,
+      generationModel
+    );
+    return generationModel;
   };
 }
 

@@ -65,15 +65,19 @@ class GenerationService extends BaseService {
         );
       }
     }
-    const qnai = await qnaiService.getQuestionsFromText(
+    const generationId = await qnaiService.postGeneration(
       sourceText,
       numberOfQuestions
     );
+    // const qnai = await qnaiService.getQuestionsFromText(
+    //   sourceText,
+    //   numberOfQuestions
+    // );
 
-    const generationId = this.getGenerationId();
+    // const generationId = this.getGenerationId();
     const generatedAt = Date.now();
 
-    await this.saveGeneratedQuestionToCache(generationId, qnai);
+    // await this.saveGeneratedQuestionToCache(generationId, qnai);
     const generation = await this.saveGenerationToDb(
       email,
       generatedAt,
@@ -83,8 +87,7 @@ class GenerationService extends BaseService {
     );
 
     return {
-      qnai,
-      generation,
+      generationId,
     };
   };
 
@@ -122,10 +125,12 @@ class GenerationService extends BaseService {
 
     return update(this.dbRef, updates)
       .then(() => generation)
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        throw new Error(error);
+      });
   };
 
-  private saveGeneratedQuestionToCache = async (
+  saveGeneratedQuestionToCache = async (
     generationId: string,
     generatedQuestions: QNAIGenerationModel
   ) => {
