@@ -24,8 +24,6 @@ export async function GET(
       );
     }
 
-    console.log('1');
-
     const request = await fetch(
       `${envVariables.getEnv('MODEL_URL')}/generations/${params.generationId}`,
       {
@@ -36,10 +34,8 @@ export async function GET(
         },
       }
     );
-    console.log('2');
 
     const generationStatus = (await request.json()) as GenerationStatus;
-    console.log('3');
 
     if (generationStatus.status === 'INCOMPLETE') {
       return NextResponse.json(
@@ -47,19 +43,17 @@ export async function GET(
         { status: StatusCodes.ACCEPTED }
       );
     }
-    console.log('4');
 
     const generationModel = await qnaiService.handleLongPolling(
       generationStatus.content,
       params.generationId
     );
-    console.log('5');
 
     return NextResponse.json(
       { done: true, qnai: generationModel },
       { status: StatusCodes.OK }
     );
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }

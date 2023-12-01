@@ -19,7 +19,6 @@ export const useCreateQNAIGeneration = () =>
   useMutation<GenerationQNAIDto, Error, CreateGenerationRequest>({
     mutationKey: ['createGeneration'],
     mutationFn: async (data) => {
-      console.log('1');
       const creationRequest = await requestClient.post<GenerationQNAIDto>(
         '/generations',
         data
@@ -37,6 +36,7 @@ export const useGetQNAIGenerationStatus = (
     queryKey: ['getGenerationStatus', generationId],
     queryFn: () => getStatus(generationId),
     refetchInterval: (d) => (!d || !d.state.data?.done ? 2000 : false),
+
     enabled,
   });
 };
