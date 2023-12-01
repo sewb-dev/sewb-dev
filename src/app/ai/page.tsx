@@ -14,6 +14,14 @@ import Typography from '@mui/material/Typography';
 import { Roboto } from 'next/font/google';
 import React from 'react';
 
+
+// NOTES:
+// 'isTemporaryLoading' IS NEEDED TO DISPLAY THE LOADING ICON BEFORE THE ENTIRE GENERATION PROCESS OCCURS. 
+// IT HAS NO BUSINESS WITH CREATING THE GENERATION REQUEST OR FETCHING IT
+// 'isDataFetching' IS THE BOOLEAN USED TO KNOW IF THE GENERATION REQUEST IS STILL LOADING. IT'S IMPOSSIBLE TO USE THE QUERY STATES AS THEY
+// ENTER DIFFERENT STATES THAT OUR WORKFLOW CAN'T HANDLE LIKE IDLE + SUCESS, IDLE + FETCHING ETC. AND IT'S IMPOSSIBLE TO HANDLE ALL OF THEM
+// THE TIMEOUT IS NEEDED TO ENSURE THE SERVER HAS AMPLE TIME TO CREATE GENERATION BEFORE WE REQUEST FOR IT. 
+// THE CURRENT SETUP SHOULD MAKE IT EASIER TO RETRY FETCHING GENERATED QUESTIONS THAT FAIL TO BE FETCHED BUT THAT'S A DIFFERENT TASK IN ITSELF.
 export type GenerateRequestPayload = {
   numberOfQuestions: number;
   sourceText: string;
@@ -21,7 +29,7 @@ export type GenerateRequestPayload = {
 const roboto = Roboto({ subsets: ['greek'], weight: '400' });
 
 const Home = () => {
-  const [questions, setQuestions] = React.useState<QNAI[]>([]);
+  const [questions] = React.useState<QNAI[]>([]);
   const [generationId, setGenerationId] = React.useState<string|undefined>()
   const [enabled, setEnabled] = React.useState(false)
   const [isTemporaryLoading, setIsTemporaryLoading] = React.useState(false)
