@@ -1,6 +1,7 @@
 import { GenerationModelDto, GenerationQNAIDto } from '@/dto/generation';
 import { config } from '@/lib/auth';
 import generationService from '@/modules/generation/generation.service';
+import { isEnglishWithLangDetect, isEnglishWithWordCheck } from '@/utils/checkLanguage/checkLanguage';
 import { StatusCodes } from 'http-status-codes';
 import { getServerSession } from 'next-auth/next';
 import { NextRequest, NextResponse } from 'next/server';
@@ -21,6 +22,15 @@ export async function POST(req: NextRequest) {
     if (!numberOfQuestions || isNaN(numberOfQuestions) || !sourceText) {
       return NextResponse.json(
         { error: 'Invalid request data' },
+        { status: StatusCodes.BAD_REQUEST }
+      );
+    }
+
+    const isEnglish = isEnglishWithLangDetect(sourceText) || isEnglishWithWordCheck(sourceText);
+
+    if (!isEnglish) {
+      return NextResponse.json(
+        { error: 'Only English Language is currently supported' },
         { status: StatusCodes.BAD_REQUEST }
       );
     }

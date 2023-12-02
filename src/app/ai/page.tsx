@@ -50,7 +50,6 @@ const Home = () => {
           <span className='text-orange-500'>AI. </span>
         </Typography>
         <h1 className={`${roboto.className} text-justify text-6xl`}></h1>
-
         <Stack spacing={2} direction='column' my={'20px'}>
           <Typography fontSize={'20px'}>
             Your generated questions would appear here.
