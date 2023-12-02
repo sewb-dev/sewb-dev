@@ -32,7 +32,7 @@ const TextInputComponent: React.FunctionComponent<TextInputComponentProps> = (
         }
         multiline
         className='!w-full'
-        rows={4}
+        rows={10}
         value={textareaInput}
         onChange={(e) => setTextareaInput(e.target.value)}
         fullWidth

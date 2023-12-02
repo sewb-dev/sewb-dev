@@ -7,5 +7,5 @@ export type GenerationModel = {
 export type GenerationStatus = {
   status: 'INCOMPLETE' | 'COMPLETE';
   content: string;
-  error: string;
+  error: string | null;
 };

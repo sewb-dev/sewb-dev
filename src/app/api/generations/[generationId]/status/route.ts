@@ -1,6 +1,7 @@
 import { GenerationModelDto } from '@/dto/generation';
 import { config } from '@/lib/auth';
 import envVariables from '@/lib/env';
+import requestClient from '@/lib/requestClient';
 import authService from '@/modules/auth/auth.service';
 import { GenerationStatus } from '@/modules/generation/generation.model';
 import generationService from '@/modules/generation/generation.service';
@@ -24,10 +25,9 @@ export async function GET(
       );
     }
 
-    const request = await fetch(
+    const request = await requestClient.get<GenerationStatus>(
       `${envVariables.getEnv('MODEL_URL')}/generations/${params.generationId}`,
       {
-        method: 'get',
         headers: {
           'x-caller-token': envVariables.getEnv('MODEL_CALLER_TOKEN'),
           'Content-Type': 'application/json',
@@ -35,17 +35,22 @@ export async function GET(
       }
     );
 
-    const generationStatus = (await request.json()) as GenerationStatus;
-
-    if (generationStatus.status === 'INCOMPLETE') {
+    if (request.data.status === 'INCOMPLETE') {
       return NextResponse.json(
         { done: false, qnai: new QNAIGenerationModel([], []) },
         { status: StatusCodes.ACCEPTED }
       );
     }
 
-    const generationModel = await qnaiService.handleLongPolling(
-      generationStatus.content,
+    if (request.data.error) {
+      console.error(request.data.error);
+      throw new Error(
+        'Failed to fetch your newly created questions and answers. Please try again.'
+      );
+    }
+
+    const generationModel = await generationService.handleLongPolling(
+      request.data.content,
       params.generationId
     );
 

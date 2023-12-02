@@ -19,12 +19,12 @@ export const useCreateQNAIGeneration = () =>
   useMutation<GenerationQNAIDto, Error, CreateGenerationRequest>({
     mutationKey: ['createGeneration'],
     mutationFn: async (data) => {
-      const creationRequest = await requestClient.post<GenerationQNAIDto>(
+      const response = await requestClient.post<GenerationQNAIDto>(
         '/generations',
         data
       );
 
-      return creationRequest.data;
+      return response.data;
     },
   });
 

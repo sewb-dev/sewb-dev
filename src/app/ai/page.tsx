@@ -30,11 +30,11 @@ const roboto = Roboto({ subsets: ['greek'], weight: '400' });
 
 const Home = () => {
   const [questions] = React.useState<QNAI[]>([]);
-  const [generationId, setGenerationId] = React.useState<string|undefined>()
+  const [generationId, setGenerationId] = React.useState<string>('')
   const [enabled, setEnabled] = React.useState(false)
   const [isTemporaryLoading, setIsTemporaryLoading] = React.useState(false)
   const createQNAIGenerationRequest = useCreateQNAIGeneration();
-  const getQNAIGenerationRequest = useGetQNAIGenerationStatus(String(generationId), enabled)
+  const getQNAIGenerationRequest = useGetQNAIGenerationStatus(generationId, enabled)
   
     const handleManualGeneratedQuestionFetching = async () => {
     await getQNAIGenerationRequest.refetch()
