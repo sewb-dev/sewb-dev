@@ -39,16 +39,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // const generationResponse: GenerationModelDto = {
-    //   ...generation,
-    //   generatedAt: new Date(generation.generatedAt).toISOString(),
-    // };
-
-    // const response: GenerationQNAIDto = {
-    //   qnai,
-    //   generation: generationResponse,
-    // };
-
     return NextResponse.json({ generationId }, { status: StatusCodes.CREATED });
   } catch (error) {
     console.error('Error processing the request:', error);

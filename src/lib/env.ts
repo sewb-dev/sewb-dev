@@ -50,9 +50,7 @@ class EnvironmentVariable {
       DAILY_GENERATION_LIMIT: '3',
       MAX_TEXT_INPUT_LENGTH: '2000',
       MODEL_URL:
-        process.env.NODE_ENV === 'development'
-          ? 'http://127.0.0.1:8000'
-          : 'https://qnaimodel.onrender.com',
+        process.env.MODEL_URL,
       MODEL_CALLER_TOKEN: process.env.MODEL_CALLER_TOKEN,
     };
   }

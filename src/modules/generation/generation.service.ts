@@ -70,15 +70,9 @@ class GenerationService extends BaseService {
       sourceText,
       numberOfQuestions
     );
-    // const qnai = await qnaiService.getQuestionsFromText(
-    //   sourceText,
-    //   numberOfQuestions
-    // );
 
-    // const generationId = this.getGenerationId();
     const generatedAt = Date.now();
 
-    // await this.saveGeneratedQuestionToCache(generationId, qnai);
     const generation = await this.saveGenerationToDb(
       email,
       generatedAt,
