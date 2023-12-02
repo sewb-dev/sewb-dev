@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
 
     if (!isEnglish) {
       return NextResponse.json(
-        { message: 'Only English Language texts are supported' },
+        { message: 'Only English texts are supported' },
         { status: StatusCodes.BAD_REQUEST }
       );
     }
