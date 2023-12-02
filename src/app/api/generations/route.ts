@@ -1,7 +1,7 @@
 import { GenerationModelDto, GenerationQNAIDto } from '@/dto/generation';
 import { config } from '@/lib/auth';
 import generationService from '@/modules/generation/generation.service';
-import { isEnglishWithLangDetect, isEnglishWithWordCheck } from '@/utils/checkLanguage/checkLanguage';
+import { isEnglishWithLangDetect, isEnglishWithWordCheck } from '@/utils/checkLanguage';
 import { StatusCodes } from 'http-status-codes';
 import { getServerSession } from 'next-auth/next';
 import { NextRequest, NextResponse } from 'next/server';
