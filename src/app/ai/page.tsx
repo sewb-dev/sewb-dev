@@ -30,7 +30,8 @@ const Home = () => {
         setQuestions(response.qnai.qna);
       })
       .catch((error) => {
-        errorToast('Question generation failed. Please try again.');
+        const errorMessage = error?.response?.data?.message ?? '';
+        errorToast(`Question generation failed. ${errorMessage ? `${errorMessage}. ` : ''}Please try again.`);
         console.error(error);
       });
   };
