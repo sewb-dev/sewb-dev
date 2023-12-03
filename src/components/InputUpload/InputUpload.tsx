@@ -25,6 +25,8 @@ export type InputUpload = {
   generate: (data: GenerateRequestPayload) => {};
 };
 
+const maxTextInputLength = Number(envVariables.getEnv('MAX_TEXT_INPUT_LENGTH'))
+
 const InputUpload: React.FC<InputUpload> = (props) => {
   const [uploadMode, setUploadMode] = useState<UploadMode>('file');
   const [textareaInput, setTextareaInput] = useState('');
@@ -42,9 +44,9 @@ const InputUpload: React.FC<InputUpload> = (props) => {
   if (uploadMode === 'textbox') {
     isGenerateButtonDisabled =
       textareaInput.length <
-        Number(envVariables.getEnv('MAX_TEXT_INPUT_LENGTH')) / 2 ||
+        maxTextInputLength / 2 ||
       textareaInput.length >
-        Number(envVariables.getEnv('MAX_TEXT_INPUT_LENGTH'));
+        maxTextInputLength;
   } else if (file) {
     isGenerateButtonDisabled = pageNumber.length === 0;
   }
@@ -57,7 +59,7 @@ const InputUpload: React.FC<InputUpload> = (props) => {
     }
   };
 
-  if (pdfText.length > Number(envVariables.getEnv('MAX_TEXT_INPUT_LENGTH'))) {
+  if (pdfText.length > maxTextInputLength) {
     errorToast(
       `Content in selected pdf page exceeds the maximum character limit per generation.`,
       {

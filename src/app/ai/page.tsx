@@ -1,6 +1,5 @@
 'use client';
 import Container from '@/components/Container';
-import Error from '@/components/Error';
 import GenerationResponse from '@/components/GenerationResponse';
 import InputUpload from '@/components/InputUpload';
 import CookingLoader from '@/components/Loader/CookingLoader';
@@ -11,7 +10,7 @@ import {
   useGetQNAIGenerationStatus,
 } from '@/modules/generation/generation.hooks';
 import { QNAI } from '@/modules/qnai/qnai.model';
-import { errorToast, successToast } from '@/utils/toast';
+import { errorToast } from '@/utils/toast';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { Roboto } from 'next/font/google';
@@ -58,7 +57,8 @@ const Home = () => {
       })
       .catch((error) => {
         setEnabled(false);
-        errorToast('Question generation failed. Please try again.');
+        const errorMessage = error?.response?.data?.message ?? '';
+        errorToast(`Question generation failed. ${errorMessage ? `${errorMessage}. ` : ''}Please try again.`);
         console.error(error);
       });
   };
