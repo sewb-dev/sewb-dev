@@ -12,6 +12,10 @@ export type CreateGenerationRequest = {
 };
 
 export type GenerationQNAIDto = {
+  generationId: string;
+};
+
+export type GenerationStatusQNAIDto = {
+  done: boolean;
   qnai: QNAIGenerationModel;
-  generation: GenerationModelDto;
 };

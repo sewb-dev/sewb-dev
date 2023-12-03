@@ -33,11 +33,6 @@ export async function GET(
     );
   }
 
-  //TODO: Ensure that users have access to their generations only
-  // if (authService.getUserId(email) !== generation.userId) {
-  //   return NextResponse.json({ message: "You're not authorized to access this resource" }, { status: StatusCodes.UNAUTHORIZED })
-  // }
-
   const response: GenerationModelDto = {
     ...generation,
     generatedAt: new Date(generation.generatedAt).toISOString(),

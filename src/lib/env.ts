@@ -18,7 +18,9 @@ type ENVKeys =
   | 'MOCK_GENERATION'
   | 'DAILY_WORD_LIMIT'
   | 'DAILY_GENERATION_LIMIT'
-  | 'MAX_TEXT_INPUT_LENGTH';
+  | 'MAX_TEXT_INPUT_LENGTH'
+  | 'MODEL_URL'
+  | 'MODEL_CALLER_TOKEN';
 class EnvironmentVariable {
   keys: Record<ENVKeys, string | undefined>;
 
@@ -47,6 +49,9 @@ class EnvironmentVariable {
       DAILY_WORD_LIMIT: '3000',
       DAILY_GENERATION_LIMIT: '3',
       MAX_TEXT_INPUT_LENGTH: '2000',
+      MODEL_URL:
+        process.env.MODEL_URL,
+      MODEL_CALLER_TOKEN: process.env.MODEL_CALLER_TOKEN,
     };
   }
   getEnv(key: ENVKeys, defaultValue = ''): string {
