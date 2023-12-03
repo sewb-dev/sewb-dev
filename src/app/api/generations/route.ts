@@ -26,30 +26,20 @@ export async function POST(req: NextRequest) {
     }
 
     const { email } = session.user;
-    const { qnai, generation } = await generationService.createQNAGeneration(
+    const { generationId } = await generationService.createQNAGeneration(
       email,
       sourceText,
       numberOfQuestions
     );
 
-    if (!(qnai && generation)) {
+    if (!generationId) {
       return NextResponse.json(
         { message: 'An error occured while saving the generation' },
         { status: StatusCodes.INTERNAL_SERVER_ERROR }
       );
     }
 
-    const generationResponse: GenerationModelDto = {
-      ...generation,
-      generatedAt: new Date(generation.generatedAt).toISOString(),
-    };
-
-    const response: GenerationQNAIDto = {
-      qnai,
-      generation: generationResponse,
-    };
-
-    return NextResponse.json(response, { status: StatusCodes.CREATED });
+    return NextResponse.json({ generationId }, { status: StatusCodes.CREATED });
   } catch (error) {
     console.error('Error processing the request:', error);
     return NextResponse.json(

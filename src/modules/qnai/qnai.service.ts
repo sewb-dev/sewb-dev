@@ -61,9 +61,7 @@ class QNAIService {
       });
   };
 
-  private parseQuestionsFromCompletions = (
-    response: string
-  ): QNAIGenerationModel => {
+  parseQuestionsFromCompletions = (response: string): QNAIGenerationModel => {
     try {
       if (!response) {
         throw new Error('Response contained no content');

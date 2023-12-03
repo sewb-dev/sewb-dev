@@ -3,3 +3,9 @@ export type GenerationModel = {
   generatedAt: number;
   userId: string;
 };
+
+export type GenerationStatus = {
+  status: 'INCOMPLETE' | 'COMPLETE';
+  content: string;
+  error: string | null;
+};

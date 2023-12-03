@@ -9,6 +9,7 @@ import userService from '../user/user.service';
 import { getDateObject, getDateString } from '@/utils/date';
 import { countWords } from '@/utils/words';
 import envVariables from '@/lib/env';
+import requestClient from '@/lib/requestClient';
 
 class GenerationService extends BaseService {
   constructor() {
@@ -65,15 +66,13 @@ class GenerationService extends BaseService {
         );
       }
     }
-    const qnai = await qnaiService.getQuestionsFromText(
+    const generationId = await this.postGeneration(
       sourceText,
       numberOfQuestions
     );
 
-    const generationId = this.getGenerationId();
     const generatedAt = Date.now();
 
-    await this.saveGeneratedQuestionToCache(generationId, qnai);
     const generation = await this.saveGenerationToDb(
       email,
       generatedAt,
@@ -83,8 +82,7 @@ class GenerationService extends BaseService {
     );
 
     return {
-      qnai,
-      generation,
+      generationId,
     };
   };
 
@@ -122,10 +120,12 @@ class GenerationService extends BaseService {
 
     return update(this.dbRef, updates)
       .then(() => generation)
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        throw new Error(error);
+      });
   };
 
-  private saveGeneratedQuestionToCache = async (
+  saveGeneratedQuestionToCache = async (
     generationId: string,
     generatedQuestions: QNAIGenerationModel
   ) => {
@@ -185,6 +185,41 @@ class GenerationService extends BaseService {
   };
 
   private getGenerationId = () => crypto.randomUUID();
+
+  postGeneration = async (
+    text: string,
+    numOfQuestions: number
+  ): Promise<string> => {
+    try {
+      const response = await requestClient.post(
+        `${envVariables.getEnv('MODEL_URL')}/generations`,
+        { text, numOfQuestions },
+        {
+          headers: {
+            'x-caller-token': envVariables.getEnv('MODEL_CALLER_TOKEN'),
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      const {
+        generationId,
+      }: {
+        generationId: string;
+      } = await response.data;
+      return generationId;
+    } catch (error: any) {
+      console.error(error);
+      throw new Error(error);
+    }
+  };
+
+  handleLongPolling = async (content: string, generationId: string) => {
+    const generationModel = qnaiService.parseQuestionsFromCompletions(content);
+
+    await this.saveGeneratedQuestionToCache(generationId, generationModel);
+    return generationModel;
+  };
 }
 
 const generationService = new GenerationService();
