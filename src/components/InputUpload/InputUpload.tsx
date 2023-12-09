@@ -1,5 +1,4 @@
 'use client';
-import { MAX_TEXT_INPUT_LENGTH } from '@/utils/constants';
 import {
   Box,
   Button,
@@ -13,7 +12,7 @@ import { FileWithPath } from 'react-dropzone';
 import FileComponent from './FileComponent';
 import TextInputComponent from './TextInputComponent';
 import { errorToast } from '@/utils/toast';
-
+import envVariables from '@/lib/env';
 
 export type UploadMode = 'textbox' | 'file';
 
@@ -25,6 +24,8 @@ export type GenerateRequestPayload = {
 export type InputUpload = {
   generate: (data: GenerateRequestPayload) => {};
 };
+
+const maxTextInputLength = Number(envVariables.getEnv('MAX_TEXT_INPUT_LENGTH'))
 
 const InputUpload: React.FC<InputUpload> = (props) => {
   const [uploadMode, setUploadMode] = useState<UploadMode>('file');
@@ -42,8 +43,10 @@ const InputUpload: React.FC<InputUpload> = (props) => {
   let isGenerateButtonDisabled = true;
   if (uploadMode === 'textbox') {
     isGenerateButtonDisabled =
-      textareaInput.length < MAX_TEXT_INPUT_LENGTH / 2 ||
-      textareaInput.length > MAX_TEXT_INPUT_LENGTH;
+      textareaInput.length <
+        maxTextInputLength / 2 ||
+      textareaInput.length >
+        maxTextInputLength;
   } else if (file) {
     isGenerateButtonDisabled = pageNumber.length === 0;
   }
@@ -56,23 +59,24 @@ const InputUpload: React.FC<InputUpload> = (props) => {
     }
   };
 
-
-
-  if(pdfText.length > MAX_TEXT_INPUT_LENGTH) {
-    errorToast(`Content in selected pdf page exceeds the maximum character limit per generation.`,{
-      autoClose: 2000
-    })
-    isGenerateButtonDisabled = true
+  if (pdfText.length > maxTextInputLength) {
+    errorToast(
+      `Content in selected pdf page exceeds the maximum character limit per generation.`,
+      {
+        autoClose: 2000,
+      }
+    );
+    isGenerateButtonDisabled = true;
   }
 
   let sourceText = textareaInput;
-  if(uploadMode === 'file'){
-    sourceText = pdfText
-  }else{
-    sourceText = textareaInput
+  if (uploadMode === 'file') {
+    sourceText = pdfText;
+  } else {
+    sourceText = textareaInput;
   }
 
-    let maxQuestion = 10;
+  let maxQuestion = 10;
   if (sourceText.length >= 1500 && sourceText.length < 1600) {
     maxQuestion = 15;
   }
@@ -97,7 +101,7 @@ const InputUpload: React.FC<InputUpload> = (props) => {
             pageNumber={pageNumber}
             setFile={setFile}
             setPageNumber={setPageNumber}
-            setPdfText = {setPdfText}
+            setPdfText={setPdfText}
           />
         ) : (
           <TextInputComponent

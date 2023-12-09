@@ -16,7 +16,7 @@ export type FileComponentProps = {
   pageNumber: string;
   setFile: React.Dispatch<React.SetStateAction<FileWithPath | undefined>>;
   setPageNumber: React.Dispatch<React.SetStateAction<string>>;
-  setPdfText: React.Dispatch<React.SetStateAction<string>>
+  setPdfText: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const FileComponent: React.FunctionComponent<FileComponentProps> = (props) => {
@@ -27,35 +27,33 @@ const FileComponent: React.FunctionComponent<FileComponentProps> = (props) => {
     let text = '';
 
     try {
-      const page = await pdf.getPage(Number(pageNumber)  ? Number(pageNumber) : 1);
+      const page = await pdf.getPage(
+        Number(pageNumber) ? Number(pageNumber) : 1
+      );
       const pageText = await page.getTextContent();
       const words = pageText.items
         .map((item) => {
-          if('str' in item) {
-            return item.str
+          if ('str' in item) {
+            return item.str;
           }
           return '';
-        }).join(' ')
+        })
+        .join(' ');
 
-        text += words
-
-      } catch (error) {
-        console.error(error);
-      }
-      return text;
+      text += words;
+    } catch (error) {
+      console.error(error);
+    }
+    return text;
   };
 
-  function onDocumentLoadSuccess({
-    numPages,
-  }: {
-    numPages: number;
-  }): void {
+  function onDocumentLoadSuccess({ numPages }: { numPages: number }): void {
     setNumPages(numPages);
   }
 
   const handleChange = async (event: any) => {
     setPageNumber(event.target.value);
-     const reader = new FileReader();
+    const reader = new FileReader();
     reader.onload = async (e) => {
       const arrayBuffer = await file?.arrayBuffer();
       const pdfData = new Uint8Array(arrayBuffer!);
@@ -74,9 +72,7 @@ const FileComponent: React.FunctionComponent<FileComponentProps> = (props) => {
       );
     }
     reader.readAsArrayBuffer(new Blob([fileBuffer!]));
-
   };
-
 
   const onDrop = useCallback(
     (acceptedFiles: FileWithPath[], unacceptedFile: FileRejection[]) => {

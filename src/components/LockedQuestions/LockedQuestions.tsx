@@ -53,7 +53,7 @@ const LockedQuestions: React.FunctionComponent<LockedQuestionsProps> = (
   props
 ) => {
   const { isLocked, question, answers, options } = props;
-  const answerStrings = getAnswerFromOptions(options, answers)
+  const answerStrings = getAnswerFromOptions(options, answers);
   return (
     <Accordion disabled={isLocked}>
       <AccordionSummary

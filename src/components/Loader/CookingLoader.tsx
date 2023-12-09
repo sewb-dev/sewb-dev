@@ -4,7 +4,7 @@ const CookingLoader = () => {
   return (
     <div className={styles.cookingContainer}>
       <h1 className={styles.title}>Cooking in progress..</h1>
-      <div id="cooking" className={styles.cooking}>
+      <div id='cooking' className={styles.cooking}>
         {[...Array(5)].map((_, index) => (
           <div key={index} className={styles.bubble}></div>
         ))}
