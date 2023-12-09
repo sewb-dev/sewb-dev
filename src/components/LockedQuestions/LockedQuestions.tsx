@@ -13,6 +13,7 @@ type LockedQuestionsProps = {
   answers: string[] | number[] | number;
 };
 
+<<<<<<< Updated upstream
 const getAnswerFromOptions = (options: string[], answers: string[] | number | number[]) => {
   if(typeof answers === 'number') {
     return options[answers] ?? ''
@@ -32,6 +33,43 @@ const getAnswerFromOptions = (options: string[], answers: string[] | number | nu
 
   return ''
 }
+=======
+const getAnswerFromOptions = (
+  options: string[],
+  answers: string[] | number | number[]
+) => {
+
+  console.info(answers, options)
+  if (typeof answers === 'number') {
+    console.info('1')
+    console.info(options[answers])
+    return options[answers] ?? '';
+  }
+
+  if (!Array.isArray(answers)) {
+    console.info('2')
+
+    return '';
+  }
+
+  if (typeof answers[0] === 'number') {
+    console.info('3')
+
+    return answers.map((index) => options[Number(index)] ?? '');
+  }
+
+  if (typeof answers[0] === 'string') {
+    console.info('4')
+
+    return answers as string[];
+  }
+
+    console.info('5')
+
+
+  return '';
+};
+>>>>>>> Stashed changes
 
 const LockedQuestions: React.FunctionComponent<LockedQuestionsProps> = (
   props
