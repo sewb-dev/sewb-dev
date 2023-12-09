@@ -13,27 +13,6 @@ type LockedQuestionsProps = {
   answers: string[] | number[] | number;
 };
 
-<<<<<<< Updated upstream
-const getAnswerFromOptions = (options: string[], answers: string[] | number | number[]) => {
-  if(typeof answers === 'number') {
-    return options[answers] ?? ''
-  }
-
-  if (!Array.isArray(answers)) {
-    return ''
-  }
-
-  if (typeof(answers[0]) === 'number') {
-      return answers.map(index => options[Number(index)] ?? '')
-    }
-  
-  if (typeof(answers[0]) === 'string') {
-    return answers as string[]
-  }
-
-  return ''
-}
-=======
 const getAnswerFromOptions = (
   options: string[],
   answers: string[] | number | number[]
@@ -69,7 +48,6 @@ const getAnswerFromOptions = (
 
   return '';
 };
->>>>>>> Stashed changes
 
 const LockedQuestions: React.FunctionComponent<LockedQuestionsProps> = (
   props
