@@ -12,20 +12,20 @@ type QuestionType = (typeof QuestionType)[keyof typeof QuestionType];
 export class QNAI {
   readonly id: number;
   readonly question: string;
-  readonly answers: string[] | number | number[];
+  readonly answer: string[] | number | number[];
   readonly type: QuestionType;
   readonly options: string[];
 
   constructor(
     id: number,
     question: string,
-    answers: string[] | number | number[],
+    answer: string[] | number | number[],
     type: QuestionType,
     options: string[]
   ) {
     this.id = id;
     this.question = question;
-    this.answers = answers;
+    this.answer = answer;
     this.type = type;
     this.options = options;
   }
@@ -37,11 +37,11 @@ type QNAITestAnswer = {
 };
 class QNAITest {
   readonly submittedAt: Date;
-  readonly answers: QNAITestAnswer[];
+  readonly answer: QNAITestAnswer[];
 
-  constructor(submittedAt: Date, answers: QNAITestAnswer[]) {
+  constructor(submittedAt: Date, answer: QNAITestAnswer[]) {
     this.submittedAt = submittedAt;
-    this.answers = answers;
+    this.answer = answer;
   }
 }
 
