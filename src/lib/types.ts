@@ -9,7 +9,7 @@ type QuestionType =
 interface QNAI {
   id: number;
   question: string;
-  answers: string[];
+  answer: string[];
   type: QuestionType;
   options: string[];
 }
@@ -22,7 +22,7 @@ interface QNAITestAnswer {
 
 interface QNAITest {
   submittedAt: Date;
-  answers: QNAITestAnswer[];
+  answer: QNAITestAnswer[];
 }
 
 export interface QNAIGenerationModel {

@@ -42,13 +42,13 @@ const GenerationResponse: React.FC<GenerationResponse> = (props) => {
         )}
         <Stack spacing={2} direction='column'>
           {questions.length > 0 &&
-            questions.map((data) => (
+            questions.map(({ question, options, answer }) => (
               <LockedQuestions
-                key={data.question}
+                key={question}
                 isLocked={isLocked}
-                question={data.question}
-                options={data.options}
-                answers={data.answers}
+                question={question}
+                options={options}
+                answer={answer}
               />
             ))}
         </Stack>
