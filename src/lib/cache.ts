@@ -6,6 +6,7 @@ const cache = new Redis({
   host: envVariables.getEnv('REDIS_HOST'),
   password: envVariables.getEnv('REDIS_PASSWORD'),
   username: envVariables.getEnv('REDIS_USERNAME'),
+  db: envVariables.getEnv('NODE_ENV') === 'production' ? 0 : 1,
 });
 
 cache.on('error', (error) => {

@@ -7,7 +7,7 @@ export const QuestionType = {
   SHORT_ANSWER: 'shortAnswer',
 } as const;
 
-type QuestionType = (typeof QuestionType)[keyof typeof QuestionType];
+export type QuestionType = (typeof QuestionType)[keyof typeof QuestionType];
 
 export class QNAI {
   readonly id: number;
