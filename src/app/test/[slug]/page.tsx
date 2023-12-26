@@ -40,11 +40,10 @@ const TestPage =  ({ params }: { params: { slug: string } }) => {
       <CssBaseline />
       <Container maxWidth='md'>
         <Box
-          sx={{ bgcolor: 'red' }}
           className='mx-auto flex w-full flex-1 flex-col items-center'
         >
-          <Stack spacing={2} direction='column'>
-            <Typography fontSize={'40px'} color='black' className='text-center'>
+          <Stack spacing={2} direction='column' className='mx-auto'>
+            <Typography fontSize={'40px'} color='white' >
               Test your knowledge!
             </Typography>
           </Stack>

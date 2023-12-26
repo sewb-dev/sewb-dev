@@ -6,20 +6,22 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import { QNAI } from '@/lib/types';
+import { QNAI, QNAITestAnswer } from '@/lib/types';
 import { getAnswerFromOptions } from '@/utils/tests';
 
 type SingleAnswerProps = {
   qnai: QNAI;
   answerHandler: (index: number, answer: string) => void;
+  submitted?: boolean;
+  answers?: QNAITestAnswer 
 };
 const SingleAnswer: React.FunctionComponent<SingleAnswerProps> = (props) => {
-  const { qnai, answerHandler } = props;
+  const { qnai, answerHandler, submitted, answers } = props;
   const answerFromOptions = getAnswerFromOptions(qnai.options, qnai.answer)[0];
 
   return (
       <FormControl>
-        <FormLabel id='qnai-generated-question-test-label'>
+        <FormLabel id='qnai-generated-question-test-label' className='!font-extrabold'>
           {qnai.id}: {qnai.question}
         </FormLabel>
         <RadioGroup
@@ -30,9 +32,10 @@ const SingleAnswer: React.FunctionComponent<SingleAnswerProps> = (props) => {
           {qnai.options.map((option) => (
             <FormControlLabel
               key={option}
-              value={option}
+              value={submitted && answers ? answers.answer : option}
               control={<Radio />}
-              label={option}
+              label={submitted && answers ? answers.answer : option}
+              disabled={submitted}
               onChange={(e) => answerHandler(qnai.id, option)}
             />
           ))}

@@ -33,13 +33,18 @@ export class QNAI {
 type QNAITestAnswer = {
   qnaiId: number;
   answer: string;
-  testId: UUID;
 };
-class QNAITest {
-  readonly submittedAt: Date;
+export class QNAITest {
+  readonly submittedAt: number;
+  readonly startedAt: number;
   readonly answer: QNAITestAnswer[];
 
-  constructor(submittedAt: Date, answer: QNAITestAnswer[]) {
+  constructor(
+    startedAt: number,
+    submittedAt: number,
+    answer: QNAITestAnswer[]
+  ) {
+    this.startedAt = startedAt;
     this.submittedAt = submittedAt;
     this.answer = answer;
   }

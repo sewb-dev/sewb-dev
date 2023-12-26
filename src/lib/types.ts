@@ -9,14 +9,14 @@ export interface QNAI {
   options: string[];
 }
 
-interface QNAITestAnswer {
+export interface QNAITestAnswer {
   qnaiId: number;
   answer: string;
-  testId: UUID;
 }
 
 interface QNAITest {
-  submittedAt: Date;
+  submittedAt: number;
+  startedAt: number;
   answer: QNAITestAnswer[];
 }
 

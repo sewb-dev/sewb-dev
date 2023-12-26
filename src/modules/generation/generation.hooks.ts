@@ -20,7 +20,7 @@ export const useCreateQNAIGeneration = () =>
     mutationKey: ['createGeneration'],
     mutationFn: async (data) => {
       const response = await requestClient.post<GenerationQNAIDto>(
-        '/generations',
+        'generations',
         data
       );
 
@@ -54,3 +54,13 @@ export const useGetQNAIGenerationById = (generationId: string) => {
     queryFn: () => getQNAIGenerationById(generationId),
   });
 };
+
+export const useSubmitTest = (generationId: string) =>
+  useMutation({
+    mutationKey: ['createGeneration'],
+    mutationFn: async (data) => {
+      const response = await requestClient.post('/generations', data);
+
+      return response.data;
+    },
+  });
