@@ -40,3 +40,17 @@ export const useGetQNAIGenerationStatus = (
     enabled,
   });
 };
+
+export const getQNAIGenerationById = async (generationId: string) => {
+  const res = await requestClient.get<QNAIGenerationModel>(
+    `generations/${generationId}`
+  );
+
+  return res.data;
+};
+export const useGetQNAIGenerationById = (generationId: string) => {
+  return useQuery({
+    queryKey: ['getQNAIGenerationById', generationId],
+    queryFn: () => getQNAIGenerationById(generationId),
+  });
+};
