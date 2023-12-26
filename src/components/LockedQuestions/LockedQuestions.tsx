@@ -10,27 +10,28 @@ type LockedQuestionsProps = {
   isLocked: boolean;
   question: string;
   options: string[];
-  answers: string[] | number[] | number;
+  answer: string[] | number[] | number;
 };
 
 const getAnswerFromOptions = (
   options: string[],
-  answers: string[] | number | number[]
+  answer: string[] | number | number[]
 ) => {
-  if (typeof answers === 'number') {
-    return options[answers] ?? '';
+
+  if (typeof answer === 'number') {
+    return options[answer] ?? '';
   }
 
-  if (!Array.isArray(answers)) {
+  if (!Array.isArray(answer)) {
     return '';
   }
 
-  if (typeof answers[0] === 'number') {
-    return answers.map((index) => options[Number(index)] ?? '');
+  if (typeof answer[0] === 'number') {
+    return answer.map((index) => options[Number(index)] ?? '');
   }
 
-  if (typeof answers[0] === 'string') {
-    return answers as string[];
+  if (typeof answer[0] === 'string') {
+    return answer as string[];
   }
 
   return '';
@@ -39,8 +40,8 @@ const getAnswerFromOptions = (
 const LockedQuestions: React.FunctionComponent<LockedQuestionsProps> = (
   props
 ) => {
-  const { isLocked, question, answers, options } = props;
-  const answerStrings = getAnswerFromOptions(options, answers);
+  const { isLocked, question, answer, options } = props;
+  const answerStrings = getAnswerFromOptions(options, answer);
   return (
     <Accordion disabled={isLocked}>
       <AccordionSummary
