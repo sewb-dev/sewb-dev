@@ -1,4 +1,4 @@
-import { QNAI, QNAITest, QNAITestAnswer } from '@/modules/qnai/qnai.model';
+import { QNAI, QNAITestAnswer } from '@/modules/qnai/qnai.model';
 
 export const getAnswerFromOptions = (
   options: string[],
