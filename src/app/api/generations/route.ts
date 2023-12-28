@@ -78,7 +78,6 @@ export async function GET(req: NextRequest) {
     );
   }
 
-
   const userGenerations = await userService.getUserGenerationIds(
     session.user.email
   );

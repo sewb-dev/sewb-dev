@@ -25,7 +25,7 @@ export type InputUpload = {
   generate: (data: GenerateRequestPayload) => {};
 };
 
-const maxTextInputLength = Number(envVariables.getEnv('MAX_TEXT_INPUT_LENGTH'))
+const maxTextInputLength = Number(envVariables.getEnv('MAX_TEXT_INPUT_LENGTH'));
 
 const InputUpload: React.FC<InputUpload> = (props) => {
   const [uploadMode, setUploadMode] = useState<UploadMode>('file');
@@ -43,10 +43,8 @@ const InputUpload: React.FC<InputUpload> = (props) => {
   let isGenerateButtonDisabled = true;
   if (uploadMode === 'textbox') {
     isGenerateButtonDisabled =
-      textareaInput.length <
-        maxTextInputLength / 2 ||
-      textareaInput.length >
-        maxTextInputLength;
+      textareaInput.length < maxTextInputLength / 2 ||
+      textareaInput.length > maxTextInputLength;
   } else if (file) {
     isGenerateButtonDisabled = pageNumber.length === 0;
   }

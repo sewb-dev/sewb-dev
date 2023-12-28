@@ -49,8 +49,7 @@ class EnvironmentVariable {
       DAILY_WORD_LIMIT: '3000',
       DAILY_GENERATION_LIMIT: '3',
       MAX_TEXT_INPUT_LENGTH: '2000',
-      MODEL_URL:
-        process.env.MODEL_URL,
+      MODEL_URL: process.env.MODEL_URL,
       MODEL_CALLER_TOKEN: process.env.MODEL_CALLER_TOKEN,
     };
   }

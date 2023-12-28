@@ -5,23 +5,23 @@ const lngDetector = new LanguageDetect();
 
 export const isEnglishWithLangDetect = (text: string) => {
   const probabilities = lngDetector.detect(text);
-  if (!probabilities.length) return false
+  if (!probabilities.length) return false;
   const [topLanguage, topScore] = probabilities[0];
   return topLanguage === 'english' && topScore > 0.3;
-}
+};
 
 export const isEnglishWithWordCheck = (text: string) => {
-  let englishWordsCount = 0
-  let totalWordsCount = 0
+  let englishWordsCount = 0;
+  let totalWordsCount = 0;
 
-  const wordsList = text.match(/\b\w+\b/g)
+  const wordsList = text.match(/\b\w+\b/g);
 
   wordsList?.forEach((word) => {
-    totalWordsCount++
+    totalWordsCount++;
     if (englishWords.has(word)) {
-      englishWordsCount++
+      englishWordsCount++;
     }
-  })
+  });
 
-  return englishWordsCount / totalWordsCount > 0.7
-}
+  return englishWordsCount / totalWordsCount > 0.7;
+};

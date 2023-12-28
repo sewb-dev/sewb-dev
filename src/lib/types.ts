@@ -1,5 +1,4 @@
 import { QuestionType } from '@/modules/qnai/qnai.model';
-import { UUID } from 'crypto';
 
 export interface QNAI {
   id: number;

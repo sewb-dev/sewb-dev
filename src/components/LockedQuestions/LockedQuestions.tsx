@@ -14,7 +14,6 @@ type LockedQuestionsProps = {
   answer: string[] | number[] | number;
 };
 
-
 const LockedQuestions: React.FunctionComponent<LockedQuestionsProps> = (
   props
 ) => {
@@ -30,11 +29,9 @@ const LockedQuestions: React.FunctionComponent<LockedQuestionsProps> = (
         <Typography>{question}</Typography>
       </AccordionSummary>
       <AccordionDetails>
-        {
-          answerStrings.map((answer, id) => (
-            <Typography key={id}>- {answer}</Typography>
-          ))
-        }
+        {answerStrings.map((answer, id) => (
+          <Typography key={id}>- {answer}</Typography>
+        ))}
       </AccordionDetails>
     </Accordion>
   );

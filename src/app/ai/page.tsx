@@ -58,7 +58,11 @@ const Home = () => {
       .catch((error) => {
         setEnabled(false);
         const errorMessage = error?.response?.data?.message ?? '';
-        errorToast(`Question generation failed. ${errorMessage ? `${errorMessage}. ` : ''}Please try again.`);
+        errorToast(
+          `Question generation failed. ${
+            errorMessage ? `${errorMessage}. ` : ''
+          }Please try again.`
+        );
         console.error(error);
       });
   };
