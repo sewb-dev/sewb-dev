@@ -4,11 +4,13 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import SingleAnswer from '@/components/Tests/SingleAnswer';
-import { QNAI, QNAITestAnswer } from '@/lib/types';
+import { QNAI, QNAITestAnswer,QNAITest } from '@/lib/types';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import { QNAIGenerationModel, QNAITest } from '@/modules/qnai/qnai.model';
-import { errorToast } from '@/utils/toast';
+import { QNAIGenerationModel } from '@/modules/qnai/qnai.model';
+import { errorToast, successToast } from '@/utils/toast';
+import { useSubmitTest } from '@/modules/generation/generation.hooks';
+import CookingLoader from '../Loader/CookingLoader';
 
 const style = {
   position: 'absolute',
@@ -25,15 +27,17 @@ const style = {
 
 type TestsProps = {
   qnaiModel: QNAIGenerationModel;
+  generationId: string;
+  submitted?: boolean;
 };
 const Tests: React.FunctionComponent<TestsProps> = (props) => {
   const [answers, SetAnswers] = React.useState<Record<number, string>>({});
-  const { qnaiModel } = props;
+  const { qnaiModel, generationId, submitted } = props;
   const [open, setOpen] = React.useState(true);
   const [testStart, setTestStart] = React.useState(Date.now())
   const handleOpen = () => setOpen(true);
-  const [submitted, setSubmitted] = React.useState(false)
 
+  const submitTestMutation = useSubmitTest(generationId)
   const handleClose = () => {
     setOpen(false)
     setTestStart(Date.now())
@@ -50,14 +54,8 @@ const Tests: React.FunctionComponent<TestsProps> = (props) => {
   const disableSubmitButton = qnaiModel.qna.length !== Object.keys(answers).length
 
   const handleTestSubmission = async () => {
-    if(disableSubmitButton){
-      errorToast('All questions must be answered before submitting.')
-      return;
-    }
-
     const testEnd = Date.now()
     const testAnswers:QNAITestAnswer[] = []
-
     for(const [key, value] of Object.entries(answers)) {
       testAnswers.push({
         answer: value,
@@ -71,7 +69,17 @@ const Tests: React.FunctionComponent<TestsProps> = (props) => {
       answer: testAnswers
     }
 
-    console.log(requestData)
+    try {
+    const response = await submitTestMutation.mutateAsync(requestData);
+      successToast(`Successfully submitted your test. Your score is '${response.score}' out of ${qnaiModel.qna.length} questions.`)
+    } catch (error) {
+      console.error(error)
+      throw new Error('Failed to submit your test, please try again. ')
+    }
+  }
+
+  if(submitTestMutation.isPending){
+    return <CookingLoader />
   }
   return (
     <form>
@@ -113,6 +121,9 @@ const Tests: React.FunctionComponent<TestsProps> = (props) => {
             key={question.id}
             qnai={question as QNAI}
             answerHandler={handleAnswerSelection}
+            submitted={submitted}
+            answers={{answer: "He created the land", qnaiId: 1
+          }}
           />
         ))}
       </Stack>

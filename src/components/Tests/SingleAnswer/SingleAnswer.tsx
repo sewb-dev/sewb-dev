@@ -18,7 +18,22 @@ type SingleAnswerProps = {
 const SingleAnswer: React.FunctionComponent<SingleAnswerProps> = (props) => {
   const { qnai, answerHandler, submitted, answers } = props;
   const answerFromOptions = getAnswerFromOptions(qnai.options, qnai.answer)[0];
+const isSubmittedQuestion = Boolean(submitted && answers);
 
+  const getOptionColor = (option: string) => {
+    if(submitted && answers) {
+      if(option === answerFromOptions) { 
+        return 'text-green-500'
+      }
+
+      if(option === answers.answer) {
+        return 'text-red-400'
+      }
+    }
+
+    return ''
+  }
+console.log(Boolean(submitted && answers))
   return (
       <FormControl>
         <FormLabel id='qnai-generated-question-test-label' className='!font-extrabold'>
@@ -32,10 +47,12 @@ const SingleAnswer: React.FunctionComponent<SingleAnswerProps> = (props) => {
           {qnai.options.map((option) => (
             <FormControlLabel
               key={option}
-              value={submitted && answers ? answers.answer : option}
-              control={<Radio />}
-              label={submitted && answers ? answers.answer : option}
-              disabled={submitted}
+              value={option}
+              control={ isSubmittedQuestion ? <Radio 
+                checked={Boolean(submitted && answers) && answers?.answer === option}
+              /> : <Radio />}
+              label={option}
+              className={`${getOptionColor(option)}`}
               onChange={(e) => answerHandler(qnai.id, option)}
             />
           ))}

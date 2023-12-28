@@ -5,7 +5,11 @@ import {
 } from '@/dto/generation';
 import requestClient from '@/lib/requestClient';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { QNAIGenerationModel } from '../qnai/qnai.model';
+import {
+  QNAIGenerationModel,
+  QNAITest as QNAITestClass,
+} from '../qnai/qnai.model';
+import { QNAITest } from '@/lib/types';
 
 const getStatus = async (generationId: string) => {
   const request = await requestClient.get<GenerationStatusQNAIDto>(
@@ -56,11 +60,19 @@ export const useGetQNAIGenerationById = (generationId: string) => {
 };
 
 export const useSubmitTest = (generationId: string) =>
-  useMutation({
-    mutationKey: ['createGeneration'],
+  useMutation<QNAITestClass, Error, QNAITest>({
+    mutationKey: ['createTestSession'],
     mutationFn: async (data) => {
-      const response = await requestClient.post('/generations', data);
+      try {
+        const response = await requestClient.post<QNAITestClass>(
+          `tests/${generationId}`,
+          data
+        );
 
-      return response.data;
+        return response.data;
+      } catch (error: any) {
+        console.error(error);
+        throw new Error(error);
+      }
     },
   });

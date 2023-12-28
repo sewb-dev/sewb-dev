@@ -14,17 +14,6 @@ import WithAuth from '@/components/WithAuth';
 import { useGetQNAIGenerationById } from '@/modules/generation/generation.hooks';
 import CookingLoader from '@/components/Loader/CookingLoader';
 
-const getGenerationById = async (generationId:string) => {
-  const res = await fetch(`${envVariables.getEnv('BASE_URL')}/api/generations/${generationId}`)
-  console.log(generationId)
-  if(!res.ok){
-
-    console.error(await res.json())
-    throw new Error("Failed to fetch generated question for tests.")
-  }
-
-  return await res.json()
-}
 const TestPage =  ({ params }: { params: { slug: string } }) => {
   const {data,isLoading, isError,error} = useGetQNAIGenerationById(params.slug)
 
@@ -47,7 +36,7 @@ const TestPage =  ({ params }: { params: { slug: string } }) => {
               Test your knowledge!
             </Typography>
           </Stack>
-          <Tests qnaiModel={data!}/>
+          <Tests qnaiModel={data!} generationId={params.slug}/>
      
         </Box>
       </Container>

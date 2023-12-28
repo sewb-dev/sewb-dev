@@ -14,7 +14,7 @@ export interface QNAITestAnswer {
   answer: string;
 }
 
-interface QNAITest {
+export interface QNAITest {
   submittedAt: number;
   startedAt: number;
   answer: QNAITestAnswer[];
