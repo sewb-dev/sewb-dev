@@ -134,7 +134,7 @@ const Tests: React.FunctionComponent<TestsProps> = (props) => {
             </Typography>
 
             <Typography id='modal-modal-description' sx={{ mt: 2 }}>
-              Start the test by clicking the 'START' button below.
+              Start the test by clicking the &apos;START&apos; button below.
             </Typography>
           </Box>
 
