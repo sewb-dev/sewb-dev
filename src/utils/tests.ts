@@ -27,9 +27,9 @@ export const getAnswerFromOptions = (
 
 export const calculateTestScore = (qnai: QNAI[], answers: QNAITestAnswer[]) => {
   let score = 0;
-  const sizeOfQuestions = qnai.length;
+  const numberOfQuestions = qnai.length;
 
-  for (let i = 0; i < sizeOfQuestions; ++i) {
+  for (let i = 0; i < numberOfQuestions; ++i) {
     if (
       getAnswerFromOptions(qnai[i].options, qnai[i].answer)[0] ===
       answers[i].answer

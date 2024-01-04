@@ -134,13 +134,13 @@ const Tests: React.FunctionComponent<TestsProps> = (props) => {
             </Typography>
 
             <Typography id='modal-modal-description' sx={{ mt: 2 }}>
-              Start the test by clicking the close button below.
+              Start the test by clicking the 'START' button below.
             </Typography>
           </Box>
 
           <Stack spacing={2} direction='row' pb={10} className='self-end'>
-            <Button variant='contained' color='salmon' onClick={handleClose}>
-              Close
+            <Button variant='contained' color='success' onClick={handleClose}>
+              Start
             </Button>
           </Stack>
         </Box>

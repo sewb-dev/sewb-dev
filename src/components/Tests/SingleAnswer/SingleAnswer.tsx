@@ -39,7 +39,7 @@ const SingleAnswer: React.FunctionComponent<SingleAnswerProps> = (props) => {
         id='qnai-generated-question-test-label'
         className='!font-extrabold'
       >
-        {qnai.id}: {qnai.question}
+        {qnai.id}, {qnai.question}
       </FormLabel>
       <RadioGroup
         aria-labelledby='qnai-generated-question-test-label'
