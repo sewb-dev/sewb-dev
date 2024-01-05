@@ -1,7 +1,6 @@
 import Container from '@/components/Container';
 import FeatureCard from '@/components/FeatureCard';
 import TextGradient from '@/components/TextGradient_A/TextGradient_A';
-import WaitingListForm from '@/components/WaitingListForm';
 import { Inter, Pacifico, Roboto } from 'next/font/google';
 import styles from './page.module.css';
 

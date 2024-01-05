@@ -3,77 +3,126 @@ import { QuestionType } from '@/modules/qnai/qnai.model';
 export const mockQNAIResponse = [
   {
     id: 1,
-    question: 'What is the subject of the dispute in the opening scene?',
-    options: ['A) Love', 'B) Hatred', 'C) A brawl', 'D) Family honor'],
     type: QuestionType.MULTIPLE_CHOICE,
-    answers: ['A brawl'],
+    question: "What did Maxwell demonstrate about photons?",
+    options: [
+      "They have charge",
+      "They are electric fields traveling through space",
+      "They have resting mass",
+      "They travel at the speed of sound"
+    ],
+    answer: 1,
+    context: "As shown by Maxwell, photons are just electric fields traveling through space."
   },
   {
     id: 2,
-    question: 'Who tries to stop the fight in the opening scene?',
-    options: ['A) Romeo', 'B) Tybalt', 'C) The Prince', 'D) Benvolio'],
     type: QuestionType.MULTIPLE_CHOICE,
-    answers: ['Benvolio'],
+    question: "What do photons have no?",
+    options: [
+      "Charge",
+      "Resting mass",
+      "Speed",
+      "Energy"
+    ],
+    answer: 0,
+    context: "Photons have no charge, no resting mass, and travel at the speed of light."
   },
   {
     id: 3,
-    question: 'True or False: Romeo is in love with a woman.',
-    options: [],
     type: QuestionType.TRUE_OR_FALSE,
-    answers: ['True'],
+    question: "Photon's contribution of wavelike characteristics to their behavior is insignificant. (True/False)",
+    options: [
+      "True",
+      "False"
+    ],
+    answer: 1,
+    context: "Since they are extremely small particles, the contribution of wavelike characteristics to the behavior of photons is significant."
   },
   {
     id: 4,
-    question: "What are Romeo's feelings toward the woman he loves?",
-    options: [],
-    type: QuestionType.SHORT_ANSWER,
-    answers: ['He is in love with her.'],
+    type: QuestionType.MULTIPLE_CHOICE,
+    question: "What is the energy stored as in a photon?",
+    options: [
+      "Magnetic field",
+      "Rest mass",
+      "Electric field",
+      "Radioactive decay"
+    ],
+    answer: 2,
+    context: "This energy is stored as an oscillating electric field."
   },
   {
     id: 5,
-    question: 'What quality does Romeo admire in the woman he loves?',
-    options: [],
-    type: QuestionType.SHORT_ANSWER,
-    answers: ['Chastity and wisdom.'],
+    type: QuestionType.MULTIPLE_CHOICE,
+    question: "What is the longest theoretical wavelength of light?",
+    options: [
+      "Size of the universe",
+      "Planck length",
+      "Visible light",
+      "Radio waves"
+    ],
+    answer: 0,
+    context: "Although they have never been observed, the longest theoretical wavelength of light is the size of the universe."
   },
   {
     id: 6,
-    question:
-      'What does Benvolio suggest to Romeo to help him forget about the woman he loves?',
-    options: [],
-    type: QuestionType.SHORT_ANSWER,
-    answers: ['To examine other beauties.'],
+    type: QuestionType.MULTIPLE_CHOICE,
+    question: "What is the speed of light in empty space?",
+    options: [
+      "3x108 m/s",
+      "2x108 m/s",
+      "2.997x108 m/s",
+      "3.5x108 m/s"
+    ],
+    answer: 2,
+    context: "Photons travel at the speed of light, 2.997x108 m/s in empty space."
   },
   {
     id: 7,
-    question:
-      'In the text, who intervenes to stop the brawl in the opening scene?',
-    options: ['A) The Prince', 'B) Tybalt', 'C) Romeo', 'D) Lord Capulet'],
-    type: QuestionType.MULTIPLE_CHOICE,
-    answers: ['The Prince'],
+    type: QuestionType.TRUE_OR_FALSE,
+    question: "Photons have mass. (True/False)",
+    options: [
+      "True",
+      "False"
+    ],
+    answer: 1,
+    context: "Even though photons have no mass, they have an observable momentum which follows the de Broglie equation."
   },
   {
     id: 8,
-    question: "Why does Romeo feel he is 'dead'?",
-    options: [],
-    type: QuestionType.SHORT_ANSWER,
-    answers: [
-      'Because the woman he loves has sworn to live chastely, and he despairs.',
+    type: QuestionType.MULTIPLE_CHOICE,
+    question: "What defines the frequency of a photon?",
+    options: [
+      "Wavelength",
+      "Electric field",
+      "Frequency",
+      "Rest mass"
     ],
+    answer: 2,
+    context: "The frequency of a photon is defined as how many wavelengths a photon propagates each second."
   },
   {
-    id: 0,
-    question: 'What does Romeo compare the beauty of the woman he loves to?',
-    options: [],
-    type: QuestionType.SHORT_ANSWER,
-    answers: ['A note that reminds him of her exceptional beauty.'],
+    id: 9,
+    type: QuestionType.MULTIPLE_CHOICE,
+    question: "What equation does the observable momentum of photons follow?",
+    options: [
+      "Maxwell's equation",
+      "Newton's equation",
+      "Planck's equation",
+      "de Broglie equation"
+    ],
+    answer: 3,
+    context: "The momentum of photons leads to interesting practical applications such as optical tweezers."
   },
   {
     id: 10,
-    question:
-      'What advice does Benvolio give to Romeo regarding the woman he loves?',
-    options: [],
-    type: QuestionType.SHORT_ANSWER,
-    answers: ['To examine other beauties.'],
-  },
+    type: QuestionType.TRUE_OR_FALSE,
+    question: "Each photon has a wavelength and a frequency. (True/False)",
+    options: [
+      "True",
+      "False"
+    ],
+    answer: 0,
+    context: "Generally speaking, photons have similar properties to electromagnetic waves. Each photon has a wavelength and a frequency."
+  }
 ];
