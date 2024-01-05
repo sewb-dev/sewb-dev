@@ -2,6 +2,10 @@ import { child, get, ref, set, update } from 'firebase/database';
 import authService from '../auth/auth.service';
 import BaseService from '../base.service';
 import { UserModel } from './user.model';
+import {
+  GenerationData,
+  GenerationModel,
+} from '../generation/generation.model';
 
 export class UserService extends BaseService {
   constructor() {
@@ -41,6 +45,34 @@ export class UserService extends BaseService {
       console.error(error);
       return false;
     }
+  };
+
+  getUserGenerationIds = async (email: string) => {
+    const generationModel: GenerationModel[] = [];
+    const snapshotValue = await get(
+      child(this.dbRef, `generations/${authService.getUserId(email)}`)
+    )
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          return snapshot.val() as GenerationData;
+        } else {
+          return undefined;
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        return undefined;
+      });
+
+    if (!snapshotValue) {
+      return generationModel;
+    }
+
+    for (const [key, value] of Object.entries(snapshotValue)) {
+      generationModel.push(value);
+    }
+
+    return generationModel;
   };
 }
 

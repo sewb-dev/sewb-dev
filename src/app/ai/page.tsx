@@ -58,7 +58,11 @@ const Home = () => {
       .catch((error) => {
         setEnabled(false);
         const errorMessage = error?.response?.data?.message ?? '';
-        errorToast(`Question generation failed. ${errorMessage ? `${errorMessage}. ` : ''}Please try again.`);
+        errorToast(
+          `Question generation failed. ${
+            errorMessage ? `${errorMessage}. ` : ''
+          }Please try again.`
+        );
         console.error(error);
       });
   };
@@ -89,7 +93,12 @@ const Home = () => {
           <Typography fontSize={'20px'}>
             Your generated questions would appear here.
           </Typography>
-          {<GenerationResponse questions={questionsToDisplay} />}
+          {
+            <GenerationResponse
+              questions={questionsToDisplay}
+              generationId={generationId}
+            />
+          }
         </Stack>
       </div>
     </section>

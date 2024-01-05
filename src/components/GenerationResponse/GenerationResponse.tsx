@@ -8,14 +8,16 @@ import Stack from '@mui/material/Stack';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import LockedQuestions from '../LockedQuestions';
+import Link from 'next/link';
 
 export type GenerationResponse = {
   questions: QNAI[];
+  generationId: string;
 };
 
 const GenerationResponse: React.FC<GenerationResponse> = (props) => {
   const [isLocked, setIsLocked] = useState(true);
-  const { questions } = props;
+  const { questions, generationId } = props;
   return (
     <Box>
       <Stack spacing={2}>
@@ -37,6 +39,9 @@ const GenerationResponse: React.FC<GenerationResponse> = (props) => {
               onClick={(e) => setIsLocked(false)}
             >
               Unlock
+            </Button>
+            <Button variant='contained' startIcon={<QuizIcon />}>
+              <Link href={`/test/${generationId}`}> Take quiz</Link>
             </Button>
           </Stack>
         )}

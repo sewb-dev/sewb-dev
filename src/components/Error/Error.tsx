@@ -1,4 +1,4 @@
-"use client"
+'use client';
 import React from 'react';
 import { Container, Typography, Button, Paper } from '@mui/material';
 import Image from 'next/image';
@@ -17,7 +17,7 @@ const ErrorPage: React.FunctionComponent<ErrorPageprops> = (props) => {
     if (props.generationId) {
       await props.fetch();
     }
-    router.push('/ai',)
+    router.push('/ai');
     return;
   };
   return (
