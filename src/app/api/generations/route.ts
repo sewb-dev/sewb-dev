@@ -1,5 +1,6 @@
 import { GenerationModelDto, GenerationQNAIDto } from '@/dto/generation';
 import { config } from '@/lib/auth';
+import { GenerateRequestPayload } from '@/lib/types';
 import {
   GenerationAPIResponse,
   GenerationModel,
@@ -25,7 +26,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { numberOfQuestions, sourceText } = await req.json();
+    const { numberOfQuestions, sourceText, generationTitle } =
+      (await req.json()) as GenerateRequestPayload;
 
     if (!numberOfQuestions || isNaN(numberOfQuestions) || !sourceText) {
       return NextResponse.json(
@@ -48,7 +50,8 @@ export async function POST(req: NextRequest) {
     const { generationId } = await generationService.createQNAGeneration(
       email,
       sourceText,
-      numberOfQuestions
+      numberOfQuestions,
+      generationTitle
     );
 
     if (!generationId) {

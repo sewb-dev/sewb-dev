@@ -53,12 +53,18 @@ export class QNAITest {
 }
 
 export class QNAIGenerationModel {
+  readonly generationTitle: string;
   readonly qna: QNAI[];
   readonly tests: QNAITest[];
 
-  constructor(qnai: QNAI[], tests: QNAITest[]) {
+  constructor(
+    qnai: QNAI[],
+    tests: QNAITest[],
+    generationTitle = 'Untitled Generation'
+  ) {
     this.qna = qnai;
     this.tests = tests;
+    this.generationTitle = generationTitle;
   }
 }
 

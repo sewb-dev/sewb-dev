@@ -51,7 +51,8 @@ export async function GET(
 
     const generationModel = await generationService.handleLongPolling(
       request.data.content,
-      params.generationId
+      params.generationId,
+      session.user.email
     );
 
     return NextResponse.json(

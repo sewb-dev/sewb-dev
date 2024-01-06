@@ -38,10 +38,11 @@ export async function POST(
     answer,
     calculateTestScore(response.qna, answer)
   );
-  const updatedGenerationModel = new QNAIGenerationModel(response.qna, [
-    ...response.tests,
-    newTest,
-  ]);
+  const updatedGenerationModel = new QNAIGenerationModel(
+    response.qna,
+    [...response.tests, newTest],
+    response.generationTitle
+  );
 
   await generationService.saveGeneratedQuestionToCache(
     params.generationId,

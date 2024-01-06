@@ -36,3 +36,9 @@ export interface TextGenerationRequest {
 }
 
 export type GenerationRequest = FileGenerationRequest | TextGenerationRequest;
+
+export type GenerateRequestPayload = {
+  numberOfQuestions: number;
+  sourceText: string;
+  generationTitle: string;
+};

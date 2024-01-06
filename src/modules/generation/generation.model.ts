@@ -4,6 +4,7 @@ export type GenerationModel = {
   generationId: string;
   generatedAt: number;
   userId: string;
+  generationTitle: string;
 };
 
 export type GenerationStatus = {

@@ -5,6 +5,7 @@ import InputUpload from '@/components/InputUpload';
 import CookingLoader from '@/components/Loader/CookingLoader';
 import WithAuth from '@/components/WithAuth';
 import { delay } from '@/lib/requestClient';
+import { GenerateRequestPayload } from '@/lib/types';
 import {
   useCreateQNAIGeneration,
   useGetQNAIGenerationStatus,
@@ -23,10 +24,7 @@ import React from 'react';
 // ENTER DIFFERENT STATES THAT OUR WORKFLOW CAN'T HANDLE LIKE IDLE + SUCESS, IDLE + FETCHING ETC. AND IT'S IMPOSSIBLE TO HANDLE ALL OF THEM
 // THE TIMEOUT IS NEEDED TO ENSURE THE SERVER HAS AMPLE TIME TO CREATE GENERATION BEFORE WE REQUEST FOR IT.
 // THE CURRENT SETUP SHOULD MAKE IT EASIER TO RETRY FETCHING GENERATED QUESTIONS THAT FAIL TO BE FETCHED BUT THAT'S A DIFFERENT TASK IN ITSELF.
-export type GenerateRequestPayload = {
-  numberOfQuestions: number;
-  sourceText: string;
-};
+
 const roboto = Roboto({ subsets: ['greek'], weight: '400' });
 
 const Home = () => {
@@ -50,7 +48,7 @@ const Home = () => {
       .then(async (response) => {
         setIsTemporaryLoading(true);
         setGenerationId(response.generationId);
-        await delay(2000);
+        await delay(4000);
         setEnabled(true);
         setIsTemporaryLoading(false);
         await handleManualGeneratedQuestionFetching();
