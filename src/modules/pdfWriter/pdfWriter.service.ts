@@ -28,8 +28,6 @@ class PDFWriterService {
   createDocument = async () => {
     const doc = new PDFDocument({ margin: 50, font: 'Helvetica', autoFirstPage: false });
 
-    
-    
     doc.on('pageAdded', () => {
       this.addPage(doc);
     })
@@ -139,7 +137,6 @@ class PDFWriterService {
 
     doc.end();
     return doc
-
   }
 }
 
