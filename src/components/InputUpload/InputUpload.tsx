@@ -81,6 +81,7 @@ const InputUpload: React.FC<InputUpload> = (props) => {
     maxQuestion = 20;
   }
 
+
   return (
     <Container fixed>
       <ButtonGroup
@@ -157,6 +158,7 @@ const InputUpload: React.FC<InputUpload> = (props) => {
             });
 
             setTextareaInput('');
+            setGenerationTitle('')
             setFile(undefined);
           }}
         >

@@ -48,7 +48,7 @@ const Home = () => {
       .then(async (response) => {
         setIsTemporaryLoading(true);
         setGenerationId(response.generationId);
-        await delay(2000);
+        await delay(4000);
         setEnabled(true);
         setIsTemporaryLoading(false);
         await handleManualGeneratedQuestionFetching();
