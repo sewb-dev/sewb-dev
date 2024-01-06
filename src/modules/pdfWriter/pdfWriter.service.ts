@@ -78,21 +78,21 @@ class PDFWriterService {
     doc.moveDown(4)
 
     doc.font('Helvetica')
-        .fontSize(14)
+        .fontSize(12)
 
     return doc
   }
 
   addQuestion = async (doc: PDFKit.PDFDocument, qnai: QNAI, questionNumber: number) => {
     doc.font('Helvetica')
-      .fontSize(14)
+      .fontSize(12)
       .text(`${questionNumber}. ${qnai.question}`, { lineGap: 5 })
 
     for (let i = 0; i < qnai.options.length; i++) {
       doc.moveDown()
 
       doc.font('Helvetica')
-        .fontSize(14)
+        .fontSize(12)
         .text(`${this.indexToOptions[i]}. ${qnai.options[i]}`, { indent: 12 })
     }
 
@@ -101,7 +101,7 @@ class PDFWriterService {
 
   addAnswer = async (doc: PDFKit.PDFDocument, qnai: QNAI, questionNumber: number) => {
     doc.font('Helvetica')
-    doc.fontSize(14)
+    doc.fontSize(12)
 
     const answerOption = qnai.answer as number;
 

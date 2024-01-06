@@ -2,6 +2,7 @@
 import { QNAI } from '@/modules/qnai/qnai.model';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import QuizIcon from '@mui/icons-material/Quiz';
+import IosShareIcon from '@mui/icons-material/IosShare';
 import { Box, Button } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Image from 'next/image';
@@ -59,14 +60,17 @@ const GenerationResponse: React.FC<GenerationResponse> = ({ questions, generatio
             <Button variant='contained' startIcon={<QuizIcon />}>
               <Link href={`/test/${generationId}`}> Take quiz</Link>
             </Button>
-          </Stack>
-        )}
-        <Stack spacing={2} direction='column'>
-        <Button
+            <Button
+              variant='contained'
+              color='secondary'
+              startIcon={<IosShareIcon />}
               onClick={getQuestionsPDF}
             >
               Export PDF
             </Button>
+          </Stack>
+        )}
+        <Stack spacing={2} direction='column'>
           {questions.length > 0 &&
             questions.map(({ question, options, answer }) => (
               <LockedQuestions

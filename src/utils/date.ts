@@ -4,5 +4,5 @@ export const getDateObject = (timestamp: number | string): Date => {
 
 export const getDateString = (date: Date | number): string => {
   const tempDate = new Date(date);
-  return `${tempDate.getFullYear()}-${tempDate.getMonth()}-${tempDate.getDate()}`;
+  return `${tempDate.getFullYear()}-${tempDate.getMonth() + 1}-${tempDate.getDate()}`;
 };
