@@ -30,6 +30,7 @@ const TextInputComponent: React.FunctionComponent<TextInputComponentProps> = (
                 envVariables.getEnv('MAX_TEXT_INPUT_LENGTH')
               )}`
         }
+        required
         multiline
         className='!w-full'
         rows={10}

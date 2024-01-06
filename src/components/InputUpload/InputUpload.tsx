@@ -6,6 +6,7 @@ import {
   Container,
   InputLabel,
   Slider,
+  TextField,
 } from '@mui/material';
 import React, { useState } from 'react';
 import { FileWithPath } from 'react-dropzone';
@@ -13,13 +14,9 @@ import FileComponent from './FileComponent';
 import TextInputComponent from './TextInputComponent';
 import { errorToast } from '@/utils/toast';
 import envVariables from '@/lib/env';
+import { GenerateRequestPayload } from '@/lib/types';
 
 export type UploadMode = 'textbox' | 'file';
-
-export type GenerateRequestPayload = {
-  numberOfQuestions: number;
-  sourceText: string;
-};
 
 export type InputUpload = {
   generate: (data: GenerateRequestPayload) => {};
@@ -28,7 +25,7 @@ export type InputUpload = {
 const maxTextInputLength = Number(envVariables.getEnv('MAX_TEXT_INPUT_LENGTH'));
 
 const InputUpload: React.FC<InputUpload> = (props) => {
-  const [uploadMode, setUploadMode] = useState<UploadMode>('file');
+  const [uploadMode, setUploadMode] = useState<UploadMode>('textbox');
   const [textareaInput, setTextareaInput] = useState('');
   const [pageNumber, setPageNumber] = useState('');
   const [questionCount, setQuestionCount] = useState(10);
@@ -37,6 +34,8 @@ const InputUpload: React.FC<InputUpload> = (props) => {
   const handleUploadClick = (mode: UploadMode) => {
     setUploadMode(mode);
   };
+
+  const [generationTitle, setGenerationTitle] = useState("")
 
   const { generate } = props;
 
@@ -89,19 +88,41 @@ const InputUpload: React.FC<InputUpload> = (props) => {
         aria-label='input upload option button group'
         className='!flex justify-center'
       >
-        <Button onClick={(e) => handleUploadClick('file')}>File</Button>
-        <Button onClick={(e) => handleUploadClick('textbox')}>Text</Button>
+        {/* <Button onClick={(e) => handleUploadClick('file')}>File</Button> */}
+        {/* <Button onClick={(e) => handleUploadClick('textbox')}>Text</Button> */}
       </ButtonGroup>
+         <Box
+      component="form"
+      sx={{
+        '& .MuiTextField-root': { m: 1, width: '25ch' },
+      }}
+      noValidate
+      autoComplete="off"
+          className='!mr-5'
+
+    >
+        <TextField
+          id="outlined-required"
+          label="Generation Title"
+          defaultValue=""
+          className='!w-full'
+        value={generationTitle}
+        onChange={e=> setGenerationTitle(e.target.value)}
+        />
+        </Box>
       <Box className='!mx-auto !flex w-full  justify-center '>
-        {uploadMode === 'file' ? (
-          <FileComponent
-            file={file}
-            pageNumber={pageNumber}
-            setFile={setFile}
-            setPageNumber={setPageNumber}
-            setPdfText={setPdfText}
-          />
-        ) : (
+        {
+        // uploadMode === 'file' ? (
+        //   <FileComponent
+        //     file={file}
+        //     pageNumber={pageNumber}
+        //     setFile={setFile}
+        //     setPageNumber={setPageNumber}
+        //     setPdfText={setPdfText}
+        //   />
+        // ) : 
+        
+        (
           <TextInputComponent
             setTextareaInput={setTextareaInput}
             textareaInput={textareaInput}
@@ -131,6 +152,7 @@ const InputUpload: React.FC<InputUpload> = (props) => {
           onClick={() => {
             generate({
               sourceText,
+              generationTitle: generationTitle.length > 0 ? generationTitle : "Untitled Generation",
               numberOfQuestions: questionCount,
             });
 

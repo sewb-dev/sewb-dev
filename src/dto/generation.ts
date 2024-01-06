@@ -9,6 +9,7 @@ export type GenerationModelDto = {
 export type CreateGenerationRequest = {
   numberOfQuestions: number;
   sourceText: string;
+  generationTitle: string;
 };
 
 export type GenerationQNAIDto = {

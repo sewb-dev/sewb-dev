@@ -19,7 +19,8 @@ class GenerationService extends BaseService {
   createQNAGeneration = async (
     email: string,
     sourceText: string,
-    numberOfQuestions: number
+    numberOfQuestions: number,
+    generationTitle: string
   ) => {
     const user = await userService.getUserByEmail(email);
     if (!user) {
@@ -78,7 +79,8 @@ class GenerationService extends BaseService {
       generatedAt,
       generationId,
       sourceText,
-      resetGeneration
+      resetGeneration,
+      generationTitle
     );
 
     return {
@@ -91,7 +93,8 @@ class GenerationService extends BaseService {
     generatedAt: number,
     generationId: string,
     sourceText: string,
-    resetGeneration: boolean
+    resetGeneration: boolean,
+    generationTitle: string
   ) => {
     const userId = authService.getUserId(email);
     const user = await userService.getUserByEmail(email);
@@ -100,12 +103,14 @@ class GenerationService extends BaseService {
       generationId,
       generatedAt,
       userId,
+      generationTitle,
     };
 
     const updates: Record<string, GenerationModel | any> = {};
 
     updates[`/generations/${userId}/${generationId}`] = generation;
     updates[`/users/${userId}/generation`] = {
+      generationTitle,
       lastGenerationTime: generatedAt,
       lastGenerationId: generationId,
       wordCount:
@@ -214,11 +219,43 @@ class GenerationService extends BaseService {
     }
   };
 
-  handleLongPolling = async (content: string, generationId: string) => {
+  handleLongPolling = async (
+    content: string,
+    generationId: string,
+    email: string
+  ) => {
     const generationModel = qnaiService.parseQuestionsFromCompletions(content);
+    const generation = await get(
+      child(
+        this.dbRef,
+        `generations/${authService.getUserId(email)}/${generationId}`
+      )
+    )
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          return snapshot.val() as GenerationModel;
+        } else {
+          return undefined;
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        return undefined;
+      });
 
-    await this.saveGeneratedQuestionToCache(generationId, generationModel);
-    return generationModel;
+    let updatedGenerationModel = generationModel;
+    if (generation) {
+      updatedGenerationModel = new QNAIGenerationModel(
+        generationModel.qna,
+        generationModel.tests,
+        generation.generationTitle
+      );
+    }
+    await this.saveGeneratedQuestionToCache(
+      generationId,
+      updatedGenerationModel
+    );
+    return updatedGenerationModel;
   };
 }
 
