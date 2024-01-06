@@ -1,28 +1,22 @@
-import { UUID } from 'crypto';
+import { QuestionType } from '@/modules/qnai/qnai.model';
 
-type QuestionType =
-  | 'true_and_false'
-  | 'multiple_choice'
-  | 'select_all'
-  | 'short_answer';
-
-interface QNAI {
+export interface QNAI {
   id: number;
   question: string;
-  answers: string[];
+  answer: string[];
   type: QuestionType;
   options: string[];
 }
 
-interface QNAITestAnswer {
+export interface QNAITestAnswer {
   qnaiId: number;
   answer: string;
-  testId: UUID;
 }
 
-interface QNAITest {
-  submittedAt: Date;
-  answers: QNAITestAnswer[];
+export interface QNAITest {
+  submittedAt: number;
+  startedAt: number;
+  answer: QNAITestAnswer[];
 }
 
 export interface QNAIGenerationModel {

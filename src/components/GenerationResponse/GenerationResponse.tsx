@@ -1,6 +1,7 @@
 'use client';
 import { QNAI } from '@/modules/qnai/qnai.model';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
+import QuizIcon from '@mui/icons-material/Quiz';
 import { Box, Button } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Image from 'next/image';
@@ -8,6 +9,7 @@ import React, { useState } from 'react';
 import LockedQuestions from '../LockedQuestions';
 import requestClient from '@/lib/requestClient';
 import { AxiosResponse } from 'axios';
+import Link from 'next/link';
 
 export type GenerationResponse = {
   questions: QNAI[];
@@ -54,6 +56,9 @@ const GenerationResponse: React.FC<GenerationResponse> = ({ questions, generatio
             >
               Unlock
             </Button>
+            <Button variant='contained' startIcon={<QuizIcon />}>
+              <Link href={`/test/${generationId}`}> Take quiz</Link>
+            </Button>
           </Stack>
         )}
         <Stack spacing={2} direction='column'>
@@ -63,13 +68,13 @@ const GenerationResponse: React.FC<GenerationResponse> = ({ questions, generatio
               Export PDF
             </Button>
           {questions.length > 0 &&
-            questions.map((data) => (
+            questions.map(({ question, options, answer }) => (
               <LockedQuestions
-                key={data.question}
+                key={question}
                 isLocked={isLocked}
-                question={data.question}
-                options={data.options}
-                answers={data.answer}
+                question={question}
+                options={options}
+                answer={answer}
               />
             ))}
         </Stack>

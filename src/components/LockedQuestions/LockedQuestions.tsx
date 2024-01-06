@@ -1,3 +1,4 @@
+import { getAnswerFromOptions } from '@/utils/tests';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import LockIcon from '@mui/icons-material/Lock';
 import Accordion from '@mui/material/Accordion';
@@ -10,37 +11,14 @@ type LockedQuestionsProps = {
   isLocked: boolean;
   question: string;
   options: string[];
-  answers: string[] | number[] | number;
-};
-
-const getAnswerFromOptions = (
-  options: string[],
-  answers: string[] | number | number[]
-) => {
-  if (typeof answers === 'number') {
-    return options[answers] ?? '';
-  }
-
-  if (!Array.isArray(answers)) {
-    return '';
-  }
-
-  if (typeof answers[0] === 'number') {
-    return answers.map((index) => options[Number(index)] ?? '');
-  }
-
-  if (typeof answers[0] === 'string') {
-    return answers as string[];
-  }
-
-  return '';
+  answer: string[] | number[] | number;
 };
 
 const LockedQuestions: React.FunctionComponent<LockedQuestionsProps> = (
   props
 ) => {
-  const { isLocked, question, answers, options } = props;
-  const answerStrings = getAnswerFromOptions(options, answers);
+  const { isLocked, question, answer, options } = props;
+  const answerStrings = getAnswerFromOptions(options, answer);
   return (
     <Accordion disabled={isLocked}>
       <AccordionSummary
@@ -51,13 +29,9 @@ const LockedQuestions: React.FunctionComponent<LockedQuestionsProps> = (
         <Typography>{question}</Typography>
       </AccordionSummary>
       <AccordionDetails>
-        {Array.isArray(answerStrings) ? (
-          answerStrings.map((answer, id) => (
-            <Typography key={id}>- {answer}</Typography>
-          ))
-        ) : (
-          <Typography>- {answerStrings}</Typography>
-        )}
+        {answerStrings.map((answer, id) => (
+          <Typography key={id}>- {answer}</Typography>
+        ))}
       </AccordionDetails>
     </Accordion>
   );

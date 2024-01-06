@@ -1,5 +1,3 @@
-import { UUID } from 'crypto';
-
 export const QuestionType = {
   TRUE_OR_FALSE: 'trueOrFalse',
   MULTIPLE_CHOICE: 'multipleChoice',
@@ -7,7 +5,7 @@ export const QuestionType = {
   SHORT_ANSWER: 'shortAnswer',
 } as const;
 
-type QuestionType = (typeof QuestionType)[keyof typeof QuestionType];
+export type QuestionType = (typeof QuestionType)[keyof typeof QuestionType];
 
 export class QNAI {
   readonly id: number;
@@ -30,18 +28,27 @@ export class QNAI {
     this.options = options;
   }
 }
-type QNAITestAnswer = {
+export type QNAITestAnswer = {
   qnaiId: number;
   answer: string;
-  testId: UUID;
 };
-class QNAITest {
-  readonly submittedAt: Date;
-  readonly answers: QNAITestAnswer[];
 
-  constructor(submittedAt: Date, answers: QNAITestAnswer[]) {
+export class QNAITest {
+  readonly submittedAt: number;
+  readonly startedAt: number;
+  readonly answer: QNAITestAnswer[];
+  readonly score: number;
+
+  constructor(
+    startedAt: number,
+    submittedAt: number,
+    answer: QNAITestAnswer[],
+    score: number
+  ) {
+    this.startedAt = startedAt;
     this.submittedAt = submittedAt;
-    this.answers = answers;
+    this.answer = answer;
+    this.score = score;
   }
 }
 
