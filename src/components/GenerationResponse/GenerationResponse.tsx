@@ -2,12 +2,14 @@
 import { QNAI } from '@/modules/qnai/qnai.model';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import QuizIcon from '@mui/icons-material/Quiz';
-import SendIcon from '@mui/icons-material/Send';
+import IosShareIcon from '@mui/icons-material/IosShare';
 import { Box, Button } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import LockedQuestions from '../LockedQuestions';
+import requestClient from '@/lib/requestClient';
+import { AxiosResponse } from 'axios';
 import Link from 'next/link';
 
 export type GenerationResponse = {
@@ -15,9 +17,24 @@ export type GenerationResponse = {
   generationId: string;
 };
 
-const GenerationResponse: React.FC<GenerationResponse> = (props) => {
+const GenerationResponse: React.FC<GenerationResponse> = ({ questions, generationId }) => {
   const [isLocked, setIsLocked] = useState(true);
-  const { questions, generationId } = props;
+
+  const getQuestionsPDF = async () => {
+    const response: AxiosResponse = await requestClient.post(`generations/${generationId}/export/pdf`, questions, { responseType: 'blob' })
+    const url = window.URL.createObjectURL(response.data);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `qnai_questions_${generationId.substring(5)}.pdf`);
+
+    document.body.appendChild(link);
+    link.click();
+
+    URL.revokeObjectURL(url);
+    document.body.removeChild(link);
+  }
+
   return (
     <Box>
       <Stack spacing={2}>
@@ -42,6 +59,14 @@ const GenerationResponse: React.FC<GenerationResponse> = (props) => {
             </Button>
             <Button variant='contained' startIcon={<QuizIcon />}>
               <Link href={`/test/${generationId}`}> Take quiz</Link>
+            </Button>
+            <Button
+              variant='contained'
+              color='secondary'
+              startIcon={<IosShareIcon />}
+              onClick={getQuestionsPDF}
+            >
+              Export PDF
             </Button>
           </Stack>
         )}
