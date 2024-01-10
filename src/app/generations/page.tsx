@@ -30,7 +30,7 @@ const GenerationPage = () => {
         </Typography>
         <Grid container gap={3}>
           {data?.map((generation) => (
-            <GenerationCard generation={generation} />
+            <GenerationCard generation={generation} key={generation.generationId}/>
           ))}
         </Grid>
       </Box>
