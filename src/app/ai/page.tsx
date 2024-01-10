@@ -15,6 +15,7 @@ import { errorToast } from '@/utils/toast';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { Roboto } from 'next/font/google';
+import Link from 'next/link';
 import React from 'react';
 
 // NOTES:
@@ -91,6 +92,12 @@ const Home = () => {
           <Typography fontSize={'20px'}>
             Your generated questions would appear here.
           </Typography>
+
+          <Link href='/generations' prefetch>
+            <Typography fontSize={'20px'} className='text-blue-500 underline'>
+              My previous generations
+            </Typography>
+          </Link>
           {
             <GenerationResponse
               questions={questionsToDisplay}

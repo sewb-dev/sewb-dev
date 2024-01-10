@@ -35,7 +35,7 @@ const InputUpload: React.FC<InputUpload> = (props) => {
     setUploadMode(mode);
   };
 
-  const [generationTitle, setGenerationTitle] = useState("")
+  const [generationTitle, setGenerationTitle] = useState('');
 
   const { generate } = props;
 
@@ -81,7 +81,6 @@ const InputUpload: React.FC<InputUpload> = (props) => {
     maxQuestion = 20;
   }
 
-
   return (
     <Container fixed>
       <ButtonGroup
@@ -92,43 +91,41 @@ const InputUpload: React.FC<InputUpload> = (props) => {
         {/* <Button onClick={(e) => handleUploadClick('file')}>File</Button> */}
         {/* <Button onClick={(e) => handleUploadClick('textbox')}>Text</Button> */}
       </ButtonGroup>
-         <Box
-      component="form"
-      sx={{
-        '& .MuiTextField-root': { m: 1, width: '25ch' },
-      }}
-      noValidate
-      autoComplete="off"
-          className='!mr-5'
-
-    >
+      <Box
+        component='form'
+        sx={{
+          '& .MuiTextField-root': { m: 1, width: '25ch' },
+        }}
+        noValidate
+        autoComplete='off'
+        className='!mr-5'
+      >
         <TextField
-          id="outlined-required"
-          label="Generation Title"
-          defaultValue=""
+          id='outlined-required'
+          label='Generation Title'
+          defaultValue=''
           className='!w-full'
-        value={generationTitle}
-        onChange={e=> setGenerationTitle(e.target.value)}
+          value={generationTitle}
+          onChange={(e) => setGenerationTitle(e.target.value)}
         />
-        </Box>
+      </Box>
       <Box className='!mx-auto !flex w-full  justify-center '>
         {
-        // uploadMode === 'file' ? (
-        //   <FileComponent
-        //     file={file}
-        //     pageNumber={pageNumber}
-        //     setFile={setFile}
-        //     setPageNumber={setPageNumber}
-        //     setPdfText={setPdfText}
-        //   />
-        // ) : 
-        
-        (
+          // uploadMode === 'file' ? (
+          //   <FileComponent
+          //     file={file}
+          //     pageNumber={pageNumber}
+          //     setFile={setFile}
+          //     setPageNumber={setPageNumber}
+          //     setPdfText={setPdfText}
+          //   />
+          // ) :
+
           <TextInputComponent
             setTextareaInput={setTextareaInput}
             textareaInput={textareaInput}
           />
-        )}
+        }
       </Box>
       <Box className="'!mx-auto !flex w-full flex-col items-center">
         <InputLabel className=''>Question Count: {questionCount} </InputLabel>
@@ -153,12 +150,15 @@ const InputUpload: React.FC<InputUpload> = (props) => {
           onClick={() => {
             generate({
               sourceText,
-              generationTitle: generationTitle.length > 0 ? generationTitle : "Untitled Generation",
+              generationTitle:
+                generationTitle.length > 0
+                  ? generationTitle
+                  : 'Untitled Generation',
               numberOfQuestions: questionCount,
             });
 
             setTextareaInput('');
-            setGenerationTitle('')
+            setGenerationTitle('');
             setFile(undefined);
           }}
         >

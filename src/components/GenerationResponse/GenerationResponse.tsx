@@ -17,23 +17,33 @@ export type GenerationResponse = {
   generationId: string;
 };
 
-const GenerationResponse: React.FC<GenerationResponse> = ({ questions, generationId }) => {
+const GenerationResponse: React.FC<GenerationResponse> = ({
+  questions,
+  generationId,
+}) => {
   const [isLocked, setIsLocked] = useState(true);
 
   const getQuestionsPDF = async () => {
-    const response: AxiosResponse = await requestClient.post(`generations/${generationId}/export/pdf`, questions, { responseType: 'blob' })
+    const response: AxiosResponse = await requestClient.post(
+      `generations/${generationId}/export/pdf`,
+      questions,
+      { responseType: 'blob' }
+    );
     const url = window.URL.createObjectURL(response.data);
 
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', `qnai_questions_${generationId.substring(5)}.pdf`);
+    link.setAttribute(
+      'download',
+      `qnai_questions_${generationId.substring(5)}.pdf`
+    );
 
     document.body.appendChild(link);
     link.click();
 
     URL.revokeObjectURL(url);
     document.body.removeChild(link);
-  }
+  };
 
   return (
     <Box>
