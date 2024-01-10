@@ -1,10 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server';
 import blobstream from 'blob-stream';
-import { QNAI } from '@/modules/qnai/qnai.model';
 import pdfWriterService from '@/modules/pdfWriter/pdfWriter.service';
+import generationService from '@/modules/generation/generation.service';
+import { StatusCodes } from 'http-status-codes';
 
-export async function POST(req: NextRequest) {
-  const qnai = (await req.json()) as QNAI[];
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { generationId: string } }
+) {
+  const response = await generationService.getCachedGeneratedQuestion(
+    params.generationId
+  );
+
+  if (!response) {
+    return NextResponse.json(
+      { message: 'Generation Not Found' },
+      { status: StatusCodes.NOT_FOUND }
+    );
+  }
+
+  const qnai = response.qna;
 
   return new Promise(async (resolve, reject) => {
     const doc = await pdfWriterService.generateQuestionsPDF(qnai);

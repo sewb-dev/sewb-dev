@@ -1,6 +1,4 @@
-import { GenerationModelDto } from '@/dto/generation';
 import { config } from '@/lib/auth';
-import authService from '@/modules/auth/auth.service';
 import generationService from '@/modules/generation/generation.service';
 import { StatusCodes } from 'http-status-codes';
 import { getServerSession } from 'next-auth/next';
@@ -33,10 +31,8 @@ export async function GET(
     );
   }
 
-  const response: GenerationModelDto = {
+  return NextResponse.json({
     ...generation,
     generatedAt: new Date(generation.generatedAt).toISOString(),
-  };
-
-  return NextResponse.json({ response });
+  });
 }

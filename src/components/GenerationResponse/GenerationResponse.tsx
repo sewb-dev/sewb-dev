@@ -8,9 +8,8 @@ import Stack from '@mui/material/Stack';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import LockedQuestions from '../LockedQuestions';
-import requestClient from '@/lib/requestClient';
-import { AxiosResponse } from 'axios';
 import Link from 'next/link';
+import useExportPDF from '@/modules/pdfWriter/pdfWriter.hooks';
 
 export type GenerationResponse = {
   questions: QNAI[];
@@ -22,28 +21,7 @@ const GenerationResponse: React.FC<GenerationResponse> = ({
   generationId,
 }) => {
   const [isLocked, setIsLocked] = useState(true);
-
-  const getQuestionsPDF = async () => {
-    const response: AxiosResponse = await requestClient.post(
-      `generations/${generationId}/export/pdf`,
-      questions,
-      { responseType: 'blob' }
-    );
-    const url = window.URL.createObjectURL(response.data);
-
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute(
-      'download',
-      `qnai_questions_${generationId.substring(5)}.pdf`
-    );
-
-    document.body.appendChild(link);
-    link.click();
-
-    URL.revokeObjectURL(url);
-    document.body.removeChild(link);
-  };
+  const getQuestionsPDF = useExportPDF(generationId);
 
   return (
     <Box>

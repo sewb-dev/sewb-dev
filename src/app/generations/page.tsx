@@ -10,12 +10,13 @@ import GenerationCard from '@/components/GenerationCard';
 
 import WithAuth from '@/components/WithAuth';
 import { useGetGenerations } from '@/modules/generation/generation.hooks';
+import Loader from '@/components/Loader';
 
 const GenerationPage = () => {
   const { data, isError, isLoading } = useGetGenerations();
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Loader />;
   }
 
   if (isError) {
@@ -30,7 +31,10 @@ const GenerationPage = () => {
         </Typography>
         <Grid container gap={3}>
           {data?.map((generation) => (
-            <GenerationCard generation={generation} key={generation.generationId}/>
+            <GenerationCard
+              generation={generation}
+              key={generation.generationId}
+            />
           ))}
         </Grid>
       </Box>

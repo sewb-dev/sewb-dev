@@ -8,12 +8,15 @@ import Typography from '@mui/material/Typography';
 import { GenerationModel } from '@/modules/generation/generation.model';
 import { getDateandTime } from '@/utils/date';
 import Link from 'next/link';
+import useExportPDF from '@/modules/pdfWriter/pdfWriter.hooks';
 
 type GenerationCardProps = {
   generation: GenerationModel;
 };
 const GenerationCard: React.FC<GenerationCardProps> = (props) => {
   const { generation } = props;
+  const getQuestionsPDF = useExportPDF(generation.generationId);
+
   return (
     <Grid xs display='flex' justifyContent='center' alignItems='center'>
       <Card sx={{ minWidth: 275 }}>
@@ -29,7 +32,7 @@ const GenerationCard: React.FC<GenerationCardProps> = (props) => {
           <Button size='small'>
             <Link href={`/test/${generation.generationId}`}> Take quiz</Link>
           </Button>
-          <Button size='small' color='secondary'>
+          <Button onClick={getQuestionsPDF} size='small' color='secondary'>
             Export PDF
           </Button>
         </CardActions>
