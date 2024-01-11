@@ -4,6 +4,7 @@ export type GenerationModelDto = {
   generationId: string;
   generatedAt: string;
   userId: string;
+  generationTitle: string;
 };
 
 export type CreateGenerationRequest = {

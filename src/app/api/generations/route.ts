@@ -1,10 +1,6 @@
-import { GenerationModelDto, GenerationQNAIDto } from '@/dto/generation';
 import { config } from '@/lib/auth';
 import { GenerateRequestPayload } from '@/lib/types';
-import {
-  GenerationAPIResponse,
-  GenerationModel,
-} from '@/modules/generation/generation.model';
+
 import generationService from '@/modules/generation/generation.service';
 import userService from '@/modules/user/user.service';
 import {
@@ -85,5 +81,7 @@ export async function GET(req: NextRequest) {
     session.user.email
   );
 
-  return NextResponse.json({ message: userGenerations });
+  userGenerations.sort((a, b) => b.generatedAt - a.generatedAt);
+
+  return NextResponse.json({ data: userGenerations });
 }

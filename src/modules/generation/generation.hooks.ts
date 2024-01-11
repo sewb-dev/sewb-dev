@@ -10,6 +10,7 @@ import {
   QNAITest as QNAITestClass,
 } from '../qnai/qnai.model';
 import { QNAITest } from '@/lib/types';
+import { GenerationModel } from './generation.model';
 
 const getStatus = async (generationId: string) => {
   const request = await requestClient.get<GenerationStatusQNAIDto>(
@@ -76,3 +77,22 @@ export const useSubmitTest = (generationId: string) =>
       }
     },
   });
+
+async function getGenerations() {
+  const res = await requestClient.get<{ data: GenerationModel[] }>(
+    '/generations'
+  );
+
+  if (res.status !== 200) {
+    throw new Error('Failed to fetch data');
+  }
+
+  return res.data.data;
+}
+
+export const useGetGenerations = () => {
+  return useQuery({
+    queryKey: ['useGetGenerations'],
+    queryFn: () => getGenerations(),
+  });
+};

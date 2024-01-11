@@ -55,7 +55,6 @@ class PDFWriterService {
     doc.font('Helvetica-Bold');
 
     doc.page.margins = margins;
-    console.info(doc.page.margins);
     doc.fontSize(20);
     doc.text('Questions and Answers', { align: 'center' });
 
